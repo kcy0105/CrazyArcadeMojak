@@ -1,11 +1,11 @@
 #pragma once
 
-class CTimeManager
+class TimeManager
 {
-	DECLARE_SINGLE(CTimeManager)
+	DECLARE_SINGLE(TimeManager)
 
 public:
-	void Initialize();
+	void Init();
 	void Update();
 
 	uint32 GetFps() const { return _fps; }

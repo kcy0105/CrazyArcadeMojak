@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "DefaultWindow.h"
-#include "CMainGame.h"
+#include "Game.h"
 
 #define MAX_LOADSTRING 100
 
@@ -12,7 +12,7 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
-HWND g_hWnd;
+HWND g_hwnd;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -43,8 +43,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_DEFAULTWINDOW));
 
-    CMainGame MainGame;
-    MainGame.Initialize();
+    Game game;
+    game.Init();
 
     MSG msg;
 
@@ -67,8 +67,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             //
             //if (nowTick - prevTick >= 30)
             {
-                MainGame.Update();
-                MainGame.Render();
+                game.Update();
+                game.Render();
 
                 //prevTick = nowTick;
             }
@@ -138,7 +138,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   g_hWnd = hWnd;
+   g_hwnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

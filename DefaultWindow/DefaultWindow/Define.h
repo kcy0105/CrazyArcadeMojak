@@ -19,4 +19,4 @@ public:										\
 		ptr = nullptr;			\
 	}
 
-extern HWND g_hWnd;
+extern HWND g_hwnd;

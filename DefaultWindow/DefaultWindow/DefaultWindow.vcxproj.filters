@@ -56,7 +56,7 @@
     <ClInclude Include="Resource.h">
       <Filter>소스 파일\99. Headers\Andromeda</Filter>
     </ClInclude>
-    <ClInclude Include="CMainGame.h">
+    <ClInclude Include="Game.h">
       <Filter>소스 파일\00. MainGame</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
@@ -68,55 +68,55 @@
     <ClInclude Include="Enums.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CSceneManager.h">
+    <ClInclude Include="SceneManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CScene.h">
+    <ClInclude Include="Scene.h">
       <Filter>소스 파일\02. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CGameScene.h">
+    <ClInclude Include="GameScene.h">
       <Filter>소스 파일\02. Scene\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CObj.h">
+    <ClInclude Include="Object.h">
       <Filter>소스 파일\03. Obj</Filter>
     </ClInclude>
-    <ClInclude Include="CTimeManager.h">
+    <ClInclude Include="TimeManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h">
+    <ClInclude Include="Player.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CBullet.h">
+    <ClInclude Include="Bullet.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CInputManager.h">
+    <ClInclude Include="InputManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
     <ClInclude Include="Values.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CWall.h">
+    <ClInclude Include="Wall.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CMonster.h">
+    <ClInclude Include="Monster.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CComponent.h">
+    <ClInclude Include="Component.h">
       <Filter>소스 파일\04. Component</Filter>
     </ClInclude>
-    <ClInclude Include="CCollider.h">
+    <ClInclude Include="Collider.h">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CBoxCollider.h">
+    <ClInclude Include="BoxCollider.h">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CCircleCollider.h">
+    <ClInclude Include="CircleCollider.h">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CCollisionManager.h">
+    <ClInclude Include="CollisionManager.h">
       <Filter>소스 파일\01. Manager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,55 +127,55 @@
     <ClCompile Include="DefaultWindow.cpp">
       <Filter>소스 파일\00. MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="CMainGame.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>소스 파일\00. MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="CSceneManager.cpp">
+    <ClCompile Include="SceneManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CScene.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\02. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CGameScene.cpp">
+    <ClCompile Include="GameScene.cpp">
       <Filter>소스 파일\02. Scene\Game</Filter>
     </ClCompile>
-    <ClCompile Include="CObj.cpp">
+    <ClCompile Include="Object.cpp">
       <Filter>소스 파일\03. Obj</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>소스 파일\99. Headers</Filter>
     </ClCompile>
-    <ClCompile Include="CTimeManager.cpp">
+    <ClCompile Include="TimeManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
+    <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="CInputManager.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CWall.cpp">
+    <ClCompile Include="Wall.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="CMonster.cpp">
+    <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="CComponent.cpp">
+    <ClCompile Include="Component.cpp">
       <Filter>소스 파일\04. Component</Filter>
     </ClCompile>
-    <ClCompile Include="CCollider.cpp">
+    <ClCompile Include="Collider.cpp">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CBoxCollider.cpp">
+    <ClCompile Include="BoxCollider.cpp">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CCircleCollider.cpp">
+    <ClCompile Include="CircleCollider.cpp">
       <Filter>소스 파일\04. Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CCollisionManager.cpp">
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
   </ItemGroup>

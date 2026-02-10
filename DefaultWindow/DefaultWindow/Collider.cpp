@@ -1,38 +1,38 @@
 #include "pch.h"
-#include "CCollider.h"
-#include "CBoxCollider.h"
-#include "CCircleCollider.h"
-#include "CObj.h"
-#include "CCollisionManager.h"
+#include "Collider.h"
+#include "BoxCollider.h"
+#include "CircleCollider.h"
+#include "Object.h"
+#include "CollisionManager.h"
 
-CCollider::CCollider(ColliderType colliderType) : m_colliderType(colliderType)
+Collider::Collider(ColliderType colliderType) : _colliderType(colliderType)
 {
 }
 
-CCollider::~CCollider()
+Collider::~Collider()
 {
 	
 }
 
-void CCollider::Initialize()
+void Collider::Init()
 {
-	GET_SINGLE(CCollisionManager)->RegisterCollider(this);
+	GET_SINGLE(CollisionManager)->RegisterCollider(this);
 }
 
-void CCollider::Update()
-{
-}
-
-void CCollider::Render(HDC hDC)
+void Collider::Update()
 {
 }
 
-void CCollider::Release()
+void Collider::Render(HDC hdc)
 {
-	GET_SINGLE(CCollisionManager)->UnregisterCollider(this);
 }
 
-bool CCollider::CheckCollisionBox2Box(CBoxCollider* b1, CBoxCollider* b2)
+void Collider::Release()
+{
+	GET_SINGLE(CollisionManager)->UnregisterCollider(this);
+}
+
+bool Collider::CheckCollisionBox2Box(BoxCollider* b1, BoxCollider* b2)
 {
 	Vec2 pos1 = b1->GetOwner()->GetPos();
 	Vec2 size1 = b1->GetSize();
@@ -58,7 +58,7 @@ bool CCollider::CheckCollisionBox2Box(CBoxCollider* b1, CBoxCollider* b2)
 	return ::IntersectRect(&rcIntersect, &rect1, &rect2);
 }
 
-bool CCollider::CheckCollisionCircle2Box(CCircleCollider* s1, CBoxCollider* b2)
+bool Collider::CheckCollisionCircle2Box(CircleCollider* s1, BoxCollider* b2)
 {
 	Vec2 cPos = s1->GetOwner()->GetPos();
 	float radius = s1->GetRadius();
@@ -83,7 +83,7 @@ bool CCollider::CheckCollisionCircle2Box(CCircleCollider* s1, CBoxCollider* b2)
 	return dir.Length() <= radius;
 }
 
-bool CCollider::CheckCollisionCircle2Circle(CCircleCollider* s1, CCircleCollider* s2)
+bool Collider::CheckCollisionCircle2Circle(CircleCollider* s1, CircleCollider* s2)
 {
 	Vec2 p1 = s1->GetOwner()->GetPos();
 	float r1 = s1->GetRadius();

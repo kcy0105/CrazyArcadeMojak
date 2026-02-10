@@ -130,52 +130,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CWall.h" />
-    <ClInclude Include="CBoxCollider.h" />
-    <ClInclude Include="CBullet.h" />
-    <ClInclude Include="CCircleCollider.h" />
-    <ClInclude Include="CCollider.h" />
-    <ClInclude Include="CCollisionManager.h" />
-    <ClInclude Include="CComponent.h" />
-    <ClInclude Include="CInputManager.h" />
-    <ClInclude Include="CMainGame.h" />
-    <ClInclude Include="CMonster.h" />
-    <ClInclude Include="CObj.h" />
-    <ClInclude Include="CPlayer.h" />
-    <ClInclude Include="CScene.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="DefaultWindow.h" />
     <ClInclude Include="Define.h" />
-    <ClInclude Include="CGameScene.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="CSceneManager.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="CTimeManager.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CWall.cpp" />
-    <ClCompile Include="CBoxCollider.cpp" />
-    <ClCompile Include="CBullet.cpp" />
-    <ClCompile Include="CCircleCollider.cpp" />
-    <ClCompile Include="CCollider.cpp" />
-    <ClCompile Include="CCollisionManager.cpp" />
-    <ClCompile Include="CComponent.cpp" />
-    <ClCompile Include="CInputManager.cpp" />
-    <ClCompile Include="CMainGame.cpp" />
-    <ClCompile Include="CMonster.cpp" />
-    <ClCompile Include="CObj.cpp" />
-    <ClCompile Include="CPlayer.cpp" />
-    <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="DefaultWindow.cpp" />
-    <ClCompile Include="CGameScene.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="CSceneManager.cpp" />
-    <ClCompile Include="CTimeManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

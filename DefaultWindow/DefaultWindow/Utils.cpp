@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Utils.h"
-#include "CObj.h"
-#include "CScene.h"
+#include "Object.h"
+#include "Scene.h"
 
 
 void Utils::DrawText(HDC hdc, Pos pos, const wstring& str)
