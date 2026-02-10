@@ -39,5 +39,5 @@ void CInputManager::Update()
 
 	// Mouse
 	::GetCursorPos(&_mousePos); // 커서의 좌표를 알아온다
-	::ScreenToClient(_hwnd, &_mousePos);
+	::ScreenToClient(g_hWnd, &_mousePos);
 }
