@@ -8,10 +8,7 @@
 CMonster::CMonster()
 {
 	SetObjectType(ObjectType::Monster);
-
-	CBoxCollider* pBoxCollider = new CBoxCollider();
-	pBoxCollider->SetSize({50, 50});
-	AddComponent(pBoxCollider);
+	AddComponent<CBoxCollider>()->SetSize({ 50, 50 });
 }
 
 CMonster::~CMonster()

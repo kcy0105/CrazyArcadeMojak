@@ -13,8 +13,8 @@ CObj::~CObj()
 
 void CObj::Initialize()
 {
-	for (CComponent* component : m_vecComponents)
-		component->Initialize();
+	//for (CComponent* component : m_vecComponents)
+	//	component->Initialize();
 }
 
 void CObj::Update()
@@ -41,22 +41,13 @@ void CObj::Release()
 		
 }
 
-void CObj::AddComponent(CComponent* component)
+void CObj::RemoveComponent(CComponent* pComponent)
 {
-	if (component == nullptr)
-		return;
-
-	component->SetOwner(this);
-	m_vecComponents.push_back(component);
-}
-
-void CObj::RemoveComponent(CComponent* component)
-{
-	auto it = std::remove(m_vecComponents.begin(), m_vecComponents.end(), component);
+	auto it = std::remove(m_vecComponents.begin(), m_vecComponents.end(), pComponent);
 	m_vecComponents.erase(it);
 
-	component->Release();
-	SAFE_DELETE(component);
+	pComponent->Release();
+	SAFE_DELETE(pComponent);
 }
 
 void CObj::OnColliderBeginOverlap(CCollider* collider, CCollider* other)

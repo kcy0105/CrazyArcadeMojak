@@ -26,7 +26,18 @@ protected:
 	ObjectType m_objectType = ObjectType::None;
 
 public:
-	void AddComponent(CComponent* component);
+	template<typename T>
+	T* AddComponent()
+	{
+		static_assert(std::is_convertible_v<T*, CComponent*>);
+
+		T* pComponent = new T();
+		pComponent->SetOwner(this);
+		m_vecComponents.push_back(pComponent);
+		pComponent->Initialize();
+
+		return pComponent;
+	}
 	void RemoveComponent(CComponent* component);
 
 protected:

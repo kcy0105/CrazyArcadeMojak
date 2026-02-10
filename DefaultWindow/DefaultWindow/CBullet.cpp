@@ -8,9 +8,7 @@ CBullet::CBullet()
 {
 	SetObjectType(ObjectType::Bullet);
 
-	CCircleCollider* pCircleCollider = new CCircleCollider;
-	pCircleCollider->SetRadius(m_fRadius);
-	AddComponent(pCircleCollider);
+	AddComponent<CCircleCollider>()->SetRadius(m_fRadius);
 }
 
 CBullet::~CBullet()

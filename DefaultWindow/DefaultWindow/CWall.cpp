@@ -6,8 +6,7 @@ CWall::CWall()
 {
 	SetObjectType(ObjectType::Wall);
 
-	m_pBoxCollider = new CBoxCollider;
-	AddComponent(m_pBoxCollider);
+	m_pBoxCollider = AddComponent<CBoxCollider>();
 }
 
 CWall::~CWall()
