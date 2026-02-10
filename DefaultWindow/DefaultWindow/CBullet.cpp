@@ -26,6 +26,11 @@ void CBullet::Update()
 	float deltaTime = GET_SINGLE(CTimeManager)->GetDeltaTime();
 
 	m_pos += m_fSpeed * m_dir * deltaTime;
+
+	if (m_pos.x < 0 || m_pos.x > GWinSizeX || m_pos.y < 0 || m_pos.y > GWinSizeY)
+	{
+		Destroy();
+	}
 }
 
 void CBullet::Render(HDC hDC)
