@@ -18,7 +18,7 @@ void Wall::Update()
 void Wall::Render(HDC hdc)
 {
 	__super::Render(hdc);
-	Utils::DrawRect(hdc, _pos, static_cast<int>(_size.x), static_cast<int>(_size.y));
+	Utils::DrawRectInWorld(hdc, _pos, static_cast<int>(_size.x), static_cast<int>(_size.y));
 }
 
 void Wall::Release()

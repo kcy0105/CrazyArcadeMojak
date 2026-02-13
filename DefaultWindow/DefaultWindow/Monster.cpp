@@ -31,7 +31,7 @@ void Monster::Update()
 void Monster::Render(HDC hdc)
 {
 	__super::Render(hdc);
-	Utils::DrawRect(hdc, _pos, static_cast<int>(_size), static_cast<int>(_size));
+	Utils::DrawRectInWorld(hdc, _pos, static_cast<int>(_size), static_cast<int>(_size));
 }
 
 void Monster::Release()

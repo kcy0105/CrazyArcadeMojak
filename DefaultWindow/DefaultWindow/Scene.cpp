@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Object.h"
 #include "CollisionManager.h"
+#include "UI.h"
 
 Scene::Scene()
 {
@@ -21,22 +22,21 @@ void Scene::Update()
 
 	GET_SINGLE(CollisionManager)->Update();
 
+	UpdateUIs();
+
 	RemoveDeadObjects();
 }
 
 void Scene::Render(HDC hdc)
 {
 	RenderObjects(hdc);
+	RenderUIs(hdc);
 }
 
 void Scene::Release()
 {
-	for (Object* obj : _objects)
-	{
-		obj->Release();
-		SAFE_DELETE(obj);
-	}
-	_objects.clear();
+	ReleaseObjects();
+	ReleaseUIs();
 }
 
 void Scene::RegisterObject(Object* obj)
@@ -51,6 +51,20 @@ void Scene::UnregisterObject(Object* obj)
 
 	auto it = std::remove(_objects.begin(), _objects.end(), obj);
 	_objects.erase(it, _objects.end());
+}
+
+void Scene::RegisterUI(UI* ui)
+{
+	_uis.push_back(ui);
+}
+
+void Scene::UnregisterUI(UI* ui)
+{
+	if (ui == nullptr)
+		return;
+
+	auto it = std::remove(_uis.begin(), _uis.end(), ui);
+	_uis.erase(it, _uis.end());
 }
 
 
@@ -84,3 +98,54 @@ void Scene::RemoveDeadObjects()
 		}
 	}
 }
+
+void Scene::ReleaseObjects()
+{
+	for (Object* obj : _objects)
+	{
+		obj->Release();
+		SAFE_DELETE(obj);
+	}
+	_objects.clear();
+}
+
+void Scene::UpdateUIs()
+{
+	for (UI* ui : _uis)
+	{
+		ui->Update();
+	}
+}
+
+void Scene::RenderUIs(HDC hdc)
+{
+	for (UI* ui : _uis)
+	{
+		ui->Render(hdc);
+	}
+}
+
+void Scene::RemoveDeadUIs()
+{
+	const vector<UI*> uis = _uis;
+	for (UI* ui : uis)
+	{
+		if (ui->IsDead())
+		{
+			UnregisterUI(ui);
+			ui->Release();
+			SAFE_DELETE(ui);
+		}
+	}
+}
+
+void Scene::ReleaseUIs()
+{
+	for (UI* ui : _uis)
+	{
+		ui->Release();
+		SAFE_DELETE(ui);
+	}
+	_uis.clear();
+}
+

@@ -7,8 +7,8 @@ class CircleCollider;
 class Collider : public Component
 {
 public:
-	Collider(ColliderType colliderType);
-	virtual ~Collider() override;
+	Collider(ColliderType colliderType) : _colliderType(colliderType) {}
+	virtual ~Collider() override {}
 
 	virtual void Init() override;
 	virtual void Update() override;

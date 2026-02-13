@@ -3,8 +3,8 @@
 class BoxCollider : public Collider
 {
 public:
-	BoxCollider();
-	virtual ~BoxCollider() override;
+	BoxCollider() : Collider(ColliderType::Box) {}
+	virtual ~BoxCollider() override {}
 
 	virtual void Init() override;
 	virtual void Update() override;

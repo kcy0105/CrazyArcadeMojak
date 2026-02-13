@@ -130,9 +130,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="OrbitShield.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ScrewMissile.h" />
+    <ClInclude Include="TestPanel.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
@@ -161,9 +167,15 @@
     <ClInclude Include="Values.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="OrbitShield.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ScrewMissile.cpp" />
+    <ClCompile Include="TestPanel.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Bullet.cpp" />

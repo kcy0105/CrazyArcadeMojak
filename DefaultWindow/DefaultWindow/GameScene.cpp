@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Monster.h"
+#include "Camera.h"
+#include "UI.h"
+#include "TestPanel.h"
 
 GameScene::GameScene()
 {
@@ -36,7 +39,7 @@ void GameScene::Init()
 	
 	{
 		_player = Object::CreateObject<Player>();
-		_player->SetPos({ 400, 450 });
+		_player->SetPos({ 400, 300 });
 	}
 	
 	{
@@ -60,6 +63,15 @@ void GameScene::Init()
 		monster->SetFollowPlayer(true);
 	}
 
+	{
+		Camera* camera = Object::CreateObject<Camera>();
+		camera->SetPos({ GWinSizeX / 2, GWinSizeY / 2 });
+		camera->SetPlayer(_player);
+	}
+
+	{
+		UI::CreateUI<TestPanel>();
+	}
 	
 }
 

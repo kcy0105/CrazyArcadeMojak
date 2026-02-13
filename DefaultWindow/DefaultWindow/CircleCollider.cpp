@@ -3,14 +3,6 @@
 #include "BoxCollider.h"
 #include "Object.h"
 
-CircleCollider::CircleCollider() : Collider(ColliderType::Circle)
-{
-}
-
-CircleCollider::~CircleCollider()
-{
-}
-
 void CircleCollider::Init()
 {
 	__super::Init();
@@ -36,7 +28,7 @@ void CircleCollider::Render(HDC hdc)
 	HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
-	Utils::DrawCircle(hdc, pos, (int)_radius);
+	Utils::DrawCircleInWorld(hdc, pos, (int)_radius);
 
 	SelectObject(hdc, oldBrush);
 	SelectObject(hdc, oldPen);

@@ -5,15 +5,6 @@
 #include "Object.h"
 #include "CollisionManager.h"
 
-Collider::Collider(ColliderType colliderType) : _colliderType(colliderType)
-{
-}
-
-Collider::~Collider()
-{
-	
-}
-
 void Collider::Init()
 {
 	GET_SINGLE(CollisionManager)->RegisterCollider(this);

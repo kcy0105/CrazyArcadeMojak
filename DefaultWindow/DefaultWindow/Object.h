@@ -1,4 +1,6 @@
 #pragma once
+#include "SceneManager.h"
+#include "Scene.h"
 
 class Component;
 class Collider;
@@ -17,13 +19,13 @@ public: // 자식 클래스에서 __super.method() 호출
 
 	
 public: // 충돌 처리 필요 시 override
-	virtual void OnColliderBeginOverlap(Collider* collider, Collider* other);
-	virtual void OnColliderEndOverlap(Collider* collider, Collider* other);
+	virtual void OnColliderBeginOverlap(Collider* collider, Collider* other) {}
+	virtual void OnColliderEndOverlap(Collider* collider, Collider* other) {}
 
 public:
-	Pos GetPos() const { return _pos; }
+	Pos GetPos() { return _pos; }
 	virtual void SetPos(Pos pos) { _pos = pos; }
-	wstring GetTag() const { return _tag; }
+	wstring GetTag() { return _tag; }
 	void SetTag(wstring tag) { _tag = tag; }
 
 protected:
@@ -61,13 +63,13 @@ public:
 
 		return obj;
 	}
-	static void DestroyObject(Object* obj);
+	static void DestroyObject(Object* obj) { obj->Destroy(); }
 
 protected:
 	void Destroy() { _isDead = true; }
 
 public:
-	bool IsDead() const { return _isDead; }
+	bool IsDead() { return _isDead; }
 
 private:
 	bool _isDead = false;

@@ -81,7 +81,7 @@ void Player::Render(HDC hdc)
 	__super::Render(hdc);
 
 	// Body
-	Utils::DrawCircle(hdc, _pos, 25);
+	Utils::DrawCircleInWorld(hdc, _pos, 25);
 
 	// Barrel
 	float w = 10;
@@ -97,12 +97,12 @@ void Player::Render(HDC hdc)
 	Vec2 c = m2 + w / 2 * Vec2(-dir.y, dir.x);
 	Vec2 d = m2 - w / 2 * Vec2(-dir.y, dir.x);
 
-	Utils::DrawLine(hdc, a, b);
-	Utils::DrawLine(hdc, b, d);
-	Utils::DrawLine(hdc, d, c);
-	Utils::DrawLine(hdc, c, a);
+	Utils::DrawLineInWorld(hdc, a, b);
+	Utils::DrawLineInWorld(hdc, d, c);
+	Utils::DrawLineInWorld(hdc, c, a);
+	Utils::DrawLineInWorld(hdc, b, d);
 
-	Utils::DrawCircle(hdc, _pos, 10);
+	Utils::DrawCircleInWorld(hdc, _pos, 10);
 
 }
 

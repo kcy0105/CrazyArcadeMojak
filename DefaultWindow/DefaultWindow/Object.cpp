@@ -39,16 +39,3 @@ void Object::RemoveComponent(Component* component)
 	component->Release();
 	SAFE_DELETE(component);
 }
-
-void Object::OnColliderBeginOverlap(Collider* collider, Collider* other)
-{
-}
-
-void Object::OnColliderEndOverlap(Collider* collider, Collider* other)
-{
-}
-
-void Object::DestroyObject(Object* obj)
-{
-	obj->Destroy();
-}

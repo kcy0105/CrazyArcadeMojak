@@ -32,7 +32,7 @@ void OrbitShield::Render(HDC hdc)
 	if (!_owner)
 		return;
 
-	Utils::DrawCircle(hdc, _pos, static_cast<int32>(_radius));
+	Utils::DrawCircleInWorld(hdc, _pos, static_cast<int32>(_radius));
 }
 
 void OrbitShield::Release()

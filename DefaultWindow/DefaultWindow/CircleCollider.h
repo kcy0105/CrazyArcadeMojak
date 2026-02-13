@@ -3,8 +3,8 @@
 class CircleCollider : public Collider
 {
 public:
-	CircleCollider();
-	virtual ~CircleCollider() override;
+	CircleCollider() : Collider(ColliderType::Circle) {}
+	virtual ~CircleCollider() override {}
 
 	virtual void Init() override;
 	virtual void Update() override;

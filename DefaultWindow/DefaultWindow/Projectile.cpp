@@ -16,16 +16,13 @@ void Projectile::Update()
 	
 	UpdatePos();
 	
-	if (_pos.x < 0 || _pos.x > GWinSizeX || _pos.y < 0 || _pos.y > GWinSizeY)
-	{
-		Destroy();
-	}
+	// 시간 경과하면 Destroy
 }
 
 void Projectile::Render(HDC hdc)
 {
 	__super::Render(hdc);
-	Utils::DrawCircle(hdc, _pos, static_cast<int32>(_radius));
+	Utils::DrawCircleInWorld(hdc, _pos, static_cast<int32>(_radius));
 }
 
 void Projectile::Release()

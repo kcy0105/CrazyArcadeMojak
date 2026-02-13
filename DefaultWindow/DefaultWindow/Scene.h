@@ -1,5 +1,6 @@
 #pragma once
 class Object;
+class UI;
 
 class Scene
 {
@@ -15,12 +16,22 @@ public:
 	void RegisterObject(Object* obj);
 	void UnregisterObject(Object* obj);
 
+	void RegisterUI(UI* ui);
+	void UnregisterUI(UI* ui);
+
 private:
-	void RenderObjects(HDC hdc);
 	void UpdateObjects();
+	void RenderObjects(HDC hdc);
 	void RemoveDeadObjects();
+	void ReleaseObjects();
+
+	void UpdateUIs();
+	void RenderUIs(HDC hdc);
+	void RemoveDeadUIs();
+	void ReleaseUIs();
 
 private:
 	vector<Object*> _objects;
+	vector<UI*> _uis;
 };
 

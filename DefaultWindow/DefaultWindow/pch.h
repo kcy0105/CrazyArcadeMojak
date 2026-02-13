@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_set>
 #include <unordered_map>
+#include <functional>
 using namespace std;
 
 #include "Types.h"
