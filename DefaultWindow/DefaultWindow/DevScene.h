@@ -1,19 +1,14 @@
 #pragma once
 #include "Scene.h"
 
-class Player;
-
-class GameScene : public Scene
+class DevScene : public Scene
 {
 public:
-	GameScene() {}
-	virtual ~GameScene() override {}
+	DevScene() {}
+	virtual ~DevScene() override {}
 
 	virtual void OnInit() override;
 	virtual void OnUpdate() override;
 	virtual void OnRelease() override;
-
-private:
-	Player* _player = {};
 };
 

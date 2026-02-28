@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <functional>
+#include <filesystem>
+namespace fs = std::filesystem;
 using namespace std;
 
 #include "Types.h"
@@ -17,8 +19,7 @@ using namespace std;
 #include "Utils.h"
 #include "Values.h"
 
-
-
+#pragma comment(lib, "msimg32.lib")
 
 #define _CRTDEBG_MAP_ALLOC
 #include <cstdlib>

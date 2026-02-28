@@ -33,9 +33,6 @@
     <Filter Include="소스 파일\03. Obj\Game">
       <UniqueIdentifier>{d144291c-f023-4728-90a7-ddf9b9dd4ba3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\03. Obj\Game\Projectile">
-      <UniqueIdentifier>{25568eaa-4afe-43c2-b392-6d1a18a012b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\05. Component">
       <UniqueIdentifier>{5f875e84-1c00-4532-a712-12f78c31f45c}</UniqueIdentifier>
     </Filter>
@@ -53,6 +50,12 @@
     </Filter>
     <Filter Include="소스 파일\06. UI\Game">
       <UniqueIdentifier>{bf1f66ea-7504-4e11-9bd9-1c5bc4d91ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05. Component\Sprite">
+      <UniqueIdentifier>{bd7b80c4-17fa-4cf9-9a8e-c874346f94fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\05. Component\Flipbook">
+      <UniqueIdentifier>{cb460d36-c246-47b6-b24d-287d2893f020}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,12 +113,6 @@
     <ClInclude Include="Values.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>소스 파일\05. Component</Filter>
     </ClInclude>
@@ -130,18 +127,6 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>소스 파일\01. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="OrbitShield.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrewMissile.h">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>소스 파일\05. Component\Camera</Filter>
@@ -160,6 +145,33 @@
     </ClInclude>
     <ClInclude Include="TestPanel.h">
       <Filter>소스 파일\06. UI\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceBase.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Flipbook.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DevScene.h">
+      <Filter>소스 파일\02. Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>소스 파일\05. Component\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookComponent.h">
+      <Filter>소스 파일\05. Component\Flipbook</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,12 +208,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\05. Component</Filter>
     </ClCompile>
@@ -216,18 +222,6 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일\01. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="OrbitShield.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="ScrewMissile.cpp">
-      <Filter>소스 파일\03. Obj\Game\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>소스 파일\05. Component\Camera</Filter>
@@ -246,6 +240,33 @@
     </ClCompile>
     <ClCompile Include="TestPanel.cpp">
       <Filter>소스 파일\06. UI\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceBase.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Flipbook.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DevScene.cpp">
+      <Filter>소스 파일\02. Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>소스 파일\06. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>소스 파일\05. Component\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookComponent.cpp">
+      <Filter>소스 파일\05. Component\Flipbook</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

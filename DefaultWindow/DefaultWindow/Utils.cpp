@@ -90,3 +90,4 @@ Vec2 Utils::GetDirection(float angle)
 {
 	return Vec2(::cos(angle * DEG2RAD), -::sin(angle * DEG2RAD));
 }
+
