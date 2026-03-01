@@ -13,27 +13,20 @@ enum
 	S_Move = 11,
 };
 
-struct BuffData
-{
-	uint64 buffId;
-	float remainTime;
-};
-
-class ServerPacketHandler
+class ClientPacketHandler
 {
 public:
-	static void HandlePacket(GameSessionRef session, BYTE* buffer, int32 len);
+	static void HandlePacket(ServerSessionRef session, BYTE* buffer, int32 len);
 
 	// 받기
-	//static void Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len);
-	
-	// 보내기
-	static SendBufferRef Make_S_EnterGame();
-	static SendBufferRef Make_S_MyPlayer(const Protocol::ObjectInfo& info);
-	static SendBufferRef Make_S_AddObject(const Protocol::S_AddObject& pkt);
-	static SendBufferRef Make_S_RemoveObject(const Protocol::S_RemoveObject& pkt);
-	static SendBufferRef Make_S_Move(const Protocol::ObjectInfo& info);
+	static void Handle_S_EnterGame(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_MyPlayer(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_AddObject(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len);
+	//static void Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len);
 
+	// 보내기
+	static SendBufferRef Make_C_Move();
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
@@ -51,3 +44,4 @@ public:
 		return sendBuffer;
 	}
 };
+

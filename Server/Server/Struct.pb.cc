@@ -21,22 +21,6 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace Protocol {
-PROTOBUF_CONSTEXPR BuffData::BuffData(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.victims_)*/{}
-  , /*decltype(_impl_._victims_cached_byte_size_)*/{0}
-  , /*decltype(_impl_.buffid_)*/uint64_t{0u}
-  , /*decltype(_impl_.remaintime_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct BuffDataDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BuffDataDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~BuffDataDefaultTypeInternal() {}
-  union {
-    BuffData _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuffDataDefaultTypeInternal _BuffData_default_instance_;
 PROTOBUF_CONSTEXPR ObjectInfo::ObjectInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -44,10 +28,6 @@ PROTOBUF_CONSTEXPR ObjectInfo::ObjectInfo(
   , /*decltype(_impl_.objecttype_)*/0
   , /*decltype(_impl_.state_)*/0
   , /*decltype(_impl_.dir_)*/0
-  , /*decltype(_impl_.hp_)*/0
-  , /*decltype(_impl_.maxhp_)*/0
-  , /*decltype(_impl_.attack_)*/0
-  , /*decltype(_impl_.defence_)*/0
   , /*decltype(_impl_.posx_)*/0
   , /*decltype(_impl_.posy_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -61,20 +41,11 @@ struct ObjectInfoDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_Struct_2eproto[2];
+static ::_pb::Metadata file_level_metadata_Struct_2eproto[1];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Struct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Struct_2eproto = nullptr;
 
 const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::BuffData, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::BuffData, _impl_.buffid_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::BuffData, _impl_.remaintime_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::BuffData, _impl_.victims_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -86,43 +57,33 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.state_),
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.dir_),
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.name_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.hp_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.maxhp_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.attack_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.defence_),
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.posx_),
   PROTOBUF_FIELD_OFFSET(::Protocol::ObjectInfo, _impl_.posy_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::Protocol::BuffData)},
-  { 9, -1, -1, sizeof(::Protocol::ObjectInfo)},
+  { 0, -1, -1, sizeof(::Protocol::ObjectInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::Protocol::_BuffData_default_instance_._instance,
   &::Protocol::_ObjectInfo_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"\?\n\010"
-  "BuffData\022\016\n\006buffId\030\001 \001(\004\022\022\n\nremainTime\030\002"
-  " \001(\002\022\017\n\007victims\030\003 \003(\004\"\374\001\n\nObjectInfo\022\020\n\010"
-  "objectId\030\001 \001(\004\022)\n\nobjectType\030\002 \001(\0162\025.Pro"
-  "tocol.OBJECT_TYPE\022*\n\005state\030\003 \001(\0162\033.Proto"
-  "col.OBJECT_STATE_TYPE\022\037\n\003dir\030\004 \001(\0162\022.Pro"
-  "tocol.DIR_TYPE\022\014\n\004name\030\005 \001(\t\022\n\n\002hp\030\006 \001(\005"
-  "\022\r\n\005maxHp\030\007 \001(\005\022\016\n\006attack\030\010 \001(\005\022\017\n\007defen"
-  "ce\030\t \001(\005\022\014\n\004posX\030\n \001(\005\022\014\n\004posY\030\013 \001(\005b\006pr"
-  "oto3"
+  "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"\266\001\n"
+  "\nObjectInfo\022\020\n\010objectId\030\001 \001(\004\022)\n\nobjectT"
+  "ype\030\002 \001(\0162\025.Protocol.OBJECT_TYPE\022%\n\005stat"
+  "e\030\003 \001(\0162\026.Protocol.PLAYER_STATE\022\032\n\003dir\030\004"
+  " \001(\0162\r.Protocol.DIR\022\014\n\004name\030\005 \001(\t\022\014\n\004pos"
+  "X\030\006 \001(\005\022\014\n\004posY\030\007 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 364, descriptor_table_protodef_Struct_2eproto,
+    false, false, 229, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
-    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 2,
+    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 1,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
     file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto,
     file_level_service_descriptors_Struct_2eproto,
@@ -134,271 +95,6 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_Struct_2
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_Struct_2eproto(&descriptor_table_Struct_2eproto);
 namespace Protocol {
-
-// ===================================================================
-
-class BuffData::_Internal {
- public:
-};
-
-BuffData::BuffData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.BuffData)
-}
-BuffData::BuffData(const BuffData& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  BuffData* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.victims_){from._impl_.victims_}
-    , /*decltype(_impl_._victims_cached_byte_size_)*/{0}
-    , decltype(_impl_.buffid_){}
-    , decltype(_impl_.remaintime_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.buffid_, &from._impl_.buffid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.remaintime_) -
-    reinterpret_cast<char*>(&_impl_.buffid_)) + sizeof(_impl_.remaintime_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.BuffData)
-}
-
-inline void BuffData::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.victims_){arena}
-    , /*decltype(_impl_._victims_cached_byte_size_)*/{0}
-    , decltype(_impl_.buffid_){uint64_t{0u}}
-    , decltype(_impl_.remaintime_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-BuffData::~BuffData() {
-  // @@protoc_insertion_point(destructor:Protocol.BuffData)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void BuffData::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.victims_.~RepeatedField();
-}
-
-void BuffData::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void BuffData::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.BuffData)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.victims_.Clear();
-  ::memset(&_impl_.buffid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.remaintime_) -
-      reinterpret_cast<char*>(&_impl_.buffid_)) + sizeof(_impl_.remaintime_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* BuffData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // uint64 buffId = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.buffid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // float remainTime = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
-          _impl_.remaintime_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated uint64 victims = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt64Parser(_internal_mutable_victims(), ptr, ctx);
-          CHK_(ptr);
-        } else if (static_cast<uint8_t>(tag) == 24) {
-          _internal_add_victims(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* BuffData::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.BuffData)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint64 buffId = 1;
-  if (this->_internal_buffid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_buffid(), target);
-  }
-
-  // float remainTime = 2;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_remaintime = this->_internal_remaintime();
-  uint32_t raw_remaintime;
-  memcpy(&raw_remaintime, &tmp_remaintime, sizeof(tmp_remaintime));
-  if (raw_remaintime != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_remaintime(), target);
-  }
-
-  // repeated uint64 victims = 3;
-  {
-    int byte_size = _impl_._victims_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteUInt64Packed(
-          3, _internal_victims(), byte_size, target);
-    }
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.BuffData)
-  return target;
-}
-
-size_t BuffData::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.BuffData)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // repeated uint64 victims = 3;
-  {
-    size_t data_size = ::_pbi::WireFormatLite::
-      UInt64Size(this->_impl_.victims_);
-    if (data_size > 0) {
-      total_size += 1 +
-        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
-    }
-    int cached_size = ::_pbi::ToCachedSize(data_size);
-    _impl_._victims_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
-    total_size += data_size;
-  }
-
-  // uint64 buffId = 1;
-  if (this->_internal_buffid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_buffid());
-  }
-
-  // float remainTime = 2;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_remaintime = this->_internal_remaintime();
-  uint32_t raw_remaintime;
-  memcpy(&raw_remaintime, &tmp_remaintime, sizeof(tmp_remaintime));
-  if (raw_remaintime != 0) {
-    total_size += 1 + 4;
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BuffData::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    BuffData::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BuffData::GetClassData() const { return &_class_data_; }
-
-
-void BuffData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<BuffData*>(&to_msg);
-  auto& from = static_cast<const BuffData&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.BuffData)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  _this->_impl_.victims_.MergeFrom(from._impl_.victims_);
-  if (from._internal_buffid() != 0) {
-    _this->_internal_set_buffid(from._internal_buffid());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_remaintime = from._internal_remaintime();
-  uint32_t raw_remaintime;
-  memcpy(&raw_remaintime, &tmp_remaintime, sizeof(tmp_remaintime));
-  if (raw_remaintime != 0) {
-    _this->_internal_set_remaintime(from._internal_remaintime());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void BuffData::CopyFrom(const BuffData& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.BuffData)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool BuffData::IsInitialized() const {
-  return true;
-}
-
-void BuffData::InternalSwap(BuffData* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.victims_.InternalSwap(&other->_impl_.victims_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(BuffData, _impl_.remaintime_)
-      + sizeof(BuffData::_impl_.remaintime_)
-      - PROTOBUF_FIELD_OFFSET(BuffData, _impl_.buffid_)>(
-          reinterpret_cast<char*>(&_impl_.buffid_),
-          reinterpret_cast<char*>(&other->_impl_.buffid_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata BuffData::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
-      file_level_metadata_Struct_2eproto[0]);
-}
 
 // ===================================================================
 
@@ -421,10 +117,6 @@ ObjectInfo::ObjectInfo(const ObjectInfo& from)
     , decltype(_impl_.objecttype_){}
     , decltype(_impl_.state_){}
     , decltype(_impl_.dir_){}
-    , decltype(_impl_.hp_){}
-    , decltype(_impl_.maxhp_){}
-    , decltype(_impl_.attack_){}
-    , decltype(_impl_.defence_){}
     , decltype(_impl_.posx_){}
     , decltype(_impl_.posy_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -454,10 +146,6 @@ inline void ObjectInfo::SharedCtor(
     , decltype(_impl_.objecttype_){0}
     , decltype(_impl_.state_){0}
     , decltype(_impl_.dir_){0}
-    , decltype(_impl_.hp_){0}
-    , decltype(_impl_.maxhp_){0}
-    , decltype(_impl_.attack_){0}
-    , decltype(_impl_.defence_){0}
     , decltype(_impl_.posx_){0}
     , decltype(_impl_.posy_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -522,21 +210,21 @@ const char* ObjectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.OBJECT_STATE_TYPE state = 3;
+      // .Protocol.PLAYER_STATE state = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_state(static_cast<::Protocol::OBJECT_STATE_TYPE>(val));
+          _internal_set_state(static_cast<::Protocol::PLAYER_STATE>(val));
         } else
           goto handle_unusual;
         continue;
-      // .Protocol.DIR_TYPE dir = 4;
+      // .Protocol.DIR dir = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_dir(static_cast<::Protocol::DIR_TYPE>(val));
+          _internal_set_dir(static_cast<::Protocol::DIR>(val));
         } else
           goto handle_unusual;
         continue;
@@ -550,49 +238,17 @@ const char* ObjectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 hp = 6;
+      // int32 posX = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
-          _impl_.hp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 maxHp = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
-          _impl_.maxhp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 attack = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
-          _impl_.attack_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 defence = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
-          _impl_.defence_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 posX = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
           _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 posY = 11;
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+      // int32 posY = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -640,14 +296,14 @@ uint8_t* ObjectInfo::_InternalSerialize(
       2, this->_internal_objecttype(), target);
   }
 
-  // .Protocol.OBJECT_STATE_TYPE state = 3;
+  // .Protocol.PLAYER_STATE state = 3;
   if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
       3, this->_internal_state(), target);
   }
 
-  // .Protocol.DIR_TYPE dir = 4;
+  // .Protocol.DIR dir = 4;
   if (this->_internal_dir() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -664,40 +320,16 @@ uint8_t* ObjectInfo::_InternalSerialize(
         5, this->_internal_name(), target);
   }
 
-  // int32 hp = 6;
-  if (this->_internal_hp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_hp(), target);
-  }
-
-  // int32 maxHp = 7;
-  if (this->_internal_maxhp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_maxhp(), target);
-  }
-
-  // int32 attack = 8;
-  if (this->_internal_attack() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(8, this->_internal_attack(), target);
-  }
-
-  // int32 defence = 9;
-  if (this->_internal_defence() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(9, this->_internal_defence(), target);
-  }
-
-  // int32 posX = 10;
+  // int32 posX = 6;
   if (this->_internal_posx() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(10, this->_internal_posx(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_posx(), target);
   }
 
-  // int32 posY = 11;
+  // int32 posY = 7;
   if (this->_internal_posy() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(11, this->_internal_posy(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_posy(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -734,44 +366,24 @@ size_t ObjectInfo::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_objecttype());
   }
 
-  // .Protocol.OBJECT_STATE_TYPE state = 3;
+  // .Protocol.PLAYER_STATE state = 3;
   if (this->_internal_state() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
   }
 
-  // .Protocol.DIR_TYPE dir = 4;
+  // .Protocol.DIR dir = 4;
   if (this->_internal_dir() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_dir());
   }
 
-  // int32 hp = 6;
-  if (this->_internal_hp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_hp());
-  }
-
-  // int32 maxHp = 7;
-  if (this->_internal_maxhp() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_maxhp());
-  }
-
-  // int32 attack = 8;
-  if (this->_internal_attack() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_attack());
-  }
-
-  // int32 defence = 9;
-  if (this->_internal_defence() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_defence());
-  }
-
-  // int32 posX = 10;
+  // int32 posX = 6;
   if (this->_internal_posx() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posx());
   }
 
-  // int32 posY = 11;
+  // int32 posY = 7;
   if (this->_internal_posy() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posy());
   }
@@ -808,18 +420,6 @@ void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   }
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
-  }
-  if (from._internal_hp() != 0) {
-    _this->_internal_set_hp(from._internal_hp());
-  }
-  if (from._internal_maxhp() != 0) {
-    _this->_internal_set_maxhp(from._internal_maxhp());
-  }
-  if (from._internal_attack() != 0) {
-    _this->_internal_set_attack(from._internal_attack());
-  }
-  if (from._internal_defence() != 0) {
-    _this->_internal_set_defence(from._internal_defence());
   }
   if (from._internal_posx() != 0) {
     _this->_internal_set_posx(from._internal_posx());
@@ -861,16 +461,12 @@ void ObjectInfo::InternalSwap(ObjectInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ObjectInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
-      file_level_metadata_Struct_2eproto[1]);
+      file_level_metadata_Struct_2eproto[0]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Protocol::BuffData*
-Arena::CreateMaybeMessage< ::Protocol::BuffData >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::BuffData >(arena);
-}
 template<> PROTOBUF_NOINLINE ::Protocol::ObjectInfo*
 Arena::CreateMaybeMessage< ::Protocol::ObjectInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::ObjectInfo >(arena);

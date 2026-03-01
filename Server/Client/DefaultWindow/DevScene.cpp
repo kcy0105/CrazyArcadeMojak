@@ -28,12 +28,6 @@ void DevScene::OnInit()
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleRight", texture, { 47, 56 }, 0, 0, 0, 0.f, false);
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight", texture, { 47, 56 }, 0, 5, 0, 0.8f, true);
 	}
-	
-
-
-
-	Player* player = Object::CreateObject<Player>();
-	player->SetPos({ 400, 300 });
 }
 
 void DevScene::OnUpdate()
@@ -42,4 +36,17 @@ void DevScene::OnUpdate()
 
 void DevScene::OnRelease()
 {
+}
+
+
+Player* DevScene::GetNetworkObject(uint64 id)
+{
+	// TODO : player가 아닌 network object 반환
+	for (Object* object : _objects)
+	{
+		Player* player = dynamic_cast<Player*>(object);
+		if (player && player->info.objectid() == id)
+			return player;
+	}
+	return nullptr;
 }

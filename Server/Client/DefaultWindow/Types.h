@@ -10,11 +10,13 @@ using uint16 = unsigned __int16;
 using uint32 = unsigned __int32;
 using uint64 = unsigned __int64;
 
+using ServerSessionRef = std::shared_ptr<class ServerSession>;
+
 struct Vector
 {
 	Vector() {}
 	Vector(float x, float y) : x(x), y(y) {}
-	Vector(POINT pt) : x((float)pt.x), y((float)pt.y) { }
+	//Vector(POINT pt) : x((float)pt.x), y((float)pt.y) { }
 
 	Vector operator+(const Vector& other)
 	{
@@ -70,7 +72,7 @@ struct Vector
 
 	float Length()
 	{
-		return ::sqrt(LengthSquared());
+		return (float)::sqrt(LengthSquared());
 	}
 
 	void Normalize()
@@ -101,7 +103,7 @@ struct VectorInt
 {
 	VectorInt() {}
 	VectorInt(int32 x, int32 y) : x(x), y(y) {}
-	VectorInt(POINT pt) : x(pt.x), y(pt.y) { }
+	//VectorInt(POINT pt) : x(pt.x), y(pt.y) { }
 
 	VectorInt operator+(const VectorInt& other)
 	{

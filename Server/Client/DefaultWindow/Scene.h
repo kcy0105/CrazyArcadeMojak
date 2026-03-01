@@ -37,7 +37,7 @@ private:
 	void RemoveDeadUIs();
 	void ReleaseUIs();
 
-private:
+protected:
 	vector<Object*> _objects;
 	vector<UI*> _uis;
 };

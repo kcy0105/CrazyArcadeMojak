@@ -56,17 +56,11 @@
     <ClCompile Include="GameRoom.cpp">
       <Filter>소스 파일\Game\Room</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>소스 파일\Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\Game\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Tilemap.cpp">
-      <Filter>소스 파일\Game\Room</Filter>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Game\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,17 +88,11 @@
     <ClInclude Include="GameRoom.h">
       <Filter>소스 파일\Game\Room</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>소스 파일\Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>소스 파일\Game\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Tilemap.h">
-      <Filter>소스 파일\Game\Room</Filter>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\Game\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

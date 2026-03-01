@@ -10,30 +10,30 @@ void Player::OnInit()
 {
 	SetTag(L"Player");
 
-	_flipbookIdle[DIR_UP] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleUp");
-	_flipbookIdle[DIR_DOWN] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleDown");
-	_flipbookIdle[DIR_LEFT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleLeft");
-	_flipbookIdle[DIR_RIGHT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleRight");
+	_flipbookIdle[Protocol::DIR_UP] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleUp");
+	_flipbookIdle[Protocol::DIR_DOWN] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleDown");
+	_flipbookIdle[Protocol::DIR_LEFT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleLeft");
+	_flipbookIdle[Protocol::DIR_RIGHT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_IdleRight");
 
-	_flipbookMove[DIR_UP] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveUp");
-	_flipbookMove[DIR_DOWN] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveDown");
-	_flipbookMove[DIR_LEFT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveLeft");
-	_flipbookMove[DIR_RIGHT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveRight");
+	_flipbookMove[Protocol::DIR_UP] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveUp");
+	_flipbookMove[Protocol::DIR_DOWN] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveDown");
+	_flipbookMove[Protocol::DIR_LEFT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveLeft");
+	_flipbookMove[Protocol::DIR_RIGHT] = GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveRight");
 
 	_fb = AddComponent<FlipbookComponent>();
 
-	SetDir(DIR_DOWN);
-	SetState(PlayerState::IDLE);
+	SetDir(Protocol::DIR_DOWN);
+	SetState(Protocol::PLAYER_STATE_IDLE);
 }
 
 void Player::OnUpdate()
 {
-	switch (_state)
+	switch (info.state())
 	{
-	case PlayerState::IDLE:
+	case Protocol::PLAYER_STATE_IDLE:
 		OnUpdateIdle();
 		break;
-	case PlayerState::MOVE:
+	case Protocol::PLAYER_STATE_MOVE:
 		OnUpdateMove();
 		break;
 	}
@@ -50,93 +50,65 @@ void Player::OnRelease()
 
 }
 
+void Player::SetPos(Vec2 pos)
+{
+	__super::SetPos(pos);
+
+	info.set_posx((int32)pos.x);
+	info.set_posy((int32)pos.y);
+}
+
 
 void Player::UpdateAnimation()
 {
-	switch (_state)
+	switch (info.state())
 	{
-	case PlayerState::IDLE:
-		_fb->SetFlipbook(_flipbookIdle[_dir]);
+	case Protocol::PLAYER_STATE_IDLE:
+		_fb->SetFlipbook(_flipbookIdle[info.dir()]);
 		break;
-	case PlayerState::MOVE:
-		_fb->SetFlipbook(_flipbookMove[_dir]);
+	case Protocol::PLAYER_STATE_MOVE:
+		_fb->SetFlipbook(_flipbookMove[info.dir()]);
 		break;
 	}
 }
 
 void Player::SetState(PlayerState state)
 {
-	if (_state == state)
+	if (info.state() == state)
 		return;
 
-	_state = state;
+	info.set_state(state);
 	UpdateAnimation();
 }
 
 void Player::SetDir(Dir dir)
 {
-	_dir = dir;
+	info.set_dir(dir);
 	UpdateAnimation();
 }
 
 void Player::OnUpdateIdle()
 {
-	MoveInput();
 }
 
 void Player::OnUpdateMove()
 {
-	MoveInput();
-
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	switch (_dir)
+	switch (info.dir())
 	{
-	case DIR_LEFT:
+	case Protocol::DIR_LEFT:
 		_pos.x -= _moveSpeed * deltaTime;
 		break;
-	case DIR_RIGHT:
+	case Protocol::DIR_RIGHT:
 		_pos.x += _moveSpeed * deltaTime;
 		break;
-	case DIR_UP:
+	case Protocol::DIR_UP:
 		_pos.y -= _moveSpeed * deltaTime;
 		break;
-	case DIR_DOWN:
+	case Protocol::DIR_DOWN:
 		_pos.y += _moveSpeed * deltaTime;
 		break;
 	}
-
-	if (!GET_SINGLE(InputManager)->GetButton(KeyType::Left)
-		&& !GET_SINGLE(InputManager)->GetButton(KeyType::Right)
-		&& !GET_SINGLE(InputManager)->GetButton(KeyType::Up)
-		&& !GET_SINGLE(InputManager)->GetButton(KeyType::Down))
-	{
-		SetState(PlayerState::IDLE);
-	}
 }
-
-void Player::MoveInput()
-{
-	if (GET_SINGLE(InputManager)->GetButton(KeyType::Left))
-	{
-		SetDir(DIR_LEFT);
-		SetState(PlayerState::MOVE);
-	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::Right))
-	{
-		SetDir(DIR_RIGHT);
-		SetState(PlayerState::MOVE);
-	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::Up))
-	{
-		SetDir(DIR_UP);
-		SetState(PlayerState::MOVE);
-	}
-	else if (GET_SINGLE(InputManager)->GetButton(KeyType::Down))
-	{
-		SetDir(DIR_DOWN);
-		SetState(PlayerState::MOVE);
-	}
-}
-
 

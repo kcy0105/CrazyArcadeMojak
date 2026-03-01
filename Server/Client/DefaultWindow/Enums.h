@@ -13,10 +13,6 @@ enum class ColliderType
 	Circle,
 };
 
-enum Dir
-{
-	DIR_UP,
-	DIR_DOWN,
-	DIR_LEFT,
-	DIR_RIGHT,
-};
+using Dir = Protocol::DIR;
+
+using PlayerState = Protocol::PLAYER_STATE;

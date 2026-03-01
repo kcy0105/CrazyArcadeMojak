@@ -9,8 +9,12 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+#include "Protocol.pb.h"
+#include "Enum.pb.h"
+#include "Struct.pb.h"
+
 #include "Types.h"
-#include "Define.h"
+#include "Defines.h"
 #include "Enums.h"
 #include "Utils.h"
 #include "Values.h"

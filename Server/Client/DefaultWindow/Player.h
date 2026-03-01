@@ -5,12 +5,6 @@ class Component;
 class Flipbook;
 class FlipbookComponent;
 
-enum class PlayerState
-{
-	IDLE,
-	MOVE,
-};
-
 class Player : public Object
 {
 public:
@@ -22,16 +16,20 @@ public:
 	virtual void OnRender(HDC hdc) override;
 	virtual void OnRelease() override;
 
-private:
-	void UpdateAnimation();
+	virtual void SetPos(Vec2 pos) override;
+
 	void SetState(PlayerState state);
 	void SetDir(Dir dir);
 
-	void OnUpdateIdle();
-	void OnUpdateMove();
-	void MoveInput();
 
-private:
+protected:
+	void UpdateAnimation();
+
+	virtual void OnUpdateIdle();
+	virtual void OnUpdateMove();
+	
+
+protected:
 	float _moveSpeed = 200.f;
 
 	Flipbook* _flipbookIdle[4] = {};
@@ -39,7 +37,10 @@ private:
 
 	FlipbookComponent* _fb;
 
-	PlayerState _state;
-	Dir _dir;
+public:
+	Protocol::ObjectInfo info;
+
+public:
+	uint64 GetId() { return info.objectid(); }
 };
 

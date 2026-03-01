@@ -166,4 +166,3 @@ void Scene::ReleaseUIs()
 	}
 	_uis.clear();
 }
-

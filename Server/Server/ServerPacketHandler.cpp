@@ -15,57 +15,29 @@ void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int
 	switch (header.id)
 	{
 	case C_Move:
-		Handle_C_Move(session, buffer, len);
+		//Handle_C_Move(session, buffer, len);
 		break;
 	default:
 		break;
 	}
 }
 
-void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len)
-{
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::C_Move pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
-	//
-	GameRoomRef room = session->gameRoom.lock();
-	if (room)
-		room->Handle_C_Move(pkt);
-
-	// ·Î±× Âï±â
-}
-
-SendBufferRef ServerPacketHandler::Make_S_TEST(uint64 id, uint32 hp, uint16 attack, vector<BuffData> buffs)
-{
-	Protocol::S_TEST pkt;
-
-	pkt.set_id(10);
-	pkt.set_hp(100);
-	pkt.set_attack(10);
-
-	{
-		Protocol::BuffData* data = pkt.add_buffs();
-		data->set_buffid(100);
-		data->set_remaintime(1.2f);
-		{
-			data->add_victims(10);
-		}
-	}
-	{
-		Protocol::BuffData* data = pkt.add_buffs();
-		data->set_buffid(200);
-		data->set_remaintime(2.2f);
-		{
-			data->add_victims(20);
-		}
-	}
-
-	return MakeSendBuffer(pkt, S_TEST);
-}
+//void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len)
+//{
+//	PacketHeader* header = (PacketHeader*)buffer;
+//	//uint16 id = header->id;
+//	uint16 size = header->size;
+//
+//	Protocol::C_Move pkt;
+//	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+//
+//	//
+//	GameRoomRef room = session->gameRoom.lock();
+//	if (room)
+//		room->Handle_C_Move(pkt);
+//
+//	// ·Î±× Âï±â
+//}
 
 SendBufferRef ServerPacketHandler::Make_S_EnterGame()
 {
@@ -83,6 +55,7 @@ SendBufferRef ServerPacketHandler::Make_S_MyPlayer(const Protocol::ObjectInfo& i
 
 	Protocol::ObjectInfo* objectInfo = pkt.mutable_info();
 	*objectInfo = info;
+
 
 	return MakeSendBuffer(pkt, S_MyPlayer);
 }
