@@ -26,9 +26,9 @@ void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, i
 		case S_RemoveObject:
 			Handle_S_RemoveObject(session, buffer, len);
 			break;
-		//case S_Move:
-		//	Handle_S_Move(session, buffer, len);
-		//	break;
+		case S_Move:
+			Handle_S_Move(session, buffer, len);
+			break;
 	}
 }
 
@@ -93,7 +93,7 @@ void ClientPacketHandler::Handle_S_AddObject(ServerSessionRef session, BYTE* buf
 			if (info.objecttype() == Protocol::OBJECT_TYPE_PLAYER)
 			{
 				Player* player = Object::CreateObject<Player>();
-				player->SetPos({ (float)info.posx(), (float)info.posy() });
+				player->SetPos({ info.posx(), info.posy() });
 
 				player->SetDir(info.dir());
 				player->SetState(info.state());
@@ -120,40 +120,40 @@ void ClientPacketHandler::Handle_S_RemoveObject(ServerSessionRef session, BYTE* 
 		{
 			uint64 id = pkt.ids(i);
 
-			Object* object = scene->GetNetworkObject(id);
+			Object* object = scene->GetSyncObject(id);
 			if (object)
 				Object::DestroyObject(object);
 		}
 	}
 }
 
-//void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len)
-//{
-//	PacketHeader* header = (PacketHeader*)buffer;
-//	//uint16 id = header->id;
-//	uint16 size = header->size;
-//
-//	Protocol::S_Move pkt;
-//	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-//	//
-//	const Protocol::ObjectInfo& info = pkt.info();
-//
-//	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
-//	if (scene)
-//	{
-//		uint64 myPlayerId = GET_SINGLE(SceneManager)->GetMyPlayerId();
-//		if (myPlayerId == info.objectid())
-//			return;
-//
-//		GameObject* gameObject = scene->GetObject(info.objectid());
-//		if (gameObject)
-//		{
-//			gameObject->SetDir(info.dir());
-//			gameObject->SetState(info.state());
-//			gameObject->SetCellPos(Vec2Int{ info.posx(), info.posy() });
-//		}
-//	}
-//}
+void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::S_Move pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+	//
+	const Protocol::ObjectInfo& info = pkt.info();
+
+	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
+	if (scene)
+	{
+		/*uint64 myPlayerId = scene->GetMyPlayer()->GetId();
+		if (myPlayerId == info.objectid())
+			return;*/
+
+		Player* player = scene->GetSyncObject(info.objectid());
+		if (player)
+		{
+			player->SetDir(info.dir());
+			player->SetState(info.state());
+			player->SetPos({ (float)info.posx(), (float)info.posy() });
+		}
+	}
+}
 
 SendBufferRef ClientPacketHandler::Make_C_Move()
 {

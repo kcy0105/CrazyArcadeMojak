@@ -54,8 +54,8 @@ void Player::SetPos(Vec2 pos)
 {
 	__super::SetPos(pos);
 
-	info.set_posx((int32)pos.x);
-	info.set_posy((int32)pos.y);
+	info.set_posx(pos.x);
+	info.set_posy(pos.y);
 }
 
 
@@ -110,5 +110,7 @@ void Player::OnUpdateMove()
 		_pos.y += _moveSpeed * deltaTime;
 		break;
 	}
+
+	SetPos(_pos);
 }
 

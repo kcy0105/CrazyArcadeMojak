@@ -200,7 +200,7 @@
     <ClInclude Include="MyPlayer.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkObject.h">
+    <ClInclude Include="SyncObject.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -319,7 +319,7 @@
     <ClCompile Include="MyPlayer.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkObject.cpp">
+    <ClCompile Include="SyncObject.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
   </ItemGroup>

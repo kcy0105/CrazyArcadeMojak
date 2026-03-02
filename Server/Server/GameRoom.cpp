@@ -39,6 +39,8 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	// TEMP
 	player->info.set_posx(5);
 	player->info.set_posy(5);
+	player->info.set_dir(Protocol::DIR_DOWN);
+	player->info.set_state(Protocol::PLAYER_STATE_IDLE);
 
 	// 입장한 클라에게 정보를 보내주기
 	{
@@ -84,24 +86,24 @@ ObjectRef GameRoom::FindObject(uint64 id)
 	return nullptr;
 }
 
-//void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
-//{
-//	uint64 id = pkt.info().objectid();
-//	GameObjectRef gameObject = FindObject(id);
-//	if (gameObject == nullptr)
-//		return;
-//
-//	// TODO : Validation
-//	gameObject->info.set_state(pkt.info().state());
-//	gameObject->info.set_dir(pkt.info().dir());
-//	gameObject->info.set_posx(pkt.info().posx());
-//	gameObject->info.set_posy(pkt.info().posy());
-//
-//	{
-//		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(pkt.info());
-//		Broadcast(sendBuffer);
-//	}
-//}
+void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
+{
+	uint64 id = pkt.info().objectid();
+	ObjectRef object = FindObject(id);
+	if (object == nullptr)
+		return;
+
+	// TODO : Validation
+	object->info.set_state(pkt.info().state());
+	object->info.set_dir(pkt.info().dir());
+	/*object->info.set_posx(pkt.info().posx());
+	object->info.set_posy(pkt.info().posy());*/
+
+	{
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(pkt.info());
+		Broadcast(sendBuffer);
+	}
+}
 
 void GameRoom::AddObject(ObjectRef object)
 {

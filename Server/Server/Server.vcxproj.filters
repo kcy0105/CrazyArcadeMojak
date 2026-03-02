@@ -27,6 +27,9 @@
     <Filter Include="소스 파일\Game\Room">
       <UniqueIdentifier>{0c4f1e66-e8f1-4f8c-b038-ba2cde77ab92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Manager">
+      <UniqueIdentifier>{f54c9de3-4b60-4997-a4c2-06fa52a23b58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -62,6 +65,9 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\Game\Object</Filter>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\Game\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -93,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>소스 파일\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\Game\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

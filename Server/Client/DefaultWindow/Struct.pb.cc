@@ -74,7 +74,7 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "ype\030\002 \001(\0162\025.Protocol.OBJECT_TYPE\022%\n\005stat"
   "e\030\003 \001(\0162\026.Protocol.PLAYER_STATE\022\032\n\003dir\030\004"
   " \001(\0162\r.Protocol.DIR\022\014\n\004name\030\005 \001(\t\022\014\n\004pos"
-  "X\030\006 \001(\005\022\014\n\004posY\030\007 \001(\005b\006proto3"
+  "X\030\006 \001(\002\022\014\n\004posY\030\007 \001(\002b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
@@ -238,19 +238,19 @@ const char* ObjectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 posX = 6;
+      // float posX = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
-          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
+          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // int32 posY = 7;
+      // float posY = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
-          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 61)) {
+          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -320,16 +320,24 @@ uint8_t* ObjectInfo::_InternalSerialize(
         5, this->_internal_name(), target);
   }
 
-  // int32 posX = 6;
-  if (this->_internal_posx() != 0) {
+  // float posX = 6;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_posx(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_posx(), target);
   }
 
-  // int32 posY = 7;
-  if (this->_internal_posy() != 0) {
+  // float posY = 7;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_posy(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(7, this->_internal_posy(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -378,14 +386,22 @@ size_t ObjectInfo::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_dir());
   }
 
-  // int32 posX = 6;
-  if (this->_internal_posx() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posx());
+  // float posX = 6;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    total_size += 1 + 4;
   }
 
-  // int32 posY = 7;
-  if (this->_internal_posy() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posy());
+  // float posY = 7;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -421,10 +437,18 @@ void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
   }
-  if (from._internal_posx() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = from._internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     _this->_internal_set_posx(from._internal_posx());
   }
-  if (from._internal_posy() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = from._internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     _this->_internal_set_posy(from._internal_posy());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);

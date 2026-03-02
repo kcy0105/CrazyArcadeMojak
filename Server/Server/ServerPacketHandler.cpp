@@ -15,29 +15,32 @@ void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int
 	switch (header.id)
 	{
 	case C_Move:
-		//Handle_C_Move(session, buffer, len);
+		Handle_C_Move(session, buffer, len);
 		break;
 	default:
 		break;
 	}
 }
 
-//void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len)
-//{
-//	PacketHeader* header = (PacketHeader*)buffer;
-//	//uint16 id = header->id;
-//	uint16 size = header->size;
-//
-//	Protocol::C_Move pkt;
-//	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-//
-//	//
-//	GameRoomRef room = session->gameRoom.lock();
-//	if (room)
-//		room->Handle_C_Move(pkt);
-//
-//	// 로그 찍기
-//}
+void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::C_Move pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	//
+	GameRoomRef room = session->gameRoom.lock();
+	if (room)
+		room->Handle_C_Move(pkt);
+
+	uint64 id = pkt.info().objectid();
+
+	// 로그 찍기
+	//cout << id << " 패킷 받았는데 위치는 " << pkt.info().posx() << " " << pkt.info().posy() << endl;
+}
 
 SendBufferRef ServerPacketHandler::Make_S_EnterGame()
 {

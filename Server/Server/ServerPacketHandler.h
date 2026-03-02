@@ -2,8 +2,7 @@
 
 enum
 {
-	S_TEST = 1,
-	S_EnterGame = 2,
+	S_EnterGame = 1,
 
 	S_MyPlayer = 4,
 	S_AddObject = 5,
@@ -25,7 +24,7 @@ public:
 	static void HandlePacket(GameSessionRef session, BYTE* buffer, int32 len);
 
 	// 받기
-	//static void Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len);
 	
 	// 보내기
 	static SendBufferRef Make_S_EnterGame();

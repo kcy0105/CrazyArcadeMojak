@@ -39,9 +39,9 @@ void DevScene::OnRelease()
 }
 
 
-Player* DevScene::GetNetworkObject(uint64 id)
+Player* DevScene::GetSyncObject(uint64 id)
 {
-	// TODO : player가 아닌 network object 반환
+	// TODO : player가 아닌 sync object 반환
 	for (Object* object : _objects)
 	{
 		Player* player = dynamic_cast<Player*>(object);

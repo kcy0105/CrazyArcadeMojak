@@ -13,10 +13,12 @@ using namespace std;
 #include "GameSessionManager.h"
 #include "ServerPacketHandler.h"
 #include "GameRoom.h"
+#include "TimeManager.h"
 
 int main()
 {
 	SocketUtils::Init();
+	GET_SINGLE(TimeManager)->Init();
 	GRoom->Init();
 
 	ServerServiceRef service = make_shared<ServerService>(
@@ -30,6 +32,9 @@ int main()
 	while (true)
 	{
 		service->GetIocpCore()->Dispatch(0);
+
+		GET_SINGLE(TimeManager)->Update();
+
 		GRoom->Update();
 	}
 

@@ -236,22 +236,22 @@ class ObjectInfo final :
   void _internal_set_dir(::Protocol::DIR value);
   public:
 
-  // int32 posX = 6;
+  // float posX = 6;
   void clear_posx();
-  int32_t posx() const;
-  void set_posx(int32_t value);
+  float posx() const;
+  void set_posx(float value);
   private:
-  int32_t _internal_posx() const;
-  void _internal_set_posx(int32_t value);
+  float _internal_posx() const;
+  void _internal_set_posx(float value);
   public:
 
-  // int32 posY = 7;
+  // float posY = 7;
   void clear_posy();
-  int32_t posy() const;
-  void set_posy(int32_t value);
+  float posy() const;
+  void set_posy(float value);
   private:
-  int32_t _internal_posy() const;
-  void _internal_set_posy(int32_t value);
+  float _internal_posy() const;
+  void _internal_set_posy(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.ObjectInfo)
@@ -267,8 +267,8 @@ class ObjectInfo final :
     int objecttype_;
     int state_;
     int dir_;
-    int32_t posx_;
-    int32_t posy_;
+    float posx_;
+    float posy_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -415,42 +415,42 @@ inline void ObjectInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectInfo.name)
 }
 
-// int32 posX = 6;
+// float posX = 6;
 inline void ObjectInfo::clear_posx() {
   _impl_.posx_ = 0;
 }
-inline int32_t ObjectInfo::_internal_posx() const {
+inline float ObjectInfo::_internal_posx() const {
   return _impl_.posx_;
 }
-inline int32_t ObjectInfo::posx() const {
+inline float ObjectInfo::posx() const {
   // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.posX)
   return _internal_posx();
 }
-inline void ObjectInfo::_internal_set_posx(int32_t value) {
+inline void ObjectInfo::_internal_set_posx(float value) {
   
   _impl_.posx_ = value;
 }
-inline void ObjectInfo::set_posx(int32_t value) {
+inline void ObjectInfo::set_posx(float value) {
   _internal_set_posx(value);
   // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.posX)
 }
 
-// int32 posY = 7;
+// float posY = 7;
 inline void ObjectInfo::clear_posy() {
   _impl_.posy_ = 0;
 }
-inline int32_t ObjectInfo::_internal_posy() const {
+inline float ObjectInfo::_internal_posy() const {
   return _impl_.posy_;
 }
-inline int32_t ObjectInfo::posy() const {
+inline float ObjectInfo::posy() const {
   // @@protoc_insertion_point(field_get:Protocol.ObjectInfo.posY)
   return _internal_posy();
 }
-inline void ObjectInfo::_internal_set_posy(int32_t value) {
+inline void ObjectInfo::_internal_set_posy(float value) {
   
   _impl_.posy_ = value;
 }
-inline void ObjectInfo::set_posy(int32_t value) {
+inline void ObjectInfo::set_posy(float value) {
   _internal_set_posy(value);
   // @@protoc_insertion_point(field_set:Protocol.ObjectInfo.posY)
 }
