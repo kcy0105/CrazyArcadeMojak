@@ -48,7 +48,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    uint64 prevTick = 0;
+    //float accumulator = 0.f;
+    //uint64 last = GetTickCount64();
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -63,15 +64,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            //uint64 nowTick = ::GetTickCount64();
-            //
-            //if (nowTick - prevTick >= 30)
-            {
-                game.Update();
-                game.Render();
+            
+            //uint64 now = GetTickCount64();
+            //float delta = (now - last) / 1000.f;
+            //last = now;
 
-                //prevTick = nowTick;
-            }
+            //accumulator += delta;
+
+            //float targetFps = 60;
+            //float tick = 1 / targetFps;
+
+            //while (accumulator >= tick)
+            //{
+            //    game.Update();
+            //    game.Render();
+            //    accumulator -= tick;
+            //}
+            game.Update();
+            game.Render();
         }
     }
 

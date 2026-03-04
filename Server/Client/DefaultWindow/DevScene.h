@@ -3,6 +3,8 @@
 
 class MyPlayer;
 class Player;
+//class TilemapObject;
+class Tilemap;
 
 class DevScene : public Scene
 {
@@ -19,7 +21,10 @@ public:
 
 	Player* GetSyncObject(uint64 id);
 
+	void SetTilemap(Tilemap* tilemap);
+
 private:
 	MyPlayer* _myPlayer = nullptr;
+	//TilemapObject* _tilemapObj = nullptr;
 };
 

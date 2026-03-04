@@ -4,6 +4,7 @@
 #include "DevScene.h"
 #include "MyPlayer.h"
 #include "SceneManager.h"
+#include "Tilemap.h"
 
 void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, int32 len)
 {
@@ -28,6 +29,9 @@ void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, i
 			break;
 		case S_Move:
 			Handle_S_Move(session, buffer, len);
+			break;
+		case S_Tilemap:
+			Handle_S_Tilemap(session, buffer, len);
 			break;
 	}
 }
@@ -58,14 +62,17 @@ void ClientPacketHandler::Handle_S_MyPlayer(ServerSessionRef session, BYTE* buff
 	Protocol::S_MyPlayer pkt;
 	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
 
-	//
-	const Protocol::ObjectInfo& info = pkt.info();
 
 	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
 	if (scene)
 	{
 		MyPlayer* myPlayer = Object::CreateObject<MyPlayer>();
-		myPlayer->info = info;
+		myPlayer->SetObjectId(pkt.objectid());
+		myPlayer->SetPos(pkt.posx(), pkt.posy());
+		myPlayer->SetDestPos(pkt.posx(), pkt.posy());
+		myPlayer->SetDir((DIR)pkt.dir());
+		myPlayer->SetState((PLAYER_STATE)pkt.state());
+		myPlayer->SetMoveSpeed((float)pkt.movespeed());
 		scene->SetMyPlayer(myPlayer);
 	}
 }
@@ -82,22 +89,22 @@ void ClientPacketHandler::Handle_S_AddObject(ServerSessionRef session, BYTE* buf
 	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
 	if (scene)
 	{
-		uint64 myPlayerId = scene->GetMyPlayer()->GetId();
-		const int32 size = pkt.objects_size();
+		uint64 myPlayerId = scene->GetMyPlayer()->GetObjectId();
+		const int32 size = pkt.objectids_size();
 		for (int32 i = 0; i < size; i++)
 		{
-			const Protocol::ObjectInfo& info = pkt.objects(i);
-			if (myPlayerId == info.objectid())
+			if (myPlayerId == pkt.objectids(i))
 				continue;
 
-			if (info.objecttype() == Protocol::OBJECT_TYPE_PLAYER)
+			if (pkt.objecttypes(i) == OBJECT_TYPE_PLAYER)
 			{
 				Player* player = Object::CreateObject<Player>();
-				player->SetPos({ info.posx(), info.posy() });
-
-				player->SetDir(info.dir());
-				player->SetState(info.state());
-				player->info = info;
+				player->SetObjectId(pkt.objectids(i));
+				player->SetPos(pkt.posxs(i), pkt.posys(i));
+				player->SetDestPos(pkt.posxs(i), pkt.posys(i));
+				player->SetDir((DIR)pkt.dirs(i));
+				player->SetState((PLAYER_STATE)pkt.states(i));
+				player->SetMoveSpeed((float)pkt.movespeeds(i));
 			}
 		}
 	}
@@ -115,10 +122,10 @@ void ClientPacketHandler::Handle_S_RemoveObject(ServerSessionRef session, BYTE* 
 	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
 	if (scene)
 	{
-		const int32 size = pkt.ids_size();
+		const int32 size = pkt.objectids_size();
 		for (int32 i = 0; i < size; i++)
 		{
-			uint64 id = pkt.ids(i);
+			uint64 id = pkt.objectids(i);
 
 			Object* object = scene->GetSyncObject(id);
 			if (object)
@@ -135,24 +142,62 @@ void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, 
 
 	Protocol::S_Move pkt;
 	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-	//
-	const Protocol::ObjectInfo& info = pkt.info();
 
 	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
 	if (scene)
 	{
-		/*uint64 myPlayerId = scene->GetMyPlayer()->GetId();
-		if (myPlayerId == info.objectid())
-			return;*/
-
-		Player* player = scene->GetSyncObject(info.objectid());
+		Player* player = scene->GetSyncObject(pkt.objectid());
 		if (player)
 		{
-			player->SetDir(info.dir());
-			player->SetState(info.state());
-			player->SetPos({ (float)info.posx(), (float)info.posy() });
+			player->SetDir((DIR)pkt.dir());
+			player->SetState((PLAYER_STATE)pkt.state());
+			player->SetDestPos(pkt.posx(), pkt.posy());
+
+			if (player->GetState() == PLAYER_STATE_MOVE)
+			{
+				if (player->GetDir() == DIR_UP || player->GetDir() == DIR_DOWN)
+				{
+					player->SetPos(player->GetPos().x, pkt.posy());
+				}
+				else
+				{
+					player->SetPos(pkt.posx(), player->GetPos().y);
+				}
+			}
 		}
 	}
+}
+
+void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::S_Tilemap pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	Tilemap* tilemap = new Tilemap();
+	tilemap->SetMapSize({ pkt.mapsizex(), pkt.mapsizey() });
+	tilemap->SetTileSize(pkt.tilesize());
+
+	for (int y = 0; y < pkt.mapsizey(); y++)
+	{
+		for (int x = 0; x < pkt.mapsizex(); x++)
+		{
+			int i = y * pkt.mapsizex() + x;
+			int value = pkt.values(i);
+			tilemap->GetTiles()[y][x].value = value;
+		}
+	}
+
+	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
+
+	if (scene)
+	{
+		tilemap->BuildMap();
+	}
+
 }
 
 SendBufferRef ClientPacketHandler::Make_C_Move()
@@ -162,7 +207,9 @@ SendBufferRef ClientPacketHandler::Make_C_Move()
 	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
 	MyPlayer* myPlayer = scene->GetMyPlayer();
 
-	*pkt.mutable_info() = myPlayer->info;
+	pkt.set_objectid(myPlayer->GetObjectId());
+	pkt.set_state(myPlayer->GetState());
+	pkt.set_dir(myPlayer->GetDir());
 
 	return MakeSendBuffer(pkt, C_Move);
 }

@@ -2,16 +2,9 @@
 
 #include "CorePch.h"
 
-using GameSessionRef = std::shared_ptr<class GameSession>;
-using GameRoomRef = std::shared_ptr<class GameRoom>; 
-
-using ObjectRef = std::shared_ptr<class Object>;
-using PlayerRef = std::shared_ptr<class Player>;
-
-#include "Enum.pb.h"
-using Dir = Protocol::DIR;
-
-using PlayerState = Protocol::PLAYER_STATE;
+#include "Enums.h"
+#include "Types.h"
+#include "Values.h"
 
 #include "Protocol.pb.h"
 #include "Enum.pb.h"

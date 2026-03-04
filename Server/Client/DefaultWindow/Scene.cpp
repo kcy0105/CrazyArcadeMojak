@@ -78,10 +78,17 @@ void Scene::UnregisterUI(UI* ui)
 
 void Scene::RenderObjects(HDC hdc)
 {
+	std::sort(_objects.begin(), _objects.end(), [](Object* a, Object* b)
+		{
+			return a->GetPos().y < b->GetPos().y;
+		});
+
 	for (Object* obj : _objects)
 	{
 		obj->Render(hdc);
 	}
+
+	// tilemap object에서 render하는게 아니라 tilemap을 참고해 실제 오브젝트를 만들자.
 }
 
 void Scene::UpdateObjects()

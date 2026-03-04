@@ -173,10 +173,10 @@
     <ClInclude Include="Image.h">
       <Filter>소스 파일\06. UI</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
+    <ClInclude Include="SpriteRenderer.h">
       <Filter>소스 파일\05. Component\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="FlipbookComponent.h">
+    <ClInclude Include="FlipbookRenderer.h">
       <Filter>소스 파일\05. Component\Flipbook</Filter>
     </ClInclude>
     <ClInclude Include="NetworkManager.h">
@@ -201,6 +201,21 @@
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
     <ClInclude Include="SyncObject.h">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EditScene.h">
+      <Filter>소스 파일\02. Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapObject.h">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -292,10 +307,10 @@
     <ClCompile Include="Image.cpp">
       <Filter>소스 파일\06. UI</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteComponent.cpp">
+    <ClCompile Include="SpriteRenderer.cpp">
       <Filter>소스 파일\05. Component\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="FlipbookComponent.cpp">
+    <ClCompile Include="FlipbookRenderer.cpp">
       <Filter>소스 파일\05. Component\Flipbook</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
@@ -320,6 +335,21 @@
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
     <ClCompile Include="SyncObject.cpp">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EditScene.cpp">
+      <Filter>소스 파일\02. Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>소스 파일\04. Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapObject.cpp">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
   </ItemGroup>

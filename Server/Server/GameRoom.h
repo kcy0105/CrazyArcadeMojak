@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Tilemap.h"
+
+class Player;
 
 
 class GameRoom : public enable_shared_from_this<GameRoom>
 {
 public:
-	GameRoom();
-	virtual ~GameRoom();
+	GameRoom() {}
+	virtual ~GameRoom() {}
 
 	void Init();
 	void Update();
@@ -25,8 +28,12 @@ public:
 	void RemoveObject(uint64 id);
 	void Broadcast(SendBufferRef& sendBuffer);
 
+public:
+	bool CanGo(uint8 size, Vec2Int pos);
+
 private:
 	map<uint64, PlayerRef> _players;
+	Tilemap _tilemap;
 };
 
 extern GameRoomRef GRoom;

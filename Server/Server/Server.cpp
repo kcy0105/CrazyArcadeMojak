@@ -13,12 +13,10 @@ using namespace std;
 #include "GameSessionManager.h"
 #include "ServerPacketHandler.h"
 #include "GameRoom.h"
-#include "TimeManager.h"
 
 int main()
 {
 	SocketUtils::Init();
-	GET_SINGLE(TimeManager)->Init();
 	GRoom->Init();
 
 	ServerServiceRef service = make_shared<ServerService>(
@@ -29,13 +27,26 @@ int main()
 
 	assert(service->Start());
 
+	float accumulator = 0.f;
+	uint64 last = GetTickCount64();
+
 	while (true)
 	{
 		service->GetIocpCore()->Dispatch(0);
 
-		GET_SINGLE(TimeManager)->Update();
+		uint64 now = GetTickCount64();
 
-		GRoom->Update();
+		float delta = (now - last) / 1000.f;
+		last = now;
+
+		accumulator += delta;
+
+
+		while (accumulator >= TICK)
+		{
+			GRoom->Update();
+			
+		}
 	}
 
 	GThreadManager->Join();

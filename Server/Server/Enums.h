@@ -19,19 +19,4 @@ enum PLAYER_STATE
 	PLAYER_STATE_IDLE,
 	PLAYER_STATE_MOVE,
 };
-
 #pragma endregion
-
-enum class SceneType
-{
-	None,
-	GameScene,
-	DevScene,
-	EditScene,
-};
-
-enum class ColliderType
-{
-	Box,
-	Circle,
-};

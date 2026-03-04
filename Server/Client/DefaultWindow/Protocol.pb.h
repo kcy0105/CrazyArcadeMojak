@@ -65,6 +65,9 @@ extern S_MyPlayerDefaultTypeInternal _S_MyPlayer_default_instance_;
 class S_RemoveObject;
 struct S_RemoveObjectDefaultTypeInternal;
 extern S_RemoveObjectDefaultTypeInternal _S_RemoveObject_default_instance_;
+class S_Tilemap;
+struct S_TilemapDefaultTypeInternal;
+extern S_TilemapDefaultTypeInternal _S_Tilemap_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C_Move* Arena::CreateMaybeMessage<::Protocol::C_Move>(Arena*);
@@ -73,6 +76,7 @@ template<> ::Protocol::S_EnterGame* Arena::CreateMaybeMessage<::Protocol::S_Ente
 template<> ::Protocol::S_Move* Arena::CreateMaybeMessage<::Protocol::S_Move>(Arena*);
 template<> ::Protocol::S_MyPlayer* Arena::CreateMaybeMessage<::Protocol::S_MyPlayer>(Arena*);
 template<> ::Protocol::S_RemoveObject* Arena::CreateMaybeMessage<::Protocol::S_RemoveObject>(Arena*);
+template<> ::Protocol::S_Tilemap* Arena::CreateMaybeMessage<::Protocol::S_Tilemap>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -358,25 +362,76 @@ class S_MyPlayer final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInfoFieldNumber = 1,
+    kObjectidFieldNumber = 1,
+    kPosxFieldNumber = 2,
+    kPosyFieldNumber = 3,
+    kDirFieldNumber = 4,
+    kColsizeFieldNumber = 5,
+    kStateFieldNumber = 6,
+    kMovespeedFieldNumber = 7,
   };
-  // .Protocol.ObjectInfo info = 1;
-  bool has_info() const;
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
   private:
-  bool _internal_has_info() const;
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
   public:
-  void clear_info();
-  const ::Protocol::ObjectInfo& info() const;
-  PROTOBUF_NODISCARD ::Protocol::ObjectInfo* release_info();
-  ::Protocol::ObjectInfo* mutable_info();
-  void set_allocated_info(::Protocol::ObjectInfo* info);
+
+  // int32 posx = 2;
+  void clear_posx();
+  int32_t posx() const;
+  void set_posx(int32_t value);
   private:
-  const ::Protocol::ObjectInfo& _internal_info() const;
-  ::Protocol::ObjectInfo* _internal_mutable_info();
+  int32_t _internal_posx() const;
+  void _internal_set_posx(int32_t value);
   public:
-  void unsafe_arena_set_allocated_info(
-      ::Protocol::ObjectInfo* info);
-  ::Protocol::ObjectInfo* unsafe_arena_release_info();
+
+  // int32 posy = 3;
+  void clear_posy();
+  int32_t posy() const;
+  void set_posy(int32_t value);
+  private:
+  int32_t _internal_posy() const;
+  void _internal_set_posy(int32_t value);
+  public:
+
+  // int32 dir = 4;
+  void clear_dir();
+  int32_t dir() const;
+  void set_dir(int32_t value);
+  private:
+  int32_t _internal_dir() const;
+  void _internal_set_dir(int32_t value);
+  public:
+
+  // int32 colsize = 5;
+  void clear_colsize();
+  int32_t colsize() const;
+  void set_colsize(int32_t value);
+  private:
+  int32_t _internal_colsize() const;
+  void _internal_set_colsize(int32_t value);
+  public:
+
+  // int32 state = 6;
+  void clear_state();
+  int32_t state() const;
+  void set_state(int32_t value);
+  private:
+  int32_t _internal_state() const;
+  void _internal_set_state(int32_t value);
+  public:
+
+  // int32 movespeed = 7;
+  void clear_movespeed();
+  int32_t movespeed() const;
+  void set_movespeed(int32_t value);
+  private:
+  int32_t _internal_movespeed() const;
+  void _internal_set_movespeed(int32_t value);
+  public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_MyPlayer)
  private:
@@ -386,7 +441,13 @@ class S_MyPlayer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::ObjectInfo* info_;
+    uint64_t objectid_;
+    int32_t posx_;
+    int32_t posy_;
+    int32_t dir_;
+    int32_t colsize_;
+    int32_t state_;
+    int32_t movespeed_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -515,25 +576,167 @@ class S_AddObject final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kObjectsFieldNumber = 1,
+    kObjectidsFieldNumber = 1,
+    kObjecttypesFieldNumber = 2,
+    kPosxsFieldNumber = 3,
+    kPosysFieldNumber = 4,
+    kStatesFieldNumber = 5,
+    kDirsFieldNumber = 6,
+    kMovespeedsFieldNumber = 7,
   };
-  // repeated .Protocol.ObjectInfo objects = 1;
-  int objects_size() const;
+  // repeated uint64 objectids = 1;
+  int objectids_size() const;
   private:
-  int _internal_objects_size() const;
+  int _internal_objectids_size() const;
   public:
-  void clear_objects();
-  ::Protocol::ObjectInfo* mutable_objects(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-      mutable_objects();
+  void clear_objectids();
   private:
-  const ::Protocol::ObjectInfo& _internal_objects(int index) const;
-  ::Protocol::ObjectInfo* _internal_add_objects();
+  uint64_t _internal_objectids(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      _internal_objectids() const;
+  void _internal_add_objectids(uint64_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      _internal_mutable_objectids();
   public:
-  const ::Protocol::ObjectInfo& objects(int index) const;
-  ::Protocol::ObjectInfo* add_objects();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-      objects() const;
+  uint64_t objectids(int index) const;
+  void set_objectids(int index, uint64_t value);
+  void add_objectids(uint64_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      objectids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      mutable_objectids();
+
+  // repeated int32 objecttypes = 2;
+  int objecttypes_size() const;
+  private:
+  int _internal_objecttypes_size() const;
+  public:
+  void clear_objecttypes();
+  private:
+  int32_t _internal_objecttypes(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_objecttypes() const;
+  void _internal_add_objecttypes(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_objecttypes();
+  public:
+  int32_t objecttypes(int index) const;
+  void set_objecttypes(int index, int32_t value);
+  void add_objecttypes(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      objecttypes() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_objecttypes();
+
+  // repeated int32 posxs = 3;
+  int posxs_size() const;
+  private:
+  int _internal_posxs_size() const;
+  public:
+  void clear_posxs();
+  private:
+  int32_t _internal_posxs(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_posxs() const;
+  void _internal_add_posxs(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_posxs();
+  public:
+  int32_t posxs(int index) const;
+  void set_posxs(int index, int32_t value);
+  void add_posxs(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      posxs() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_posxs();
+
+  // repeated int32 posys = 4;
+  int posys_size() const;
+  private:
+  int _internal_posys_size() const;
+  public:
+  void clear_posys();
+  private:
+  int32_t _internal_posys(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_posys() const;
+  void _internal_add_posys(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_posys();
+  public:
+  int32_t posys(int index) const;
+  void set_posys(int index, int32_t value);
+  void add_posys(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      posys() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_posys();
+
+  // repeated int32 states = 5;
+  int states_size() const;
+  private:
+  int _internal_states_size() const;
+  public:
+  void clear_states();
+  private:
+  int32_t _internal_states(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_states() const;
+  void _internal_add_states(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_states();
+  public:
+  int32_t states(int index) const;
+  void set_states(int index, int32_t value);
+  void add_states(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      states() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_states();
+
+  // repeated int32 dirs = 6;
+  int dirs_size() const;
+  private:
+  int _internal_dirs_size() const;
+  public:
+  void clear_dirs();
+  private:
+  int32_t _internal_dirs(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_dirs() const;
+  void _internal_add_dirs(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_dirs();
+  public:
+  int32_t dirs(int index) const;
+  void set_dirs(int index, int32_t value);
+  void add_dirs(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      dirs() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_dirs();
+
+  // repeated int32 movespeeds = 7;
+  int movespeeds_size() const;
+  private:
+  int _internal_movespeeds_size() const;
+  public:
+  void clear_movespeeds();
+  private:
+  int32_t _internal_movespeeds(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_movespeeds() const;
+  void _internal_add_movespeeds(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_movespeeds();
+  public:
+  int32_t movespeeds(int index) const;
+  void set_movespeeds(int index, int32_t value);
+  void add_movespeeds(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      movespeeds() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_movespeeds();
 
   // @@protoc_insertion_point(class_scope:Protocol.S_AddObject)
  private:
@@ -543,7 +746,20 @@ class S_AddObject final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo > objects_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t > objectids_;
+    mutable std::atomic<int> _objectids_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > objecttypes_;
+    mutable std::atomic<int> _objecttypes_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > posxs_;
+    mutable std::atomic<int> _posxs_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > posys_;
+    mutable std::atomic<int> _posys_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > states_;
+    mutable std::atomic<int> _states_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > dirs_;
+    mutable std::atomic<int> _dirs_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > movespeeds_;
+    mutable std::atomic<int> _movespeeds_cached_byte_size_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -672,29 +888,29 @@ class S_RemoveObject final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIdsFieldNumber = 1,
+    kObjectidsFieldNumber = 1,
   };
-  // repeated uint64 ids = 1;
-  int ids_size() const;
+  // repeated uint64 objectids = 1;
+  int objectids_size() const;
   private:
-  int _internal_ids_size() const;
+  int _internal_objectids_size() const;
   public:
-  void clear_ids();
+  void clear_objectids();
   private:
-  uint64_t _internal_ids(int index) const;
+  uint64_t _internal_objectids(int index) const;
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
-      _internal_ids() const;
-  void _internal_add_ids(uint64_t value);
+      _internal_objectids() const;
+  void _internal_add_objectids(uint64_t value);
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
-      _internal_mutable_ids();
+      _internal_mutable_objectids();
   public:
-  uint64_t ids(int index) const;
-  void set_ids(int index, uint64_t value);
-  void add_ids(uint64_t value);
+  uint64_t objectids(int index) const;
+  void set_objectids(int index, uint64_t value);
+  void add_objectids(uint64_t value);
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
-      ids() const;
+      objectids() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
-      mutable_ids();
+      mutable_objectids();
 
   // @@protoc_insertion_point(class_scope:Protocol.S_RemoveObject)
  private:
@@ -704,8 +920,8 @@ class S_RemoveObject final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t > ids_;
-    mutable std::atomic<int> _ids_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t > objectids_;
+    mutable std::atomic<int> _objectids_cached_byte_size_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -834,25 +1050,36 @@ class C_Move final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInfoFieldNumber = 1,
+    kObjectidFieldNumber = 1,
+    kStateFieldNumber = 2,
+    kDirFieldNumber = 3,
   };
-  // .Protocol.ObjectInfo info = 1;
-  bool has_info() const;
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
   private:
-  bool _internal_has_info() const;
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
   public:
-  void clear_info();
-  const ::Protocol::ObjectInfo& info() const;
-  PROTOBUF_NODISCARD ::Protocol::ObjectInfo* release_info();
-  ::Protocol::ObjectInfo* mutable_info();
-  void set_allocated_info(::Protocol::ObjectInfo* info);
+
+  // int32 state = 2;
+  void clear_state();
+  int32_t state() const;
+  void set_state(int32_t value);
   private:
-  const ::Protocol::ObjectInfo& _internal_info() const;
-  ::Protocol::ObjectInfo* _internal_mutable_info();
+  int32_t _internal_state() const;
+  void _internal_set_state(int32_t value);
   public:
-  void unsafe_arena_set_allocated_info(
-      ::Protocol::ObjectInfo* info);
-  ::Protocol::ObjectInfo* unsafe_arena_release_info();
+
+  // int32 dir = 3;
+  void clear_dir();
+  int32_t dir() const;
+  void set_dir(int32_t value);
+  private:
+  int32_t _internal_dir() const;
+  void _internal_set_dir(int32_t value);
+  public:
 
   // @@protoc_insertion_point(class_scope:Protocol.C_Move)
  private:
@@ -862,7 +1089,9 @@ class C_Move final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::ObjectInfo* info_;
+    uint64_t objectid_;
+    int32_t state_;
+    int32_t dir_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -991,25 +1220,56 @@ class S_Move final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInfoFieldNumber = 1,
+    kObjectidFieldNumber = 1,
+    kStateFieldNumber = 2,
+    kDirFieldNumber = 3,
+    kPosxFieldNumber = 4,
+    kPosyFieldNumber = 5,
   };
-  // .Protocol.ObjectInfo info = 1;
-  bool has_info() const;
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
   private:
-  bool _internal_has_info() const;
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
   public:
-  void clear_info();
-  const ::Protocol::ObjectInfo& info() const;
-  PROTOBUF_NODISCARD ::Protocol::ObjectInfo* release_info();
-  ::Protocol::ObjectInfo* mutable_info();
-  void set_allocated_info(::Protocol::ObjectInfo* info);
+
+  // int32 state = 2;
+  void clear_state();
+  int32_t state() const;
+  void set_state(int32_t value);
   private:
-  const ::Protocol::ObjectInfo& _internal_info() const;
-  ::Protocol::ObjectInfo* _internal_mutable_info();
+  int32_t _internal_state() const;
+  void _internal_set_state(int32_t value);
   public:
-  void unsafe_arena_set_allocated_info(
-      ::Protocol::ObjectInfo* info);
-  ::Protocol::ObjectInfo* unsafe_arena_release_info();
+
+  // int32 dir = 3;
+  void clear_dir();
+  int32_t dir() const;
+  void set_dir(int32_t value);
+  private:
+  int32_t _internal_dir() const;
+  void _internal_set_dir(int32_t value);
+  public:
+
+  // int32 posx = 4;
+  void clear_posx();
+  int32_t posx() const;
+  void set_posx(int32_t value);
+  private:
+  int32_t _internal_posx() const;
+  void _internal_set_posx(int32_t value);
+  public:
+
+  // int32 posy = 5;
+  void clear_posy();
+  int32_t posy() const;
+  void set_posy(int32_t value);
+  private:
+  int32_t _internal_posy() const;
+  void _internal_set_posy(int32_t value);
+  public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_Move)
  private:
@@ -1019,7 +1279,206 @@ class S_Move final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::Protocol::ObjectInfo* info_;
+    uint64_t objectid_;
+    int32_t state_;
+    int32_t dir_;
+    int32_t posx_;
+    int32_t posy_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_Tilemap final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_Tilemap) */ {
+ public:
+  inline S_Tilemap() : S_Tilemap(nullptr) {}
+  ~S_Tilemap() override;
+  explicit PROTOBUF_CONSTEXPR S_Tilemap(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_Tilemap(const S_Tilemap& from);
+  S_Tilemap(S_Tilemap&& from) noexcept
+    : S_Tilemap() {
+    *this = ::std::move(from);
+  }
+
+  inline S_Tilemap& operator=(const S_Tilemap& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_Tilemap& operator=(S_Tilemap&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_Tilemap& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_Tilemap* internal_default_instance() {
+    return reinterpret_cast<const S_Tilemap*>(
+               &_S_Tilemap_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(S_Tilemap& a, S_Tilemap& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_Tilemap* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_Tilemap* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_Tilemap* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_Tilemap>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_Tilemap& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_Tilemap& from) {
+    S_Tilemap::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_Tilemap* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_Tilemap";
+  }
+  protected:
+  explicit S_Tilemap(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kValuesFieldNumber = 4,
+    kMapsizexFieldNumber = 1,
+    kMapsizeyFieldNumber = 2,
+    kTilesizeFieldNumber = 3,
+  };
+  // repeated int32 values = 4;
+  int values_size() const;
+  private:
+  int _internal_values_size() const;
+  public:
+  void clear_values();
+  private:
+  int32_t _internal_values(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_values() const;
+  void _internal_add_values(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_values();
+  public:
+  int32_t values(int index) const;
+  void set_values(int index, int32_t value);
+  void add_values(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      values() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_values();
+
+  // int32 mapsizex = 1;
+  void clear_mapsizex();
+  int32_t mapsizex() const;
+  void set_mapsizex(int32_t value);
+  private:
+  int32_t _internal_mapsizex() const;
+  void _internal_set_mapsizex(int32_t value);
+  public:
+
+  // int32 mapsizey = 2;
+  void clear_mapsizey();
+  int32_t mapsizey() const;
+  void set_mapsizey(int32_t value);
+  private:
+  int32_t _internal_mapsizey() const;
+  void _internal_set_mapsizey(int32_t value);
+  public:
+
+  // int32 tilesize = 3;
+  void clear_tilesize();
+  int32_t tilesize() const;
+  void set_tilesize(int32_t value);
+  private:
+  int32_t _internal_tilesize() const;
+  void _internal_set_tilesize(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_Tilemap)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > values_;
+    mutable std::atomic<int> _values_cached_byte_size_;
+    int32_t mapsizex_;
+    int32_t mapsizey_;
+    int32_t tilesize_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1080,364 +1539,814 @@ inline void S_EnterGame::set_accountid(uint64_t value) {
 
 // S_MyPlayer
 
-// .Protocol.ObjectInfo info = 1;
-inline bool S_MyPlayer::_internal_has_info() const {
-  return this != internal_default_instance() && _impl_.info_ != nullptr;
+// uint64 objectid = 1;
+inline void S_MyPlayer::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
 }
-inline bool S_MyPlayer::has_info() const {
-  return _internal_has_info();
+inline uint64_t S_MyPlayer::_internal_objectid() const {
+  return _impl_.objectid_;
 }
-inline const ::Protocol::ObjectInfo& S_MyPlayer::_internal_info() const {
-  const ::Protocol::ObjectInfo* p = _impl_.info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::ObjectInfo&>(
-      ::Protocol::_ObjectInfo_default_instance_);
+inline uint64_t S_MyPlayer::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.objectid)
+  return _internal_objectid();
 }
-inline const ::Protocol::ObjectInfo& S_MyPlayer::info() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.info)
-  return _internal_info();
-}
-inline void S_MyPlayer::unsafe_arena_set_allocated_info(
-    ::Protocol::ObjectInfo* info) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  _impl_.info_ = info;
-  if (info) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_MyPlayer.info)
-}
-inline ::Protocol::ObjectInfo* S_MyPlayer::release_info() {
+inline void S_MyPlayer::_internal_set_objectid(uint64_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
+  _impl_.objectid_ = value;
 }
-inline ::Protocol::ObjectInfo* S_MyPlayer::unsafe_arena_release_info() {
-  // @@protoc_insertion_point(field_release:Protocol.S_MyPlayer.info)
+inline void S_MyPlayer::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.objectid)
+}
+
+// int32 posx = 2;
+inline void S_MyPlayer::clear_posx() {
+  _impl_.posx_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_posx() const {
+  return _impl_.posx_;
+}
+inline int32_t S_MyPlayer::posx() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.posx)
+  return _internal_posx();
+}
+inline void S_MyPlayer::_internal_set_posx(int32_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-  return temp;
+  _impl_.posx_ = value;
 }
-inline ::Protocol::ObjectInfo* S_MyPlayer::_internal_mutable_info() {
+inline void S_MyPlayer::set_posx(int32_t value) {
+  _internal_set_posx(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.posx)
+}
+
+// int32 posy = 3;
+inline void S_MyPlayer::clear_posy() {
+  _impl_.posy_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_posy() const {
+  return _impl_.posy_;
+}
+inline int32_t S_MyPlayer::posy() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.posy)
+  return _internal_posy();
+}
+inline void S_MyPlayer::_internal_set_posy(int32_t value) {
   
-  if (_impl_.info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::ObjectInfo>(GetArenaForAllocation());
-    _impl_.info_ = p;
-  }
-  return _impl_.info_;
+  _impl_.posy_ = value;
 }
-inline ::Protocol::ObjectInfo* S_MyPlayer::mutable_info() {
-  ::Protocol::ObjectInfo* _msg = _internal_mutable_info();
-  // @@protoc_insertion_point(field_mutable:Protocol.S_MyPlayer.info)
-  return _msg;
+inline void S_MyPlayer::set_posy(int32_t value) {
+  _internal_set_posy(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.posy)
 }
-inline void S_MyPlayer::set_allocated_info(::Protocol::ObjectInfo* info) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  if (info) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(info));
-    if (message_arena != submessage_arena) {
-      info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, info, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.info_ = info;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S_MyPlayer.info)
+
+// int32 dir = 4;
+inline void S_MyPlayer::clear_dir() {
+  _impl_.dir_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_dir() const {
+  return _impl_.dir_;
+}
+inline int32_t S_MyPlayer::dir() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.dir)
+  return _internal_dir();
+}
+inline void S_MyPlayer::_internal_set_dir(int32_t value) {
+  
+  _impl_.dir_ = value;
+}
+inline void S_MyPlayer::set_dir(int32_t value) {
+  _internal_set_dir(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.dir)
+}
+
+// int32 colsize = 5;
+inline void S_MyPlayer::clear_colsize() {
+  _impl_.colsize_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_colsize() const {
+  return _impl_.colsize_;
+}
+inline int32_t S_MyPlayer::colsize() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.colsize)
+  return _internal_colsize();
+}
+inline void S_MyPlayer::_internal_set_colsize(int32_t value) {
+  
+  _impl_.colsize_ = value;
+}
+inline void S_MyPlayer::set_colsize(int32_t value) {
+  _internal_set_colsize(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.colsize)
+}
+
+// int32 state = 6;
+inline void S_MyPlayer::clear_state() {
+  _impl_.state_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_state() const {
+  return _impl_.state_;
+}
+inline int32_t S_MyPlayer::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.state)
+  return _internal_state();
+}
+inline void S_MyPlayer::_internal_set_state(int32_t value) {
+  
+  _impl_.state_ = value;
+}
+inline void S_MyPlayer::set_state(int32_t value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.state)
+}
+
+// int32 movespeed = 7;
+inline void S_MyPlayer::clear_movespeed() {
+  _impl_.movespeed_ = 0;
+}
+inline int32_t S_MyPlayer::_internal_movespeed() const {
+  return _impl_.movespeed_;
+}
+inline int32_t S_MyPlayer::movespeed() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.movespeed)
+  return _internal_movespeed();
+}
+inline void S_MyPlayer::_internal_set_movespeed(int32_t value) {
+  
+  _impl_.movespeed_ = value;
+}
+inline void S_MyPlayer::set_movespeed(int32_t value) {
+  _internal_set_movespeed(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.movespeed)
 }
 
 // -------------------------------------------------------------------
 
 // S_AddObject
 
-// repeated .Protocol.ObjectInfo objects = 1;
-inline int S_AddObject::_internal_objects_size() const {
-  return _impl_.objects_.size();
+// repeated uint64 objectids = 1;
+inline int S_AddObject::_internal_objectids_size() const {
+  return _impl_.objectids_.size();
 }
-inline int S_AddObject::objects_size() const {
-  return _internal_objects_size();
+inline int S_AddObject::objectids_size() const {
+  return _internal_objectids_size();
 }
-inline ::Protocol::ObjectInfo* S_AddObject::mutable_objects(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.S_AddObject.objects)
-  return _impl_.objects_.Mutable(index);
+inline void S_AddObject::clear_objectids() {
+  _impl_.objectids_.Clear();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-S_AddObject::mutable_objects() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.objects)
-  return &_impl_.objects_;
+inline uint64_t S_AddObject::_internal_objectids(int index) const {
+  return _impl_.objectids_.Get(index);
 }
-inline const ::Protocol::ObjectInfo& S_AddObject::_internal_objects(int index) const {
-  return _impl_.objects_.Get(index);
+inline uint64_t S_AddObject::objectids(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.objectids)
+  return _internal_objectids(index);
 }
-inline const ::Protocol::ObjectInfo& S_AddObject::objects(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.objects)
-  return _internal_objects(index);
+inline void S_AddObject::set_objectids(int index, uint64_t value) {
+  _impl_.objectids_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.objectids)
 }
-inline ::Protocol::ObjectInfo* S_AddObject::_internal_add_objects() {
-  return _impl_.objects_.Add();
+inline void S_AddObject::_internal_add_objectids(uint64_t value) {
+  _impl_.objectids_.Add(value);
 }
-inline ::Protocol::ObjectInfo* S_AddObject::add_objects() {
-  ::Protocol::ObjectInfo* _add = _internal_add_objects();
-  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.objects)
-  return _add;
+inline void S_AddObject::add_objectids(uint64_t value) {
+  _internal_add_objectids(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.objectids)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-S_AddObject::objects() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.objects)
-  return _impl_.objects_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_AddObject::_internal_objectids() const {
+  return _impl_.objectids_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_AddObject::objectids() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.objectids)
+  return _internal_objectids();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_AddObject::_internal_mutable_objectids() {
+  return &_impl_.objectids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_AddObject::mutable_objectids() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.objectids)
+  return _internal_mutable_objectids();
+}
+
+// repeated int32 objecttypes = 2;
+inline int S_AddObject::_internal_objecttypes_size() const {
+  return _impl_.objecttypes_.size();
+}
+inline int S_AddObject::objecttypes_size() const {
+  return _internal_objecttypes_size();
+}
+inline void S_AddObject::clear_objecttypes() {
+  _impl_.objecttypes_.Clear();
+}
+inline int32_t S_AddObject::_internal_objecttypes(int index) const {
+  return _impl_.objecttypes_.Get(index);
+}
+inline int32_t S_AddObject::objecttypes(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.objecttypes)
+  return _internal_objecttypes(index);
+}
+inline void S_AddObject::set_objecttypes(int index, int32_t value) {
+  _impl_.objecttypes_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.objecttypes)
+}
+inline void S_AddObject::_internal_add_objecttypes(int32_t value) {
+  _impl_.objecttypes_.Add(value);
+}
+inline void S_AddObject::add_objecttypes(int32_t value) {
+  _internal_add_objecttypes(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.objecttypes)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_objecttypes() const {
+  return _impl_.objecttypes_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::objecttypes() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.objecttypes)
+  return _internal_objecttypes();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_objecttypes() {
+  return &_impl_.objecttypes_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_objecttypes() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.objecttypes)
+  return _internal_mutable_objecttypes();
+}
+
+// repeated int32 posxs = 3;
+inline int S_AddObject::_internal_posxs_size() const {
+  return _impl_.posxs_.size();
+}
+inline int S_AddObject::posxs_size() const {
+  return _internal_posxs_size();
+}
+inline void S_AddObject::clear_posxs() {
+  _impl_.posxs_.Clear();
+}
+inline int32_t S_AddObject::_internal_posxs(int index) const {
+  return _impl_.posxs_.Get(index);
+}
+inline int32_t S_AddObject::posxs(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.posxs)
+  return _internal_posxs(index);
+}
+inline void S_AddObject::set_posxs(int index, int32_t value) {
+  _impl_.posxs_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.posxs)
+}
+inline void S_AddObject::_internal_add_posxs(int32_t value) {
+  _impl_.posxs_.Add(value);
+}
+inline void S_AddObject::add_posxs(int32_t value) {
+  _internal_add_posxs(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.posxs)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_posxs() const {
+  return _impl_.posxs_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::posxs() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.posxs)
+  return _internal_posxs();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_posxs() {
+  return &_impl_.posxs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_posxs() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.posxs)
+  return _internal_mutable_posxs();
+}
+
+// repeated int32 posys = 4;
+inline int S_AddObject::_internal_posys_size() const {
+  return _impl_.posys_.size();
+}
+inline int S_AddObject::posys_size() const {
+  return _internal_posys_size();
+}
+inline void S_AddObject::clear_posys() {
+  _impl_.posys_.Clear();
+}
+inline int32_t S_AddObject::_internal_posys(int index) const {
+  return _impl_.posys_.Get(index);
+}
+inline int32_t S_AddObject::posys(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.posys)
+  return _internal_posys(index);
+}
+inline void S_AddObject::set_posys(int index, int32_t value) {
+  _impl_.posys_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.posys)
+}
+inline void S_AddObject::_internal_add_posys(int32_t value) {
+  _impl_.posys_.Add(value);
+}
+inline void S_AddObject::add_posys(int32_t value) {
+  _internal_add_posys(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.posys)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_posys() const {
+  return _impl_.posys_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::posys() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.posys)
+  return _internal_posys();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_posys() {
+  return &_impl_.posys_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_posys() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.posys)
+  return _internal_mutable_posys();
+}
+
+// repeated int32 states = 5;
+inline int S_AddObject::_internal_states_size() const {
+  return _impl_.states_.size();
+}
+inline int S_AddObject::states_size() const {
+  return _internal_states_size();
+}
+inline void S_AddObject::clear_states() {
+  _impl_.states_.Clear();
+}
+inline int32_t S_AddObject::_internal_states(int index) const {
+  return _impl_.states_.Get(index);
+}
+inline int32_t S_AddObject::states(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.states)
+  return _internal_states(index);
+}
+inline void S_AddObject::set_states(int index, int32_t value) {
+  _impl_.states_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.states)
+}
+inline void S_AddObject::_internal_add_states(int32_t value) {
+  _impl_.states_.Add(value);
+}
+inline void S_AddObject::add_states(int32_t value) {
+  _internal_add_states(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.states)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_states() const {
+  return _impl_.states_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::states() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.states)
+  return _internal_states();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_states() {
+  return &_impl_.states_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_states() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.states)
+  return _internal_mutable_states();
+}
+
+// repeated int32 dirs = 6;
+inline int S_AddObject::_internal_dirs_size() const {
+  return _impl_.dirs_.size();
+}
+inline int S_AddObject::dirs_size() const {
+  return _internal_dirs_size();
+}
+inline void S_AddObject::clear_dirs() {
+  _impl_.dirs_.Clear();
+}
+inline int32_t S_AddObject::_internal_dirs(int index) const {
+  return _impl_.dirs_.Get(index);
+}
+inline int32_t S_AddObject::dirs(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.dirs)
+  return _internal_dirs(index);
+}
+inline void S_AddObject::set_dirs(int index, int32_t value) {
+  _impl_.dirs_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.dirs)
+}
+inline void S_AddObject::_internal_add_dirs(int32_t value) {
+  _impl_.dirs_.Add(value);
+}
+inline void S_AddObject::add_dirs(int32_t value) {
+  _internal_add_dirs(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.dirs)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_dirs() const {
+  return _impl_.dirs_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::dirs() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.dirs)
+  return _internal_dirs();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_dirs() {
+  return &_impl_.dirs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_dirs() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.dirs)
+  return _internal_mutable_dirs();
+}
+
+// repeated int32 movespeeds = 7;
+inline int S_AddObject::_internal_movespeeds_size() const {
+  return _impl_.movespeeds_.size();
+}
+inline int S_AddObject::movespeeds_size() const {
+  return _internal_movespeeds_size();
+}
+inline void S_AddObject::clear_movespeeds() {
+  _impl_.movespeeds_.Clear();
+}
+inline int32_t S_AddObject::_internal_movespeeds(int index) const {
+  return _impl_.movespeeds_.Get(index);
+}
+inline int32_t S_AddObject::movespeeds(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_AddObject.movespeeds)
+  return _internal_movespeeds(index);
+}
+inline void S_AddObject::set_movespeeds(int index, int32_t value) {
+  _impl_.movespeeds_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_AddObject.movespeeds)
+}
+inline void S_AddObject::_internal_add_movespeeds(int32_t value) {
+  _impl_.movespeeds_.Add(value);
+}
+inline void S_AddObject::add_movespeeds(int32_t value) {
+  _internal_add_movespeeds(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_AddObject.movespeeds)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::_internal_movespeeds() const {
+  return _impl_.movespeeds_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_AddObject::movespeeds() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_AddObject.movespeeds)
+  return _internal_movespeeds();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::_internal_mutable_movespeeds() {
+  return &_impl_.movespeeds_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_AddObject::mutable_movespeeds() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.movespeeds)
+  return _internal_mutable_movespeeds();
 }
 
 // -------------------------------------------------------------------
 
 // S_RemoveObject
 
-// repeated uint64 ids = 1;
-inline int S_RemoveObject::_internal_ids_size() const {
-  return _impl_.ids_.size();
+// repeated uint64 objectids = 1;
+inline int S_RemoveObject::_internal_objectids_size() const {
+  return _impl_.objectids_.size();
 }
-inline int S_RemoveObject::ids_size() const {
-  return _internal_ids_size();
+inline int S_RemoveObject::objectids_size() const {
+  return _internal_objectids_size();
 }
-inline void S_RemoveObject::clear_ids() {
-  _impl_.ids_.Clear();
+inline void S_RemoveObject::clear_objectids() {
+  _impl_.objectids_.Clear();
 }
-inline uint64_t S_RemoveObject::_internal_ids(int index) const {
-  return _impl_.ids_.Get(index);
+inline uint64_t S_RemoveObject::_internal_objectids(int index) const {
+  return _impl_.objectids_.Get(index);
 }
-inline uint64_t S_RemoveObject::ids(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_RemoveObject.ids)
-  return _internal_ids(index);
+inline uint64_t S_RemoveObject::objectids(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_RemoveObject.objectids)
+  return _internal_objectids(index);
 }
-inline void S_RemoveObject::set_ids(int index, uint64_t value) {
-  _impl_.ids_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S_RemoveObject.ids)
+inline void S_RemoveObject::set_objectids(int index, uint64_t value) {
+  _impl_.objectids_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_RemoveObject.objectids)
 }
-inline void S_RemoveObject::_internal_add_ids(uint64_t value) {
-  _impl_.ids_.Add(value);
+inline void S_RemoveObject::_internal_add_objectids(uint64_t value) {
+  _impl_.objectids_.Add(value);
 }
-inline void S_RemoveObject::add_ids(uint64_t value) {
-  _internal_add_ids(value);
-  // @@protoc_insertion_point(field_add:Protocol.S_RemoveObject.ids)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
-S_RemoveObject::_internal_ids() const {
-  return _impl_.ids_;
+inline void S_RemoveObject::add_objectids(uint64_t value) {
+  _internal_add_objectids(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_RemoveObject.objectids)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
-S_RemoveObject::ids() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_RemoveObject.ids)
-  return _internal_ids();
+S_RemoveObject::_internal_objectids() const {
+  return _impl_.objectids_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_RemoveObject::objectids() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_RemoveObject.objectids)
+  return _internal_objectids();
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
-S_RemoveObject::_internal_mutable_ids() {
-  return &_impl_.ids_;
+S_RemoveObject::_internal_mutable_objectids() {
+  return &_impl_.objectids_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
-S_RemoveObject::mutable_ids() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_RemoveObject.ids)
-  return _internal_mutable_ids();
+S_RemoveObject::mutable_objectids() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_RemoveObject.objectids)
+  return _internal_mutable_objectids();
 }
 
 // -------------------------------------------------------------------
 
 // C_Move
 
-// .Protocol.ObjectInfo info = 1;
-inline bool C_Move::_internal_has_info() const {
-  return this != internal_default_instance() && _impl_.info_ != nullptr;
+// uint64 objectid = 1;
+inline void C_Move::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
 }
-inline bool C_Move::has_info() const {
-  return _internal_has_info();
+inline uint64_t C_Move::_internal_objectid() const {
+  return _impl_.objectid_;
 }
-inline const ::Protocol::ObjectInfo& C_Move::_internal_info() const {
-  const ::Protocol::ObjectInfo* p = _impl_.info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::ObjectInfo&>(
-      ::Protocol::_ObjectInfo_default_instance_);
+inline uint64_t C_Move::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.objectid)
+  return _internal_objectid();
 }
-inline const ::Protocol::ObjectInfo& C_Move::info() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_Move.info)
-  return _internal_info();
-}
-inline void C_Move::unsafe_arena_set_allocated_info(
-    ::Protocol::ObjectInfo* info) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  _impl_.info_ = info;
-  if (info) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C_Move.info)
-}
-inline ::Protocol::ObjectInfo* C_Move::release_info() {
+inline void C_Move::_internal_set_objectid(uint64_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
+  _impl_.objectid_ = value;
 }
-inline ::Protocol::ObjectInfo* C_Move::unsafe_arena_release_info() {
-  // @@protoc_insertion_point(field_release:Protocol.C_Move.info)
+inline void C_Move::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.objectid)
+}
+
+// int32 state = 2;
+inline void C_Move::clear_state() {
+  _impl_.state_ = 0;
+}
+inline int32_t C_Move::_internal_state() const {
+  return _impl_.state_;
+}
+inline int32_t C_Move::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.state)
+  return _internal_state();
+}
+inline void C_Move::_internal_set_state(int32_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-  return temp;
+  _impl_.state_ = value;
 }
-inline ::Protocol::ObjectInfo* C_Move::_internal_mutable_info() {
+inline void C_Move::set_state(int32_t value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.state)
+}
+
+// int32 dir = 3;
+inline void C_Move::clear_dir() {
+  _impl_.dir_ = 0;
+}
+inline int32_t C_Move::_internal_dir() const {
+  return _impl_.dir_;
+}
+inline int32_t C_Move::dir() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.dir)
+  return _internal_dir();
+}
+inline void C_Move::_internal_set_dir(int32_t value) {
   
-  if (_impl_.info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::ObjectInfo>(GetArenaForAllocation());
-    _impl_.info_ = p;
-  }
-  return _impl_.info_;
+  _impl_.dir_ = value;
 }
-inline ::Protocol::ObjectInfo* C_Move::mutable_info() {
-  ::Protocol::ObjectInfo* _msg = _internal_mutable_info();
-  // @@protoc_insertion_point(field_mutable:Protocol.C_Move.info)
-  return _msg;
-}
-inline void C_Move::set_allocated_info(::Protocol::ObjectInfo* info) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  if (info) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(info));
-    if (message_arena != submessage_arena) {
-      info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, info, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.info_ = info;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.C_Move.info)
+inline void C_Move::set_dir(int32_t value) {
+  _internal_set_dir(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.dir)
 }
 
 // -------------------------------------------------------------------
 
 // S_Move
 
-// .Protocol.ObjectInfo info = 1;
-inline bool S_Move::_internal_has_info() const {
-  return this != internal_default_instance() && _impl_.info_ != nullptr;
+// uint64 objectid = 1;
+inline void S_Move::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
 }
-inline bool S_Move::has_info() const {
-  return _internal_has_info();
+inline uint64_t S_Move::_internal_objectid() const {
+  return _impl_.objectid_;
 }
-inline const ::Protocol::ObjectInfo& S_Move::_internal_info() const {
-  const ::Protocol::ObjectInfo* p = _impl_.info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::ObjectInfo&>(
-      ::Protocol::_ObjectInfo_default_instance_);
+inline uint64_t S_Move::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.objectid)
+  return _internal_objectid();
 }
-inline const ::Protocol::ObjectInfo& S_Move::info() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_Move.info)
-  return _internal_info();
-}
-inline void S_Move::unsafe_arena_set_allocated_info(
-    ::Protocol::ObjectInfo* info) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  _impl_.info_ = info;
-  if (info) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_Move.info)
-}
-inline ::Protocol::ObjectInfo* S_Move::release_info() {
+inline void S_Move::_internal_set_objectid(uint64_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
+  _impl_.objectid_ = value;
 }
-inline ::Protocol::ObjectInfo* S_Move::unsafe_arena_release_info() {
-  // @@protoc_insertion_point(field_release:Protocol.S_Move.info)
+inline void S_Move::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.objectid)
+}
+
+// int32 state = 2;
+inline void S_Move::clear_state() {
+  _impl_.state_ = 0;
+}
+inline int32_t S_Move::_internal_state() const {
+  return _impl_.state_;
+}
+inline int32_t S_Move::state() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.state)
+  return _internal_state();
+}
+inline void S_Move::_internal_set_state(int32_t value) {
   
-  ::Protocol::ObjectInfo* temp = _impl_.info_;
-  _impl_.info_ = nullptr;
-  return temp;
+  _impl_.state_ = value;
 }
-inline ::Protocol::ObjectInfo* S_Move::_internal_mutable_info() {
+inline void S_Move::set_state(int32_t value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.state)
+}
+
+// int32 dir = 3;
+inline void S_Move::clear_dir() {
+  _impl_.dir_ = 0;
+}
+inline int32_t S_Move::_internal_dir() const {
+  return _impl_.dir_;
+}
+inline int32_t S_Move::dir() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.dir)
+  return _internal_dir();
+}
+inline void S_Move::_internal_set_dir(int32_t value) {
   
-  if (_impl_.info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::Protocol::ObjectInfo>(GetArenaForAllocation());
-    _impl_.info_ = p;
-  }
-  return _impl_.info_;
+  _impl_.dir_ = value;
 }
-inline ::Protocol::ObjectInfo* S_Move::mutable_info() {
-  ::Protocol::ObjectInfo* _msg = _internal_mutable_info();
-  // @@protoc_insertion_point(field_mutable:Protocol.S_Move.info)
-  return _msg;
+inline void S_Move::set_dir(int32_t value) {
+  _internal_set_dir(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.dir)
 }
-inline void S_Move::set_allocated_info(::Protocol::ObjectInfo* info) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.info_);
-  }
-  if (info) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(info));
-    if (message_arena != submessage_arena) {
-      info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, info, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.info_ = info;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.S_Move.info)
+
+// int32 posx = 4;
+inline void S_Move::clear_posx() {
+  _impl_.posx_ = 0;
+}
+inline int32_t S_Move::_internal_posx() const {
+  return _impl_.posx_;
+}
+inline int32_t S_Move::posx() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.posx)
+  return _internal_posx();
+}
+inline void S_Move::_internal_set_posx(int32_t value) {
+  
+  _impl_.posx_ = value;
+}
+inline void S_Move::set_posx(int32_t value) {
+  _internal_set_posx(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.posx)
+}
+
+// int32 posy = 5;
+inline void S_Move::clear_posy() {
+  _impl_.posy_ = 0;
+}
+inline int32_t S_Move::_internal_posy() const {
+  return _impl_.posy_;
+}
+inline int32_t S_Move::posy() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.posy)
+  return _internal_posy();
+}
+inline void S_Move::_internal_set_posy(int32_t value) {
+  
+  _impl_.posy_ = value;
+}
+inline void S_Move::set_posy(int32_t value) {
+  _internal_set_posy(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.posy)
+}
+
+// -------------------------------------------------------------------
+
+// S_Tilemap
+
+// int32 mapsizex = 1;
+inline void S_Tilemap::clear_mapsizex() {
+  _impl_.mapsizex_ = 0;
+}
+inline int32_t S_Tilemap::_internal_mapsizex() const {
+  return _impl_.mapsizex_;
+}
+inline int32_t S_Tilemap::mapsizex() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.mapsizex)
+  return _internal_mapsizex();
+}
+inline void S_Tilemap::_internal_set_mapsizex(int32_t value) {
+  
+  _impl_.mapsizex_ = value;
+}
+inline void S_Tilemap::set_mapsizex(int32_t value) {
+  _internal_set_mapsizex(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.mapsizex)
+}
+
+// int32 mapsizey = 2;
+inline void S_Tilemap::clear_mapsizey() {
+  _impl_.mapsizey_ = 0;
+}
+inline int32_t S_Tilemap::_internal_mapsizey() const {
+  return _impl_.mapsizey_;
+}
+inline int32_t S_Tilemap::mapsizey() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.mapsizey)
+  return _internal_mapsizey();
+}
+inline void S_Tilemap::_internal_set_mapsizey(int32_t value) {
+  
+  _impl_.mapsizey_ = value;
+}
+inline void S_Tilemap::set_mapsizey(int32_t value) {
+  _internal_set_mapsizey(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.mapsizey)
+}
+
+// int32 tilesize = 3;
+inline void S_Tilemap::clear_tilesize() {
+  _impl_.tilesize_ = 0;
+}
+inline int32_t S_Tilemap::_internal_tilesize() const {
+  return _impl_.tilesize_;
+}
+inline int32_t S_Tilemap::tilesize() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.tilesize)
+  return _internal_tilesize();
+}
+inline void S_Tilemap::_internal_set_tilesize(int32_t value) {
+  
+  _impl_.tilesize_ = value;
+}
+inline void S_Tilemap::set_tilesize(int32_t value) {
+  _internal_set_tilesize(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.tilesize)
+}
+
+// repeated int32 values = 4;
+inline int S_Tilemap::_internal_values_size() const {
+  return _impl_.values_.size();
+}
+inline int S_Tilemap::values_size() const {
+  return _internal_values_size();
+}
+inline void S_Tilemap::clear_values() {
+  _impl_.values_.Clear();
+}
+inline int32_t S_Tilemap::_internal_values(int index) const {
+  return _impl_.values_.Get(index);
+}
+inline int32_t S_Tilemap::values(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.values)
+  return _internal_values(index);
+}
+inline void S_Tilemap::set_values(int index, int32_t value) {
+  _impl_.values_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.values)
+}
+inline void S_Tilemap::_internal_add_values(int32_t value) {
+  _impl_.values_.Add(value);
+}
+inline void S_Tilemap::add_values(int32_t value) {
+  _internal_add_values(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_Tilemap.values)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_Tilemap::_internal_values() const {
+  return _impl_.values_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+S_Tilemap::values() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_Tilemap.values)
+  return _internal_values();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_Tilemap::_internal_mutable_values() {
+  return &_impl_.values_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+S_Tilemap::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Tilemap.values)
+  return _internal_mutable_values();
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

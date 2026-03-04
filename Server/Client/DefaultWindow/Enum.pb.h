@@ -28,7 +28,6 @@
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_Enum_2eproto
@@ -47,84 +46,6 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
-enum OBJECT_TYPE : int {
-  OBJECT_TYPE_NONE = 0,
-  OBJECT_TYPE_PLAYER = 1,
-  OBJECT_TYPE_MONSTER = 2,
-  OBJECT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  OBJECT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool OBJECT_TYPE_IsValid(int value);
-constexpr OBJECT_TYPE OBJECT_TYPE_MIN = OBJECT_TYPE_NONE;
-constexpr OBJECT_TYPE OBJECT_TYPE_MAX = OBJECT_TYPE_MONSTER;
-constexpr int OBJECT_TYPE_ARRAYSIZE = OBJECT_TYPE_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OBJECT_TYPE_descriptor();
-template<typename T>
-inline const std::string& OBJECT_TYPE_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, OBJECT_TYPE>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function OBJECT_TYPE_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    OBJECT_TYPE_descriptor(), enum_t_value);
-}
-inline bool OBJECT_TYPE_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, OBJECT_TYPE* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<OBJECT_TYPE>(
-    OBJECT_TYPE_descriptor(), name, value);
-}
-enum PLAYER_STATE : int {
-  PLAYER_STATE_IDLE = 0,
-  PLAYER_STATE_MOVE = 1,
-  PLAYER_STATE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  PLAYER_STATE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool PLAYER_STATE_IsValid(int value);
-constexpr PLAYER_STATE PLAYER_STATE_MIN = PLAYER_STATE_IDLE;
-constexpr PLAYER_STATE PLAYER_STATE_MAX = PLAYER_STATE_MOVE;
-constexpr int PLAYER_STATE_ARRAYSIZE = PLAYER_STATE_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PLAYER_STATE_descriptor();
-template<typename T>
-inline const std::string& PLAYER_STATE_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PLAYER_STATE>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function PLAYER_STATE_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PLAYER_STATE_descriptor(), enum_t_value);
-}
-inline bool PLAYER_STATE_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PLAYER_STATE* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PLAYER_STATE>(
-    PLAYER_STATE_descriptor(), name, value);
-}
-enum DIR : int {
-  DIR_UP = 0,
-  DIR_DOWN = 1,
-  DIR_LEFT = 2,
-  DIR_RIGHT = 3,
-  DIR_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  DIR_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool DIR_IsValid(int value);
-constexpr DIR DIR_MIN = DIR_UP;
-constexpr DIR DIR_MAX = DIR_RIGHT;
-constexpr int DIR_ARRAYSIZE = DIR_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DIR_descriptor();
-template<typename T>
-inline const std::string& DIR_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, DIR>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function DIR_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    DIR_descriptor(), enum_t_value);
-}
-inline bool DIR_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, DIR* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DIR>(
-    DIR_descriptor(), name, value);
-}
 // ===================================================================
 
 
@@ -144,26 +65,6 @@ inline bool DIR_Parse(
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Protocol
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::Protocol::OBJECT_TYPE> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::OBJECT_TYPE>() {
-  return ::Protocol::OBJECT_TYPE_descriptor();
-}
-template <> struct is_proto_enum< ::Protocol::PLAYER_STATE> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PLAYER_STATE>() {
-  return ::Protocol::PLAYER_STATE_descriptor();
-}
-template <> struct is_proto_enum< ::Protocol::DIR> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::DIR>() {
-  return ::Protocol::DIR_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

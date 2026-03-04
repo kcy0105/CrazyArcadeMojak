@@ -31,7 +31,10 @@ public: // 충돌 처리 필요 시 override
 
 public:
 	Pos GetPos() { return _pos; }
-	virtual void SetPos(Pos pos) { _pos = pos; }
+	void SetPos(float x, float y) { _pos = { x, y }; }
+	void SetPos(int32 x, int32 y) { _pos = { (float)x, (float)y }; }
+	void SetPos(float x, int32 y) { _pos = { x, (float)y }; }
+	void SetPos(int32 x, float y) { _pos = { (float)x, y }; }
 	wstring GetTag() { return _tag; }
 	void SetTag(wstring tag) { _tag = tag; }
 

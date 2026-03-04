@@ -3,11 +3,11 @@
 
 class Sprite;
 
-class SpriteComponent : public Component
+class SpriteRenderer : public Component
 {
 public:
-	SpriteComponent() {}
-	virtual ~SpriteComponent() override {}
+	SpriteRenderer() {}
+	virtual ~SpriteRenderer() override {}
 
 	virtual void Init() override;
 	virtual void Update() override;

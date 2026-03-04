@@ -1,16 +1,16 @@
 #include "pch.h"
-#include "FlipbookComponent.h"
+#include "FlipbookRenderer.h"
 #include "Flipbook.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "Object.h"
 #include "Texture.h"
 
-void FlipbookComponent::Init()
+void FlipbookRenderer::Init()
 {
 }
 
-void FlipbookComponent::Update()
+void FlipbookRenderer::Update()
 {
 	if (_flipbook->GetLoop() == false && _idx == _flipbook->GetEnd())
 		return;
@@ -29,11 +29,11 @@ void FlipbookComponent::Update()
 	}
 }
 
-void FlipbookComponent::LateUpdate()
+void FlipbookRenderer::LateUpdate()
 {
 }
 
-void FlipbookComponent::Render(HDC hdc)
+void FlipbookRenderer::Render(HDC hdc)
 {
 	if (_flipbook == nullptr)
 		return;
@@ -54,6 +54,6 @@ void FlipbookComponent::Render(HDC hdc)
 		_flipbook->GetTexture()->GetTransparent());
 }
 
-void FlipbookComponent::Release()
+void FlipbookRenderer::Release()
 {
 }

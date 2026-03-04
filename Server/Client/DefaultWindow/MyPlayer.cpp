@@ -9,26 +9,26 @@ void MyPlayer::MoveInput()
 {
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Left))
 	{
-		SetDir(Protocol::DIR_LEFT);
-		SetState(Protocol::PLAYER_STATE_MOVE);
+		SetDir(DIR_LEFT);
+		SetState(PLAYER_STATE_MOVE);
 		_dirtyFlag = true;
 	}
 	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Right))
 	{
-		SetDir(Protocol::DIR_RIGHT);
-		SetState(Protocol::PLAYER_STATE_MOVE);
+		SetDir(DIR_RIGHT);
+		SetState(PLAYER_STATE_MOVE);
 		_dirtyFlag = true;
 	}
 	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Up))
 	{
-		SetDir(Protocol::DIR_UP);
-		SetState(Protocol::PLAYER_STATE_MOVE);
+		SetDir(DIR_UP);
+		SetState(PLAYER_STATE_MOVE);
 		_dirtyFlag = true;
 	}
 	else if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Down))
 	{
-		SetDir(Protocol::DIR_DOWN);
-		SetState(Protocol::PLAYER_STATE_MOVE);
+		SetDir(DIR_DOWN);
+		SetState(PLAYER_STATE_MOVE);
 		_dirtyFlag = true;
 	}
 }
@@ -44,6 +44,8 @@ void MyPlayer::OnUpdate()
 
 void MyPlayer::OnUpdateIdle()
 {
+	__super::OnUpdateIdle();
+
 	MoveInput();
 }
 
@@ -58,7 +60,7 @@ void MyPlayer::OnUpdateMove()
 		&& !GET_SINGLE(InputManager)->GetButton(KeyType::Up)
 		&& !GET_SINGLE(InputManager)->GetButton(KeyType::Down))
 	{
-		SetState(Protocol::PLAYER_STATE_IDLE);
+		SetState(PLAYER_STATE_IDLE);
 		_dirtyFlag = true;
 	}
 }
@@ -67,6 +69,8 @@ void MyPlayer::SyncToServer()
 {
 	if (_dirtyFlag == false)
 		return;
+
+	int state = GetState();
 
 	SendBufferRef sendBuffer = ClientPacketHandler::Make_C_Move();
 	GET_SINGLE(NetworkManager)->SendPacket(sendBuffer);

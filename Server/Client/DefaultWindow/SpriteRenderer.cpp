@@ -1,33 +1,34 @@
 #include "pch.h"
-#include "SpriteComponent.h"
+#include "SpriteRenderer.h"
 #include "Sprite.h"
 #include "SceneManager.h"
 #include "Object.h"
 
-void SpriteComponent::Init()
+void SpriteRenderer::Init()
 {
 }
 
-void SpriteComponent::Update()
+void SpriteRenderer::Update()
 {
 }
 
-void SpriteComponent::LateUpdate()
+void SpriteRenderer::LateUpdate()
 {
 }
 
-void SpriteComponent::Render(HDC hdc)
+void SpriteRenderer::Render(HDC hdc)
 {
 	if (_sprite == nullptr)
 		return;
 
 	Vec2Int size = _sprite->GetSize();
+	Vec2Int pivot = _sprite->GetPivot();
 	Vec2 cameraPos = GET_SINGLE(SceneManager)->GetCameraPos();
 	Vec2 pos = GetOwner()->GetPos();
 
 	::TransparentBlt(hdc,
-		(int32)pos.x - size.x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
-		(int32)pos.y - size.y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
+		(int32)pos.x - pivot.x - ((int32)cameraPos.x - GWinSizeX / 2),
+		(int32)pos.y - pivot.y - ((int32)cameraPos.y - GWinSizeY / 2),
 		size.x,
 		size.y,
 		_sprite->GetDC(),
@@ -38,6 +39,6 @@ void SpriteComponent::Render(HDC hdc)
 		_sprite->GetTransparent());
 }
 
-void SpriteComponent::Release()
+void SpriteRenderer::Release()
 {
 }

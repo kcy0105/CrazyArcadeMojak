@@ -1,40 +1,49 @@
 #include "pch.h"
 #include "Player.h"
-#include "TimeManager.h"
+#include "GameRoom.h"
+
 
 void Player::Update()
 {
-	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-
-	switch (info.state())
+	switch (_state)
 	{
-	case Protocol::PLAYER_STATE_IDLE:
+	case PLAYER_STATE_IDLE:
 		break;
-	case Protocol::PLAYER_STATE_MOVE:
+	case PLAYER_STATE_MOVE:
 	{
-		float posx = info.posx();
-		float posy = info.posy();
+		Pos pos = GetPos();
 
-		float moveSpeed = 200;
-
-		switch (info.dir())
+		switch (_dir)
 		{
-		case Protocol::DIR_LEFT:
-			posx -= moveSpeed * deltaTime;
+		case DIR_LEFT:
+			pos.x -= _moveSpeed * TICK;
 			break;
-		case Protocol::DIR_RIGHT:
-			posx += moveSpeed * deltaTime;
+		case DIR_RIGHT:
+			pos.x += _moveSpeed * TICK;
 			break;
-		case Protocol::DIR_UP:
-			posy -= moveSpeed * deltaTime;
+		case DIR_UP:
+			pos.y -= _moveSpeed * TICK;
 			break;
-		case Protocol::DIR_DOWN:
-			posy += moveSpeed * deltaTime;
+		case DIR_DOWN:
+			pos.y += _moveSpeed * TICK;
 			break;
 		}
 
-		info.set_posx(posx);
-		info.set_posy(posy);
+		SetPos(pos);
+
+		{
+			SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(GetObjectId(), GetState(), GetDir(), (int32)pos.x, (int32)pos.y);
+			room->Broadcast(sendBuffer);
+		}
+
+		//if (room->CanGo((uint8)_colSize, { (int32)pos.x, (int32)pos.y }))
+		//{
+		//	SetPos(pos);
+		//}
+		//else
+		//{
+		//	// TODO
+		//}
 	}
 
 		

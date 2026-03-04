@@ -65,8 +65,8 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>소스 파일\Game\Manager</Filter>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>소스 파일\Game\Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,8 +100,17 @@
     <ClInclude Include="Object.h">
       <Filter>소스 파일\Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="TimeManager.h">
-      <Filter>소스 파일\Game\Manager</Filter>
+    <ClInclude Include="Tilemap.h">
+      <Filter>소스 파일\Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Values.h">
+      <Filter>소스 파일\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

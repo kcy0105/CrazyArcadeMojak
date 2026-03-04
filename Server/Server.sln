@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{F4D7F64B-8873-49B1-9AA9-915EB065D00F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DummyClient", "DummyClient\DummyClient.vcxproj", "{3F639278-7A3E-4A5C-B224-5E3930892439}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerCore", "ServerCore\ServerCore.vcxproj", "{90065A5D-0322-426C-8417-C75621D96666}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameCoding", "Client\DefaultWindow\DefaultWindow.vcxproj", "{64CF4E18-3839-491D-AD66-F1617DF5BDAA}"
@@ -27,14 +25,6 @@ Global
 		{F4D7F64B-8873-49B1-9AA9-915EB065D00F}.Release|x64.Build.0 = Release|x64
 		{F4D7F64B-8873-49B1-9AA9-915EB065D00F}.Release|x86.ActiveCfg = Release|Win32
 		{F4D7F64B-8873-49B1-9AA9-915EB065D00F}.Release|x86.Build.0 = Release|Win32
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Debug|x64.ActiveCfg = Debug|x64
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Debug|x64.Build.0 = Debug|x64
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Debug|x86.ActiveCfg = Debug|Win32
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Debug|x86.Build.0 = Debug|Win32
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Release|x64.ActiveCfg = Release|x64
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Release|x64.Build.0 = Release|x64
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Release|x86.ActiveCfg = Release|Win32
-		{3F639278-7A3E-4A5C-B224-5E3930892439}.Release|x86.Build.0 = Release|Win32
 		{90065A5D-0322-426C-8417-C75621D96666}.Debug|x64.ActiveCfg = Debug|x64
 		{90065A5D-0322-426C-8417-C75621D96666}.Debug|x64.Build.0 = Debug|x64
 		{90065A5D-0322-426C-8417-C75621D96666}.Debug|x86.ActiveCfg = Debug|Win32

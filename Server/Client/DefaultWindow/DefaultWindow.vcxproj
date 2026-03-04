@@ -137,14 +137,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="DevScene.h" />
+    <ClInclude Include="EditScene.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="Flipbook.h" />
-    <ClInclude Include="FlipbookComponent.h" />
+    <ClInclude Include="FlipbookRenderer.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
@@ -155,10 +157,12 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Struct.pb.h" />
     <ClInclude Include="TestPanel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tilemap.h" />
+    <ClInclude Include="TilemapObject.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
@@ -183,18 +187,21 @@
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="DevScene.cpp" />
+    <ClCompile Include="EditScene.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Flipbook.cpp" />
-    <ClCompile Include="FlipbookComponent.cpp" />
+    <ClCompile Include="FlipbookRenderer.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
@@ -207,12 +214,14 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TestPanel.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
+    <ClCompile Include="TilemapObject.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
@@ -230,6 +239,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DefaultWindow.rc" />

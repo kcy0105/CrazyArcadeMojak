@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Tilemap.h"
+
 enum
 {
 	S_EnterGame = 1,
@@ -10,12 +12,8 @@ enum
 
 	C_Move = 10,
 	S_Move = 11,
-};
 
-struct BuffData
-{
-	uint64 buffId;
-	float remainTime;
+	S_Tilemap = 15,
 };
 
 class ServerPacketHandler
@@ -28,10 +26,11 @@ public:
 	
 	// º¸³»±â
 	static SendBufferRef Make_S_EnterGame();
-	static SendBufferRef Make_S_MyPlayer(const Protocol::ObjectInfo& info);
-	static SendBufferRef Make_S_AddObject(const Protocol::S_AddObject& pkt);
-	static SendBufferRef Make_S_RemoveObject(const Protocol::S_RemoveObject& pkt);
-	static SendBufferRef Make_S_Move(const Protocol::ObjectInfo& info);
+	static SendBufferRef Make_S_MyPlayer(uint64 objectid, int32 posx, int32 posy, int32 dir, int32 colsize, int32 state, int32 movespeed);
+	static SendBufferRef Make_S_AddObject(const vector<uint64>& objectids, const vector<int32>& objecttypes, const vector<int32>& posxs, const vector<int32>& posys, const vector<int32>& states, const vector<int32>& dirs, const vector<int32>& movespeeds);
+	static SendBufferRef Make_S_RemoveObject(const vector<uint64>& objectids);
+	static SendBufferRef Make_S_Move(uint64 objectid, int32 state, int32 dir, int32 posx, int32 posy);
+	static SendBufferRef Make_S_Tilemap(int32 mapsizex, int32 mapsizey, int32 tilesize, const vector<vector<int32>>& values);
 
 
 	template<typename T>

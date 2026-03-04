@@ -3,11 +3,11 @@
 
 class Flipbook;
 
-class FlipbookComponent : public Component
+class FlipbookRenderer : public Component
 {
 public:
-	FlipbookComponent() {}
-	virtual ~FlipbookComponent() override {}
+	FlipbookRenderer() {}
+	virtual ~FlipbookRenderer() override {}
 
 	virtual void Init() override;
 	virtual void Update() override;

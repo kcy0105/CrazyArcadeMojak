@@ -5,6 +5,8 @@
 #include "Image.h"
 #include "Object.h"
 #include "Player.h"
+#include "Tilemap.h"
+//#include "TilemapObject.h"
 
 void DevScene::OnInit()
 {
@@ -28,6 +30,15 @@ void DevScene::OnInit()
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleRight", texture, { 47, 56 }, 0, 0, 0, 0.f, false);
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight", texture, { 47, 56 }, 0, 5, 0, 0.8f, true);
 	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"Block", L"Block.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_Block", texture, 0, 0, 40, 47, 20, 27);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"Wall", L"Wall.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_Wall", texture, 0, 0, 40, 60, 20, 40);
+	}
+
 }
 
 void DevScene::OnUpdate()
@@ -45,7 +56,7 @@ Player* DevScene::GetSyncObject(uint64 id)
 	for (Object* object : _objects)
 	{
 		Player* player = dynamic_cast<Player*>(object);
-		if (player && player->info.objectid() == id)
+		if (player && player->GetObjectId() == id)
 			return player;
 	}
 	return nullptr;
