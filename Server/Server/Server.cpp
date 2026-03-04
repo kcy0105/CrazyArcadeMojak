@@ -45,7 +45,7 @@ int main()
 		while (accumulator >= TICK)
 		{
 			GRoom->Update();
-			
+			accumulator -= TICK;
 		}
 	}
 
