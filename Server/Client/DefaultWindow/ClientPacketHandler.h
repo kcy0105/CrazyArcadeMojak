@@ -28,7 +28,7 @@ public:
 	static void Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len);
 
 	// º¸³»±â
-	static SendBufferRef Make_C_Move();
+	static SendBufferRef Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy);
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)

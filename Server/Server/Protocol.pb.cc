@@ -41,7 +41,6 @@ PROTOBUF_CONSTEXPR S_MyPlayer::S_MyPlayer(
   , /*decltype(_impl_.posx_)*/0
   , /*decltype(_impl_.posy_)*/0
   , /*decltype(_impl_.dir_)*/0
-  , /*decltype(_impl_.colsize_)*/0
   , /*decltype(_impl_.state_)*/0
   , /*decltype(_impl_.movespeed_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -61,15 +60,12 @@ PROTOBUF_CONSTEXPR S_AddObject::S_AddObject(
   , /*decltype(_impl_.objecttypes_)*/{}
   , /*decltype(_impl_._objecttypes_cached_byte_size_)*/{0}
   , /*decltype(_impl_.posxs_)*/{}
-  , /*decltype(_impl_._posxs_cached_byte_size_)*/{0}
   , /*decltype(_impl_.posys_)*/{}
-  , /*decltype(_impl_._posys_cached_byte_size_)*/{0}
   , /*decltype(_impl_.states_)*/{}
   , /*decltype(_impl_._states_cached_byte_size_)*/{0}
   , /*decltype(_impl_.dirs_)*/{}
   , /*decltype(_impl_._dirs_cached_byte_size_)*/{0}
   , /*decltype(_impl_.movespeeds_)*/{}
-  , /*decltype(_impl_._movespeeds_cached_byte_size_)*/{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S_AddObjectDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S_AddObjectDefaultTypeInternal()
@@ -97,8 +93,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C_Move::C_Move(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.objectid_)*/uint64_t{0u}
-  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.state_)*/0u
   , /*decltype(_impl_.dir_)*/0
+  , /*decltype(_impl_.posx_)*/0
+  , /*decltype(_impl_.posy_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C_MoveDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C_MoveDefaultTypeInternal()
@@ -112,10 +110,11 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR S_Move::S_Move(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.objectid_)*/uint64_t{0u}
-  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.state_)*/0u
   , /*decltype(_impl_.dir_)*/0
   , /*decltype(_impl_.posx_)*/0
   , /*decltype(_impl_.posy_)*/0
+  , /*decltype(_impl_.needsync_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S_MoveDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S_MoveDefaultTypeInternal()
@@ -167,7 +166,6 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.posx_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.posy_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.dir_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.colsize_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.state_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MyPlayer, _impl_.movespeed_),
   ~0u,  // no _has_bits_
@@ -199,6 +197,8 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   PROTOBUF_FIELD_OFFSET(::Protocol::C_Move, _impl_.objectid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_Move, _impl_.state_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_Move, _impl_.dir_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_Move, _impl_.posx_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_Move, _impl_.posy_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_Move, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -210,6 +210,7 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   PROTOBUF_FIELD_OFFSET(::Protocol::S_Move, _impl_.dir_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_Move, _impl_.posx_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_Move, _impl_.posy_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_Move, _impl_.needsync_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_Tilemap, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -224,11 +225,11 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::S_EnterGame)},
   { 8, -1, -1, sizeof(::Protocol::S_MyPlayer)},
-  { 21, -1, -1, sizeof(::Protocol::S_AddObject)},
-  { 34, -1, -1, sizeof(::Protocol::S_RemoveObject)},
-  { 41, -1, -1, sizeof(::Protocol::C_Move)},
-  { 50, -1, -1, sizeof(::Protocol::S_Move)},
-  { 61, -1, -1, sizeof(::Protocol::S_Tilemap)},
+  { 20, -1, -1, sizeof(::Protocol::S_AddObject)},
+  { 33, -1, -1, sizeof(::Protocol::S_RemoveObject)},
+  { 40, -1, -1, sizeof(::Protocol::C_Move)},
+  { 51, -1, -1, sizeof(::Protocol::S_Move)},
+  { 63, -1, -1, sizeof(::Protocol::S_Tilemap)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -244,20 +245,21 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
   "Struct.proto\"1\n\013S_EnterGame\022\017\n\007success\030\001"
-  " \001(\010\022\021\n\taccountId\030\002 \001(\004\"z\n\nS_MyPlayer\022\020\n"
-  "\010objectid\030\001 \001(\004\022\014\n\004posx\030\002 \001(\005\022\014\n\004posy\030\003 "
-  "\001(\005\022\013\n\003dir\030\004 \001(\005\022\017\n\007colsize\030\005 \001(\005\022\r\n\005sta"
-  "te\030\006 \001(\005\022\021\n\tmovespeed\030\007 \001(\005\"\205\001\n\013S_AddObj"
-  "ect\022\021\n\tobjectids\030\001 \003(\004\022\023\n\013objecttypes\030\002 "
-  "\003(\005\022\r\n\005posxs\030\003 \003(\005\022\r\n\005posys\030\004 \003(\005\022\016\n\006sta"
-  "tes\030\005 \003(\005\022\014\n\004dirs\030\006 \003(\005\022\022\n\nmovespeeds\030\007 "
-  "\003(\005\"#\n\016S_RemoveObject\022\021\n\tobjectids\030\001 \003(\004"
-  "\"6\n\006C_Move\022\020\n\010objectid\030\001 \001(\004\022\r\n\005state\030\002 "
-  "\001(\005\022\013\n\003dir\030\003 \001(\005\"R\n\006S_Move\022\020\n\010objectid\030\001"
-  " \001(\004\022\r\n\005state\030\002 \001(\005\022\013\n\003dir\030\003 \001(\005\022\014\n\004posx"
-  "\030\004 \001(\005\022\014\n\004posy\030\005 \001(\005\"Q\n\tS_Tilemap\022\020\n\010map"
-  "sizex\030\001 \001(\005\022\020\n\010mapsizey\030\002 \001(\005\022\020\n\010tilesiz"
-  "e\030\003 \001(\005\022\016\n\006values\030\004 \003(\005b\006proto3"
+  " \001(\010\022\021\n\taccountId\030\002 \001(\004\"i\n\nS_MyPlayer\022\020\n"
+  "\010objectid\030\001 \001(\004\022\014\n\004posx\030\002 \001(\002\022\014\n\004posy\030\003 "
+  "\001(\002\022\013\n\003dir\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\tmoves"
+  "peed\030\006 \001(\002\"\205\001\n\013S_AddObject\022\021\n\tobjectids\030"
+  "\001 \003(\004\022\023\n\013objecttypes\030\002 \003(\005\022\r\n\005posxs\030\003 \003("
+  "\002\022\r\n\005posys\030\004 \003(\002\022\016\n\006states\030\005 \003(\005\022\014\n\004dirs"
+  "\030\006 \003(\005\022\022\n\nmovespeeds\030\007 \003(\002\"#\n\016S_RemoveOb"
+  "ject\022\021\n\tobjectids\030\001 \003(\004\"R\n\006C_Move\022\020\n\010obj"
+  "ectid\030\001 \001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 \001(\005\022"
+  "\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\"d\n\006S_Move\022\020\n"
+  "\010objectid\030\001 \001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 "
+  "\001(\005\022\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\022\020\n\010needs"
+  "ync\030\006 \001(\010\"Q\n\tS_Tilemap\022\020\n\010mapsizex\030\001 \001(\005"
+  "\022\020\n\010mapsizey\030\002 \001(\005\022\020\n\010tilesize\030\003 \001(\005\022\016\n\006"
+  "values\030\004 \003(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -265,7 +267,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 631, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 660, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 7,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
@@ -511,7 +513,6 @@ S_MyPlayer::S_MyPlayer(const S_MyPlayer& from)
     , decltype(_impl_.posx_){}
     , decltype(_impl_.posy_){}
     , decltype(_impl_.dir_){}
-    , decltype(_impl_.colsize_){}
     , decltype(_impl_.state_){}
     , decltype(_impl_.movespeed_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -532,7 +533,6 @@ inline void S_MyPlayer::SharedCtor(
     , decltype(_impl_.posx_){0}
     , decltype(_impl_.posy_){0}
     , decltype(_impl_.dir_){0}
-    , decltype(_impl_.colsize_){0}
     , decltype(_impl_.state_){0}
     , decltype(_impl_.movespeed_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -582,19 +582,19 @@ const char* S_MyPlayer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 posx = 2;
+      // float posx = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // int32 posy = 3;
+      // float posy = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -606,27 +606,19 @@ const char* S_MyPlayer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 colsize = 5;
+      // int32 state = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
-          _impl_.colsize_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 state = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _impl_.state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 movespeed = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
-          _impl_.movespeed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+      // float movespeed = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
+          _impl_.movespeed_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -665,16 +657,24 @@ uint8_t* S_MyPlayer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
   }
 
-  // int32 posx = 2;
-  if (this->_internal_posx() != 0) {
+  // float posx = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_posx(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_posx(), target);
   }
 
-  // int32 posy = 3;
-  if (this->_internal_posy() != 0) {
+  // float posy = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_posy(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_posy(), target);
   }
 
   // int32 dir = 4;
@@ -683,22 +683,20 @@ uint8_t* S_MyPlayer::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_dir(), target);
   }
 
-  // int32 colsize = 5;
-  if (this->_internal_colsize() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_colsize(), target);
-  }
-
-  // int32 state = 6;
+  // int32 state = 5;
   if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_state(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_state(), target);
   }
 
-  // int32 movespeed = 7;
-  if (this->_internal_movespeed() != 0) {
+  // float movespeed = 6;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_movespeed = this->_internal_movespeed();
+  uint32_t raw_movespeed;
+  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
+  if (raw_movespeed != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_movespeed(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_movespeed(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -722,14 +720,22 @@ size_t S_MyPlayer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
   }
 
-  // int32 posx = 2;
-  if (this->_internal_posx() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posx());
+  // float posx = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    total_size += 1 + 4;
   }
 
-  // int32 posy = 3;
-  if (this->_internal_posy() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posy());
+  // float posy = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    total_size += 1 + 4;
   }
 
   // int32 dir = 4;
@@ -737,19 +743,18 @@ size_t S_MyPlayer::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dir());
   }
 
-  // int32 colsize = 5;
-  if (this->_internal_colsize() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_colsize());
-  }
-
-  // int32 state = 6;
+  // int32 state = 5;
   if (this->_internal_state() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_state());
   }
 
-  // int32 movespeed = 7;
-  if (this->_internal_movespeed() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_movespeed());
+  // float movespeed = 6;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_movespeed = this->_internal_movespeed();
+  uint32_t raw_movespeed;
+  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
+  if (raw_movespeed != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -773,22 +778,31 @@ void S_MyPlayer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   if (from._internal_objectid() != 0) {
     _this->_internal_set_objectid(from._internal_objectid());
   }
-  if (from._internal_posx() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = from._internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     _this->_internal_set_posx(from._internal_posx());
   }
-  if (from._internal_posy() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = from._internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     _this->_internal_set_posy(from._internal_posy());
   }
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
   }
-  if (from._internal_colsize() != 0) {
-    _this->_internal_set_colsize(from._internal_colsize());
-  }
   if (from._internal_state() != 0) {
     _this->_internal_set_state(from._internal_state());
   }
-  if (from._internal_movespeed() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_movespeed = from._internal_movespeed();
+  uint32_t raw_movespeed;
+  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
+  if (raw_movespeed != 0) {
     _this->_internal_set_movespeed(from._internal_movespeed());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -843,15 +857,12 @@ S_AddObject::S_AddObject(const S_AddObject& from)
     , decltype(_impl_.objecttypes_){from._impl_.objecttypes_}
     , /*decltype(_impl_._objecttypes_cached_byte_size_)*/{0}
     , decltype(_impl_.posxs_){from._impl_.posxs_}
-    , /*decltype(_impl_._posxs_cached_byte_size_)*/{0}
     , decltype(_impl_.posys_){from._impl_.posys_}
-    , /*decltype(_impl_._posys_cached_byte_size_)*/{0}
     , decltype(_impl_.states_){from._impl_.states_}
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.dirs_){from._impl_.dirs_}
     , /*decltype(_impl_._dirs_cached_byte_size_)*/{0}
     , decltype(_impl_.movespeeds_){from._impl_.movespeeds_}
-    , /*decltype(_impl_._movespeeds_cached_byte_size_)*/{0}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -868,15 +879,12 @@ inline void S_AddObject::SharedCtor(
     , decltype(_impl_.objecttypes_){arena}
     , /*decltype(_impl_._objecttypes_cached_byte_size_)*/{0}
     , decltype(_impl_.posxs_){arena}
-    , /*decltype(_impl_._posxs_cached_byte_size_)*/{0}
     , decltype(_impl_.posys_){arena}
-    , /*decltype(_impl_._posys_cached_byte_size_)*/{0}
     , decltype(_impl_.states_){arena}
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.dirs_){arena}
     , /*decltype(_impl_._dirs_cached_byte_size_)*/{0}
     , decltype(_impl_.movespeeds_){arena}
-    , /*decltype(_impl_._movespeeds_cached_byte_size_)*/{0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -949,25 +957,25 @@ const char* S_AddObject::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
-      // repeated int32 posxs = 3;
+      // repeated float posxs = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_posxs(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_posxs(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<uint8_t>(tag) == 24) {
-          _internal_add_posxs(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 29) {
+          _internal_add_posxs(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // repeated int32 posys = 4;
+      // repeated float posys = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_posys(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_posys(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<uint8_t>(tag) == 32) {
-          _internal_add_posys(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 37) {
+          _internal_add_posys(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -993,14 +1001,14 @@ const char* S_AddObject::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
-      // repeated int32 movespeeds = 7;
+      // repeated float movespeeds = 7;
       case 7:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_movespeeds(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_movespeeds(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<uint8_t>(tag) == 56) {
-          _internal_add_movespeeds(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 61) {
+          _internal_add_movespeeds(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -1051,22 +1059,14 @@ uint8_t* S_AddObject::_InternalSerialize(
     }
   }
 
-  // repeated int32 posxs = 3;
-  {
-    int byte_size = _impl_._posxs_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteInt32Packed(
-          3, _internal_posxs(), byte_size, target);
-    }
+  // repeated float posxs = 3;
+  if (this->_internal_posxs_size() > 0) {
+    target = stream->WriteFixedPacked(3, _internal_posxs(), target);
   }
 
-  // repeated int32 posys = 4;
-  {
-    int byte_size = _impl_._posys_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteInt32Packed(
-          4, _internal_posys(), byte_size, target);
-    }
+  // repeated float posys = 4;
+  if (this->_internal_posys_size() > 0) {
+    target = stream->WriteFixedPacked(4, _internal_posys(), target);
   }
 
   // repeated int32 states = 5;
@@ -1087,13 +1087,9 @@ uint8_t* S_AddObject::_InternalSerialize(
     }
   }
 
-  // repeated int32 movespeeds = 7;
-  {
-    int byte_size = _impl_._movespeeds_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteInt32Packed(
-          7, _internal_movespeeds(), byte_size, target);
-    }
+  // repeated float movespeeds = 7;
+  if (this->_internal_movespeeds_size() > 0) {
+    target = stream->WriteFixedPacked(7, _internal_movespeeds(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1140,31 +1136,25 @@ size_t S_AddObject::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated int32 posxs = 3;
+  // repeated float posxs = 3;
   {
-    size_t data_size = ::_pbi::WireFormatLite::
-      Int32Size(this->_impl_.posxs_);
+    unsigned int count = static_cast<unsigned int>(this->_internal_posxs_size());
+    size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
         ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::_pbi::ToCachedSize(data_size);
-    _impl_._posxs_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
-  // repeated int32 posys = 4;
+  // repeated float posys = 4;
   {
-    size_t data_size = ::_pbi::WireFormatLite::
-      Int32Size(this->_impl_.posys_);
+    unsigned int count = static_cast<unsigned int>(this->_internal_posys_size());
+    size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
         ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::_pbi::ToCachedSize(data_size);
-    _impl_._posys_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
@@ -1196,17 +1186,14 @@ size_t S_AddObject::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated int32 movespeeds = 7;
+  // repeated float movespeeds = 7;
   {
-    size_t data_size = ::_pbi::WireFormatLite::
-      Int32Size(this->_impl_.movespeeds_);
+    unsigned int count = static_cast<unsigned int>(this->_internal_movespeeds_size());
+    size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
         ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    int cached_size = ::_pbi::ToCachedSize(data_size);
-    _impl_._movespeeds_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
@@ -1479,12 +1466,14 @@ C_Move::C_Move(const C_Move& from)
       decltype(_impl_.objectid_){}
     , decltype(_impl_.state_){}
     , decltype(_impl_.dir_){}
+    , decltype(_impl_.posx_){}
+    , decltype(_impl_.posy_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.dir_) -
-    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.dir_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.posy_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.posy_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C_Move)
 }
 
@@ -1494,8 +1483,10 @@ inline void C_Move::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.objectid_){uint64_t{0u}}
-    , decltype(_impl_.state_){0}
+    , decltype(_impl_.state_){0u}
     , decltype(_impl_.dir_){0}
+    , decltype(_impl_.posx_){0}
+    , decltype(_impl_.posy_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -1524,8 +1515,8 @@ void C_Move::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.dir_) -
-      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.dir_));
+      reinterpret_cast<char*>(&_impl_.posy_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.posy_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1543,7 +1534,7 @@ const char* C_Move::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // int32 state = 2;
+      // uint32 state = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
@@ -1556,6 +1547,22 @@ const char* C_Move::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.dir_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // float posx = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // float posy = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -1594,16 +1601,36 @@ uint8_t* C_Move::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
   }
 
-  // int32 state = 2;
+  // uint32 state = 2;
   if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_state(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_state(), target);
   }
 
   // int32 dir = 3;
   if (this->_internal_dir() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_dir(), target);
+  }
+
+  // float posx = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_posx(), target);
+  }
+
+  // float posy = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_posy(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1627,14 +1654,32 @@ size_t C_Move::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
   }
 
-  // int32 state = 2;
+  // uint32 state = 2;
   if (this->_internal_state() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_state());
   }
 
   // int32 dir = 3;
   if (this->_internal_dir() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dir());
+  }
+
+  // float posx = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float posy = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1664,6 +1709,20 @@ void C_Move::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
   }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = from._internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    _this->_internal_set_posx(from._internal_posx());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = from._internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    _this->_internal_set_posy(from._internal_posy());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1682,8 +1741,8 @@ void C_Move::InternalSwap(C_Move* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C_Move, _impl_.dir_)
-      + sizeof(C_Move::_impl_.dir_)
+      PROTOBUF_FIELD_OFFSET(C_Move, _impl_.posy_)
+      + sizeof(C_Move::_impl_.posy_)
       - PROTOBUF_FIELD_OFFSET(C_Move, _impl_.objectid_)>(
           reinterpret_cast<char*>(&_impl_.objectid_),
           reinterpret_cast<char*>(&other->_impl_.objectid_));
@@ -1716,12 +1775,13 @@ S_Move::S_Move(const S_Move& from)
     , decltype(_impl_.dir_){}
     , decltype(_impl_.posx_){}
     , decltype(_impl_.posy_){}
+    , decltype(_impl_.needsync_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.posy_) -
-    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.posy_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.needsync_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.needsync_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_Move)
 }
 
@@ -1731,10 +1791,11 @@ inline void S_Move::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.objectid_){uint64_t{0u}}
-    , decltype(_impl_.state_){0}
+    , decltype(_impl_.state_){0u}
     , decltype(_impl_.dir_){0}
     , decltype(_impl_.posx_){0}
     , decltype(_impl_.posy_){0}
+    , decltype(_impl_.needsync_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -1763,8 +1824,8 @@ void S_Move::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.posy_) -
-      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.posy_));
+      reinterpret_cast<char*>(&_impl_.needsync_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.needsync_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1782,7 +1843,7 @@ const char* S_Move::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // int32 state = 2;
+      // uint32 state = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
@@ -1798,18 +1859,26 @@ const char* S_Move::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
-      // int32 posx = 4;
+      // float posx = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // int32 posy = 5;
+      // float posy = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
-          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool needsync = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.needsync_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1849,10 +1918,10 @@ uint8_t* S_Move::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
   }
 
-  // int32 state = 2;
+  // uint32 state = 2;
   if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_state(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_state(), target);
   }
 
   // int32 dir = 3;
@@ -1861,16 +1930,30 @@ uint8_t* S_Move::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_dir(), target);
   }
 
-  // int32 posx = 4;
-  if (this->_internal_posx() != 0) {
+  // float posx = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_posx(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_posx(), target);
   }
 
-  // int32 posy = 5;
-  if (this->_internal_posy() != 0) {
+  // float posy = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_posy(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_posy(), target);
+  }
+
+  // bool needsync = 6;
+  if (this->_internal_needsync() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_needsync(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1894,9 +1977,9 @@ size_t S_Move::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
   }
 
-  // int32 state = 2;
+  // uint32 state = 2;
   if (this->_internal_state() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_state());
   }
 
   // int32 dir = 3;
@@ -1904,14 +1987,27 @@ size_t S_Move::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dir());
   }
 
-  // int32 posx = 4;
-  if (this->_internal_posx() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posx());
+  // float posx = 4;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = this->_internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
+    total_size += 1 + 4;
   }
 
-  // int32 posy = 5;
-  if (this->_internal_posy() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_posy());
+  // float posy = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = this->_internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
+    total_size += 1 + 4;
+  }
+
+  // bool needsync = 6;
+  if (this->_internal_needsync() != 0) {
+    total_size += 1 + 1;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1941,11 +2037,22 @@ void S_Move::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
   }
-  if (from._internal_posx() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posx = from._internal_posx();
+  uint32_t raw_posx;
+  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
+  if (raw_posx != 0) {
     _this->_internal_set_posx(from._internal_posx());
   }
-  if (from._internal_posy() != 0) {
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_posy = from._internal_posy();
+  uint32_t raw_posy;
+  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
+  if (raw_posy != 0) {
     _this->_internal_set_posy(from._internal_posy());
+  }
+  if (from._internal_needsync() != 0) {
+    _this->_internal_set_needsync(from._internal_needsync());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1965,8 +2072,8 @@ void S_Move::InternalSwap(S_Move* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_Move, _impl_.posy_)
-      + sizeof(S_Move::_impl_.posy_)
+      PROTOBUF_FIELD_OFFSET(S_Move, _impl_.needsync_)
+      + sizeof(S_Move::_impl_.needsync_)
       - PROTOBUF_FIELD_OFFSET(S_Move, _impl_.objectid_)>(
           reinterpret_cast<char*>(&_impl_.objectid_),
           reinterpret_cast<char*>(&other->_impl_.objectid_));

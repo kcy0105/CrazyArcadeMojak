@@ -366,9 +366,8 @@ class S_MyPlayer final :
     kPosxFieldNumber = 2,
     kPosyFieldNumber = 3,
     kDirFieldNumber = 4,
-    kColsizeFieldNumber = 5,
-    kStateFieldNumber = 6,
-    kMovespeedFieldNumber = 7,
+    kStateFieldNumber = 5,
+    kMovespeedFieldNumber = 6,
   };
   // uint64 objectid = 1;
   void clear_objectid();
@@ -379,22 +378,22 @@ class S_MyPlayer final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // int32 posx = 2;
+  // float posx = 2;
   void clear_posx();
-  int32_t posx() const;
-  void set_posx(int32_t value);
+  float posx() const;
+  void set_posx(float value);
   private:
-  int32_t _internal_posx() const;
-  void _internal_set_posx(int32_t value);
+  float _internal_posx() const;
+  void _internal_set_posx(float value);
   public:
 
-  // int32 posy = 3;
+  // float posy = 3;
   void clear_posy();
-  int32_t posy() const;
-  void set_posy(int32_t value);
+  float posy() const;
+  void set_posy(float value);
   private:
-  int32_t _internal_posy() const;
-  void _internal_set_posy(int32_t value);
+  float _internal_posy() const;
+  void _internal_set_posy(float value);
   public:
 
   // int32 dir = 4;
@@ -406,16 +405,7 @@ class S_MyPlayer final :
   void _internal_set_dir(int32_t value);
   public:
 
-  // int32 colsize = 5;
-  void clear_colsize();
-  int32_t colsize() const;
-  void set_colsize(int32_t value);
-  private:
-  int32_t _internal_colsize() const;
-  void _internal_set_colsize(int32_t value);
-  public:
-
-  // int32 state = 6;
+  // int32 state = 5;
   void clear_state();
   int32_t state() const;
   void set_state(int32_t value);
@@ -424,13 +414,13 @@ class S_MyPlayer final :
   void _internal_set_state(int32_t value);
   public:
 
-  // int32 movespeed = 7;
+  // float movespeed = 6;
   void clear_movespeed();
-  int32_t movespeed() const;
-  void set_movespeed(int32_t value);
+  float movespeed() const;
+  void set_movespeed(float value);
   private:
-  int32_t _internal_movespeed() const;
-  void _internal_set_movespeed(int32_t value);
+  float _internal_movespeed() const;
+  void _internal_set_movespeed(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_MyPlayer)
@@ -442,12 +432,11 @@ class S_MyPlayer final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    int32_t posx_;
-    int32_t posy_;
+    float posx_;
+    float posy_;
     int32_t dir_;
-    int32_t colsize_;
     int32_t state_;
-    int32_t movespeed_;
+    float movespeed_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -628,48 +617,48 @@ class S_AddObject final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
       mutable_objecttypes();
 
-  // repeated int32 posxs = 3;
+  // repeated float posxs = 3;
   int posxs_size() const;
   private:
   int _internal_posxs_size() const;
   public:
   void clear_posxs();
   private:
-  int32_t _internal_posxs(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float _internal_posxs(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       _internal_posxs() const;
-  void _internal_add_posxs(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  void _internal_add_posxs(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       _internal_mutable_posxs();
   public:
-  int32_t posxs(int index) const;
-  void set_posxs(int index, int32_t value);
-  void add_posxs(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float posxs(int index) const;
+  void set_posxs(int index, float value);
+  void add_posxs(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       posxs() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_posxs();
 
-  // repeated int32 posys = 4;
+  // repeated float posys = 4;
   int posys_size() const;
   private:
   int _internal_posys_size() const;
   public:
   void clear_posys();
   private:
-  int32_t _internal_posys(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float _internal_posys(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       _internal_posys() const;
-  void _internal_add_posys(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  void _internal_add_posys(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       _internal_mutable_posys();
   public:
-  int32_t posys(int index) const;
-  void set_posys(int index, int32_t value);
-  void add_posys(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float posys(int index) const;
+  void set_posys(int index, float value);
+  void add_posys(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       posys() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_posys();
 
   // repeated int32 states = 5;
@@ -716,26 +705,26 @@ class S_AddObject final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
       mutable_dirs();
 
-  // repeated int32 movespeeds = 7;
+  // repeated float movespeeds = 7;
   int movespeeds_size() const;
   private:
   int _internal_movespeeds_size() const;
   public:
   void clear_movespeeds();
   private:
-  int32_t _internal_movespeeds(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float _internal_movespeeds(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       _internal_movespeeds() const;
-  void _internal_add_movespeeds(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  void _internal_add_movespeeds(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       _internal_mutable_movespeeds();
   public:
-  int32_t movespeeds(int index) const;
-  void set_movespeeds(int index, int32_t value);
-  void add_movespeeds(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+  float movespeeds(int index) const;
+  void set_movespeeds(int index, float value);
+  void add_movespeeds(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
       movespeeds() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_movespeeds();
 
   // @@protoc_insertion_point(class_scope:Protocol.S_AddObject)
@@ -750,16 +739,13 @@ class S_AddObject final :
     mutable std::atomic<int> _objectids_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > objecttypes_;
     mutable std::atomic<int> _objecttypes_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > posxs_;
-    mutable std::atomic<int> _posxs_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > posys_;
-    mutable std::atomic<int> _posys_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > posxs_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > posys_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > states_;
     mutable std::atomic<int> _states_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > dirs_;
     mutable std::atomic<int> _dirs_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > movespeeds_;
-    mutable std::atomic<int> _movespeeds_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > movespeeds_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1053,6 +1039,8 @@ class C_Move final :
     kObjectidFieldNumber = 1,
     kStateFieldNumber = 2,
     kDirFieldNumber = 3,
+    kPosxFieldNumber = 4,
+    kPosyFieldNumber = 5,
   };
   // uint64 objectid = 1;
   void clear_objectid();
@@ -1063,13 +1051,13 @@ class C_Move final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // int32 state = 2;
+  // uint32 state = 2;
   void clear_state();
-  int32_t state() const;
-  void set_state(int32_t value);
+  uint32_t state() const;
+  void set_state(uint32_t value);
   private:
-  int32_t _internal_state() const;
-  void _internal_set_state(int32_t value);
+  uint32_t _internal_state() const;
+  void _internal_set_state(uint32_t value);
   public:
 
   // int32 dir = 3;
@@ -1081,6 +1069,24 @@ class C_Move final :
   void _internal_set_dir(int32_t value);
   public:
 
+  // float posx = 4;
+  void clear_posx();
+  float posx() const;
+  void set_posx(float value);
+  private:
+  float _internal_posx() const;
+  void _internal_set_posx(float value);
+  public:
+
+  // float posy = 5;
+  void clear_posy();
+  float posy() const;
+  void set_posy(float value);
+  private:
+  float _internal_posy() const;
+  void _internal_set_posy(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_Move)
  private:
   class _Internal;
@@ -1090,8 +1096,10 @@ class C_Move final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    int32_t state_;
+    uint32_t state_;
     int32_t dir_;
+    float posx_;
+    float posy_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1225,6 +1233,7 @@ class S_Move final :
     kDirFieldNumber = 3,
     kPosxFieldNumber = 4,
     kPosyFieldNumber = 5,
+    kNeedsyncFieldNumber = 6,
   };
   // uint64 objectid = 1;
   void clear_objectid();
@@ -1235,13 +1244,13 @@ class S_Move final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // int32 state = 2;
+  // uint32 state = 2;
   void clear_state();
-  int32_t state() const;
-  void set_state(int32_t value);
+  uint32_t state() const;
+  void set_state(uint32_t value);
   private:
-  int32_t _internal_state() const;
-  void _internal_set_state(int32_t value);
+  uint32_t _internal_state() const;
+  void _internal_set_state(uint32_t value);
   public:
 
   // int32 dir = 3;
@@ -1253,22 +1262,31 @@ class S_Move final :
   void _internal_set_dir(int32_t value);
   public:
 
-  // int32 posx = 4;
+  // float posx = 4;
   void clear_posx();
-  int32_t posx() const;
-  void set_posx(int32_t value);
+  float posx() const;
+  void set_posx(float value);
   private:
-  int32_t _internal_posx() const;
-  void _internal_set_posx(int32_t value);
+  float _internal_posx() const;
+  void _internal_set_posx(float value);
   public:
 
-  // int32 posy = 5;
+  // float posy = 5;
   void clear_posy();
-  int32_t posy() const;
-  void set_posy(int32_t value);
+  float posy() const;
+  void set_posy(float value);
   private:
-  int32_t _internal_posy() const;
-  void _internal_set_posy(int32_t value);
+  float _internal_posy() const;
+  void _internal_set_posy(float value);
+  public:
+
+  // bool needsync = 6;
+  void clear_needsync();
+  bool needsync() const;
+  void set_needsync(bool value);
+  private:
+  bool _internal_needsync() const;
+  void _internal_set_needsync(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_Move)
@@ -1280,10 +1298,11 @@ class S_Move final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    int32_t state_;
+    uint32_t state_;
     int32_t dir_;
-    int32_t posx_;
-    int32_t posy_;
+    float posx_;
+    float posy_;
+    bool needsync_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1559,42 +1578,42 @@ inline void S_MyPlayer::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.objectid)
 }
 
-// int32 posx = 2;
+// float posx = 2;
 inline void S_MyPlayer::clear_posx() {
   _impl_.posx_ = 0;
 }
-inline int32_t S_MyPlayer::_internal_posx() const {
+inline float S_MyPlayer::_internal_posx() const {
   return _impl_.posx_;
 }
-inline int32_t S_MyPlayer::posx() const {
+inline float S_MyPlayer::posx() const {
   // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.posx)
   return _internal_posx();
 }
-inline void S_MyPlayer::_internal_set_posx(int32_t value) {
+inline void S_MyPlayer::_internal_set_posx(float value) {
   
   _impl_.posx_ = value;
 }
-inline void S_MyPlayer::set_posx(int32_t value) {
+inline void S_MyPlayer::set_posx(float value) {
   _internal_set_posx(value);
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.posx)
 }
 
-// int32 posy = 3;
+// float posy = 3;
 inline void S_MyPlayer::clear_posy() {
   _impl_.posy_ = 0;
 }
-inline int32_t S_MyPlayer::_internal_posy() const {
+inline float S_MyPlayer::_internal_posy() const {
   return _impl_.posy_;
 }
-inline int32_t S_MyPlayer::posy() const {
+inline float S_MyPlayer::posy() const {
   // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.posy)
   return _internal_posy();
 }
-inline void S_MyPlayer::_internal_set_posy(int32_t value) {
+inline void S_MyPlayer::_internal_set_posy(float value) {
   
   _impl_.posy_ = value;
 }
-inline void S_MyPlayer::set_posy(int32_t value) {
+inline void S_MyPlayer::set_posy(float value) {
   _internal_set_posy(value);
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.posy)
 }
@@ -1619,27 +1638,7 @@ inline void S_MyPlayer::set_dir(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.dir)
 }
 
-// int32 colsize = 5;
-inline void S_MyPlayer::clear_colsize() {
-  _impl_.colsize_ = 0;
-}
-inline int32_t S_MyPlayer::_internal_colsize() const {
-  return _impl_.colsize_;
-}
-inline int32_t S_MyPlayer::colsize() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.colsize)
-  return _internal_colsize();
-}
-inline void S_MyPlayer::_internal_set_colsize(int32_t value) {
-  
-  _impl_.colsize_ = value;
-}
-inline void S_MyPlayer::set_colsize(int32_t value) {
-  _internal_set_colsize(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.colsize)
-}
-
-// int32 state = 6;
+// int32 state = 5;
 inline void S_MyPlayer::clear_state() {
   _impl_.state_ = 0;
 }
@@ -1659,22 +1658,22 @@ inline void S_MyPlayer::set_state(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.state)
 }
 
-// int32 movespeed = 7;
+// float movespeed = 6;
 inline void S_MyPlayer::clear_movespeed() {
   _impl_.movespeed_ = 0;
 }
-inline int32_t S_MyPlayer::_internal_movespeed() const {
+inline float S_MyPlayer::_internal_movespeed() const {
   return _impl_.movespeed_;
 }
-inline int32_t S_MyPlayer::movespeed() const {
+inline float S_MyPlayer::movespeed() const {
   // @@protoc_insertion_point(field_get:Protocol.S_MyPlayer.movespeed)
   return _internal_movespeed();
 }
-inline void S_MyPlayer::_internal_set_movespeed(int32_t value) {
+inline void S_MyPlayer::_internal_set_movespeed(float value) {
   
   _impl_.movespeed_ = value;
 }
-inline void S_MyPlayer::set_movespeed(int32_t value) {
+inline void S_MyPlayer::set_movespeed(float value) {
   _internal_set_movespeed(value);
   // @@protoc_insertion_point(field_set:Protocol.S_MyPlayer.movespeed)
 }
@@ -1777,7 +1776,7 @@ S_AddObject::mutable_objecttypes() {
   return _internal_mutable_objecttypes();
 }
 
-// repeated int32 posxs = 3;
+// repeated float posxs = 3;
 inline int S_AddObject::_internal_posxs_size() const {
   return _impl_.posxs_.size();
 }
@@ -1787,44 +1786,44 @@ inline int S_AddObject::posxs_size() const {
 inline void S_AddObject::clear_posxs() {
   _impl_.posxs_.Clear();
 }
-inline int32_t S_AddObject::_internal_posxs(int index) const {
+inline float S_AddObject::_internal_posxs(int index) const {
   return _impl_.posxs_.Get(index);
 }
-inline int32_t S_AddObject::posxs(int index) const {
+inline float S_AddObject::posxs(int index) const {
   // @@protoc_insertion_point(field_get:Protocol.S_AddObject.posxs)
   return _internal_posxs(index);
 }
-inline void S_AddObject::set_posxs(int index, int32_t value) {
+inline void S_AddObject::set_posxs(int index, float value) {
   _impl_.posxs_.Set(index, value);
   // @@protoc_insertion_point(field_set:Protocol.S_AddObject.posxs)
 }
-inline void S_AddObject::_internal_add_posxs(int32_t value) {
+inline void S_AddObject::_internal_add_posxs(float value) {
   _impl_.posxs_.Add(value);
 }
-inline void S_AddObject::add_posxs(int32_t value) {
+inline void S_AddObject::add_posxs(float value) {
   _internal_add_posxs(value);
   // @@protoc_insertion_point(field_add:Protocol.S_AddObject.posxs)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::_internal_posxs() const {
   return _impl_.posxs_;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::posxs() const {
   // @@protoc_insertion_point(field_list:Protocol.S_AddObject.posxs)
   return _internal_posxs();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::_internal_mutable_posxs() {
   return &_impl_.posxs_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::mutable_posxs() {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.posxs)
   return _internal_mutable_posxs();
 }
 
-// repeated int32 posys = 4;
+// repeated float posys = 4;
 inline int S_AddObject::_internal_posys_size() const {
   return _impl_.posys_.size();
 }
@@ -1834,38 +1833,38 @@ inline int S_AddObject::posys_size() const {
 inline void S_AddObject::clear_posys() {
   _impl_.posys_.Clear();
 }
-inline int32_t S_AddObject::_internal_posys(int index) const {
+inline float S_AddObject::_internal_posys(int index) const {
   return _impl_.posys_.Get(index);
 }
-inline int32_t S_AddObject::posys(int index) const {
+inline float S_AddObject::posys(int index) const {
   // @@protoc_insertion_point(field_get:Protocol.S_AddObject.posys)
   return _internal_posys(index);
 }
-inline void S_AddObject::set_posys(int index, int32_t value) {
+inline void S_AddObject::set_posys(int index, float value) {
   _impl_.posys_.Set(index, value);
   // @@protoc_insertion_point(field_set:Protocol.S_AddObject.posys)
 }
-inline void S_AddObject::_internal_add_posys(int32_t value) {
+inline void S_AddObject::_internal_add_posys(float value) {
   _impl_.posys_.Add(value);
 }
-inline void S_AddObject::add_posys(int32_t value) {
+inline void S_AddObject::add_posys(float value) {
   _internal_add_posys(value);
   // @@protoc_insertion_point(field_add:Protocol.S_AddObject.posys)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::_internal_posys() const {
   return _impl_.posys_;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::posys() const {
   // @@protoc_insertion_point(field_list:Protocol.S_AddObject.posys)
   return _internal_posys();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::_internal_mutable_posys() {
   return &_impl_.posys_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::mutable_posys() {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.posys)
   return _internal_mutable_posys();
@@ -1965,7 +1964,7 @@ S_AddObject::mutable_dirs() {
   return _internal_mutable_dirs();
 }
 
-// repeated int32 movespeeds = 7;
+// repeated float movespeeds = 7;
 inline int S_AddObject::_internal_movespeeds_size() const {
   return _impl_.movespeeds_.size();
 }
@@ -1975,38 +1974,38 @@ inline int S_AddObject::movespeeds_size() const {
 inline void S_AddObject::clear_movespeeds() {
   _impl_.movespeeds_.Clear();
 }
-inline int32_t S_AddObject::_internal_movespeeds(int index) const {
+inline float S_AddObject::_internal_movespeeds(int index) const {
   return _impl_.movespeeds_.Get(index);
 }
-inline int32_t S_AddObject::movespeeds(int index) const {
+inline float S_AddObject::movespeeds(int index) const {
   // @@protoc_insertion_point(field_get:Protocol.S_AddObject.movespeeds)
   return _internal_movespeeds(index);
 }
-inline void S_AddObject::set_movespeeds(int index, int32_t value) {
+inline void S_AddObject::set_movespeeds(int index, float value) {
   _impl_.movespeeds_.Set(index, value);
   // @@protoc_insertion_point(field_set:Protocol.S_AddObject.movespeeds)
 }
-inline void S_AddObject::_internal_add_movespeeds(int32_t value) {
+inline void S_AddObject::_internal_add_movespeeds(float value) {
   _impl_.movespeeds_.Add(value);
 }
-inline void S_AddObject::add_movespeeds(int32_t value) {
+inline void S_AddObject::add_movespeeds(float value) {
   _internal_add_movespeeds(value);
   // @@protoc_insertion_point(field_add:Protocol.S_AddObject.movespeeds)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::_internal_movespeeds() const {
   return _impl_.movespeeds_;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
 S_AddObject::movespeeds() const {
   // @@protoc_insertion_point(field_list:Protocol.S_AddObject.movespeeds)
   return _internal_movespeeds();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::_internal_mutable_movespeeds() {
   return &_impl_.movespeeds_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 S_AddObject::mutable_movespeeds() {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S_AddObject.movespeeds)
   return _internal_mutable_movespeeds();
@@ -2087,22 +2086,22 @@ inline void C_Move::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_Move.objectid)
 }
 
-// int32 state = 2;
+// uint32 state = 2;
 inline void C_Move::clear_state() {
-  _impl_.state_ = 0;
+  _impl_.state_ = 0u;
 }
-inline int32_t C_Move::_internal_state() const {
+inline uint32_t C_Move::_internal_state() const {
   return _impl_.state_;
 }
-inline int32_t C_Move::state() const {
+inline uint32_t C_Move::state() const {
   // @@protoc_insertion_point(field_get:Protocol.C_Move.state)
   return _internal_state();
 }
-inline void C_Move::_internal_set_state(int32_t value) {
+inline void C_Move::_internal_set_state(uint32_t value) {
   
   _impl_.state_ = value;
 }
-inline void C_Move::set_state(int32_t value) {
+inline void C_Move::set_state(uint32_t value) {
   _internal_set_state(value);
   // @@protoc_insertion_point(field_set:Protocol.C_Move.state)
 }
@@ -2125,6 +2124,46 @@ inline void C_Move::_internal_set_dir(int32_t value) {
 inline void C_Move::set_dir(int32_t value) {
   _internal_set_dir(value);
   // @@protoc_insertion_point(field_set:Protocol.C_Move.dir)
+}
+
+// float posx = 4;
+inline void C_Move::clear_posx() {
+  _impl_.posx_ = 0;
+}
+inline float C_Move::_internal_posx() const {
+  return _impl_.posx_;
+}
+inline float C_Move::posx() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.posx)
+  return _internal_posx();
+}
+inline void C_Move::_internal_set_posx(float value) {
+  
+  _impl_.posx_ = value;
+}
+inline void C_Move::set_posx(float value) {
+  _internal_set_posx(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.posx)
+}
+
+// float posy = 5;
+inline void C_Move::clear_posy() {
+  _impl_.posy_ = 0;
+}
+inline float C_Move::_internal_posy() const {
+  return _impl_.posy_;
+}
+inline float C_Move::posy() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.posy)
+  return _internal_posy();
+}
+inline void C_Move::_internal_set_posy(float value) {
+  
+  _impl_.posy_ = value;
+}
+inline void C_Move::set_posy(float value) {
+  _internal_set_posy(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.posy)
 }
 
 // -------------------------------------------------------------------
@@ -2151,22 +2190,22 @@ inline void S_Move::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_Move.objectid)
 }
 
-// int32 state = 2;
+// uint32 state = 2;
 inline void S_Move::clear_state() {
-  _impl_.state_ = 0;
+  _impl_.state_ = 0u;
 }
-inline int32_t S_Move::_internal_state() const {
+inline uint32_t S_Move::_internal_state() const {
   return _impl_.state_;
 }
-inline int32_t S_Move::state() const {
+inline uint32_t S_Move::state() const {
   // @@protoc_insertion_point(field_get:Protocol.S_Move.state)
   return _internal_state();
 }
-inline void S_Move::_internal_set_state(int32_t value) {
+inline void S_Move::_internal_set_state(uint32_t value) {
   
   _impl_.state_ = value;
 }
-inline void S_Move::set_state(int32_t value) {
+inline void S_Move::set_state(uint32_t value) {
   _internal_set_state(value);
   // @@protoc_insertion_point(field_set:Protocol.S_Move.state)
 }
@@ -2191,44 +2230,64 @@ inline void S_Move::set_dir(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_Move.dir)
 }
 
-// int32 posx = 4;
+// float posx = 4;
 inline void S_Move::clear_posx() {
   _impl_.posx_ = 0;
 }
-inline int32_t S_Move::_internal_posx() const {
+inline float S_Move::_internal_posx() const {
   return _impl_.posx_;
 }
-inline int32_t S_Move::posx() const {
+inline float S_Move::posx() const {
   // @@protoc_insertion_point(field_get:Protocol.S_Move.posx)
   return _internal_posx();
 }
-inline void S_Move::_internal_set_posx(int32_t value) {
+inline void S_Move::_internal_set_posx(float value) {
   
   _impl_.posx_ = value;
 }
-inline void S_Move::set_posx(int32_t value) {
+inline void S_Move::set_posx(float value) {
   _internal_set_posx(value);
   // @@protoc_insertion_point(field_set:Protocol.S_Move.posx)
 }
 
-// int32 posy = 5;
+// float posy = 5;
 inline void S_Move::clear_posy() {
   _impl_.posy_ = 0;
 }
-inline int32_t S_Move::_internal_posy() const {
+inline float S_Move::_internal_posy() const {
   return _impl_.posy_;
 }
-inline int32_t S_Move::posy() const {
+inline float S_Move::posy() const {
   // @@protoc_insertion_point(field_get:Protocol.S_Move.posy)
   return _internal_posy();
 }
-inline void S_Move::_internal_set_posy(int32_t value) {
+inline void S_Move::_internal_set_posy(float value) {
   
   _impl_.posy_ = value;
 }
-inline void S_Move::set_posy(int32_t value) {
+inline void S_Move::set_posy(float value) {
   _internal_set_posy(value);
   // @@protoc_insertion_point(field_set:Protocol.S_Move.posy)
+}
+
+// bool needsync = 6;
+inline void S_Move::clear_needsync() {
+  _impl_.needsync_ = false;
+}
+inline bool S_Move::_internal_needsync() const {
+  return _impl_.needsync_;
+}
+inline bool S_Move::needsync() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.needsync)
+  return _internal_needsync();
+}
+inline void S_Move::_internal_set_needsync(bool value) {
+  
+  _impl_.needsync_ = value;
+}
+inline void S_Move::set_needsync(bool value) {
+  _internal_set_needsync(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.needsync)
 }
 
 // -------------------------------------------------------------------

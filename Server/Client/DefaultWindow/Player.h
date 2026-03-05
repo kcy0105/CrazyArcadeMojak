@@ -16,6 +16,8 @@ public:
 	virtual void OnRender(HDC hdc) override;
 	virtual void OnRelease() override;
 
+	virtual void OnColliderBeginOverlap(Collider* collider, Collider* other);
+	virtual void OnColliderEndOverlap(Collider* collider, Collider* other);
 
 protected:
 	void UpdateAnimation();
@@ -29,13 +31,10 @@ public:
 	void SetDir(DIR dir);
 	void SetColSize(float colSize) { _colSize = colSize; }
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
-	void SetDestPos(int x, int y) { _destPos = { (float)x, (float)y }; }
-	void SetDestPos(float x, float y) { _destPos = { x, y }; }
 
-
-	uint64 GetObjectId() { return _objectId; }
-	PLAYER_STATE GetState() { return _state; }
-	DIR GetDir() { return _dir; }
+	uint64 GetObjectId() const { return _objectId; }
+	PLAYER_STATE GetState() const { return _state; }
+	DIR GetDir() const { return _dir; }
 
 protected:
 	uint64 _objectId = {};
@@ -44,12 +43,11 @@ protected:
 	float _colSize = {};
 	float _moveSpeed = {};
 
-	Pos _destPos = {};
-
 	Flipbook* _flipbookIdle[4] = {};
 	Flipbook* _flipbookMove[4] = {};
 
 	FlipbookRenderer* _fb = {};
 
+	bool _keyPressed = false;
 };
 

@@ -30,6 +30,7 @@ void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, i
 		case S_Move:
 			Handle_S_Move(session, buffer, len);
 			break;
+			break;
 		case S_Tilemap:
 			Handle_S_Tilemap(session, buffer, len);
 			break;
@@ -69,7 +70,6 @@ void ClientPacketHandler::Handle_S_MyPlayer(ServerSessionRef session, BYTE* buff
 		MyPlayer* myPlayer = Object::CreateObject<MyPlayer>();
 		myPlayer->SetObjectId(pkt.objectid());
 		myPlayer->SetPos(pkt.posx(), pkt.posy());
-		myPlayer->SetDestPos(pkt.posx(), pkt.posy());
 		myPlayer->SetDir((DIR)pkt.dir());
 		myPlayer->SetState((PLAYER_STATE)pkt.state());
 		myPlayer->SetMoveSpeed((float)pkt.movespeed());
@@ -101,7 +101,6 @@ void ClientPacketHandler::Handle_S_AddObject(ServerSessionRef session, BYTE* buf
 				Player* player = Object::CreateObject<Player>();
 				player->SetObjectId(pkt.objectids(i));
 				player->SetPos(pkt.posxs(i), pkt.posys(i));
-				player->SetDestPos(pkt.posxs(i), pkt.posys(i));
 				player->SetDir((DIR)pkt.dirs(i));
 				player->SetState((PLAYER_STATE)pkt.states(i));
 				player->SetMoveSpeed((float)pkt.movespeeds(i));
@@ -149,21 +148,18 @@ void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, 
 		Player* player = scene->GetSyncObject(pkt.objectid());
 		if (player)
 		{
-			player->SetDir((DIR)pkt.dir());
-			player->SetState((PLAYER_STATE)pkt.state());
-			player->SetDestPos(pkt.posx(), pkt.posy());
-
-			if (player->GetState() == PLAYER_STATE_MOVE)
+			// 오차가 심한 경우 서버 위치로 세팅해야 할 수도.
+			if (pkt.objectid() == scene->GetMyPlayerId())
 			{
-				if (player->GetDir() == DIR_UP || player->GetDir() == DIR_DOWN)
-				{
-					player->SetPos(player->GetPos().x, pkt.posy());
-				}
-				else
-				{
-					player->SetPos(pkt.posx(), player->GetPos().y);
-				}
+				if (pkt.needsync())
+					player->SetPos(pkt.posx(), pkt.posy());
+
+				return;
 			}
+
+			player->SetState((PLAYER_STATE)pkt.state());
+			player->SetDir((DIR)pkt.dir());
+			player->SetPos(pkt.posx(), pkt.posy());
 		}
 	}
 }
@@ -200,16 +196,15 @@ void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffe
 
 }
 
-SendBufferRef ClientPacketHandler::Make_C_Move()
+SendBufferRef ClientPacketHandler::Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy)
 {
 	Protocol::C_Move pkt;
 
-	DevScene* scene = dynamic_cast<DevScene*>(GET_SINGLE(SceneManager)->GetScene());
-	MyPlayer* myPlayer = scene->GetMyPlayer();
-
-	pkt.set_objectid(myPlayer->GetObjectId());
-	pkt.set_state(myPlayer->GetState());
-	pkt.set_dir(myPlayer->GetDir());
+	pkt.set_objectid(objectid);
+	pkt.set_state(state);
+	pkt.set_dir(dir);
+	pkt.set_posx(posx);
+	pkt.set_posy(posy);
 
 	return MakeSendBuffer(pkt, C_Move);
 }

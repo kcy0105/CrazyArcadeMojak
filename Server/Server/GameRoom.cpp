@@ -7,7 +7,7 @@ GameRoomRef GRoom = make_shared<GameRoom>();
 
 void GameRoom::Init()
 {
-	_tilemap.LoadFile(L"C:\\Users\\user\\OneDrive - postech.ac.kr\\바탕 화면\\CrazyArcadeMojak\\Server\\Client\\Resources\\Tilemap.txt");
+	_tilemap.LoadFile(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\Server\\Client\\Resources\\Tilemap.txt");
 	_tilemap.SetTileSize(40);
 }
 
@@ -31,13 +31,12 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	// Initialize
 	player->SetPos({ 100, 100 });
 	player->SetDir(DIR_DOWN);
-	player->SetColSize(30);
 	player->SetState(PLAYER_STATE_IDLE);
 	player->SetMoveSpeed(200);
 
 	// 입장한 클라에게 정보를 보내주기
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MyPlayer(player->GetObjectId(), player->GetPos().x, player->GetPos().y, player->GetDir(), player->GetColSize(), player->GetState(), player->GetMoveSpeed());
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MyPlayer(player->GetObjectId(), player->GetPos().x, player->GetPos().y, player->GetDir(), player->GetState(), player->GetMoveSpeed());
 		session->Send(sendBuffer);
 	}
 	// 모든 오브젝트 정보 전송
@@ -46,21 +45,21 @@ void GameRoom::EnterRoom(GameSessionRef session)
 
 		vector<uint64> objectids;
 		vector<int32> objecttypes;
-		vector<int32> posxs;
-		vector<int32> posys;
+		vector<float> posxs;
+		vector<float> posys;
 		vector<int32> states;
 		vector<int32> dirs;
-		vector<int32> movespeeds;
+		vector<float> movespeeds;
 
 		for (auto& item : _players)
 		{
 			objectids.push_back(item.second->GetObjectId());
 			objecttypes.push_back(item.second->GetObjectType());
-			posxs.push_back(item.second->GetPos().x);
-			posys.push_back(item.second->GetPos().y);
+			posxs.push_back((item.second->GetPos().x));
+			posys.push_back((item.second->GetPos().y));
 			states.push_back(item.second->GetState());
 			dirs.push_back(item.second->GetDir());
-			movespeeds.push_back(item.second->GetMoveSpeed());
+			movespeeds.push_back((item.second->GetMoveSpeed()));
 		}
 
 		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject(objectids, objecttypes, posxs, posys, states, dirs, movespeeds);
@@ -120,8 +119,28 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	player->SetState((PLAYER_STATE)pkt.state());
 	player->SetDir((DIR)pkt.dir());
 
+
+	// TODO: 데이터 검증. 지금은 너무 빈약하다.
+	Pos serverPos = player->GetPos();
+	Pos clientPos = { pkt.posx(), pkt.posy() };
+
+	bool needsync = false;
+
+	/*cout << "Server Pos : { " << serverPos.x << ", " << serverPos.y << " }, Client Pos : { " << clientPos.x << ", " << clientPos.y << " }" << endl;
+	cout << "Distance : " << (serverPos - clientPos).Length() << endl;*/
+
+	if ((serverPos - clientPos).Length() < MAX_POSITION_ERROR)
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(id, player->GetState(), player->GetDir(), player->GetPos().x, player->GetPos().y);
+		player->SetPos({ pkt.posx(), pkt.posy() });
+	}
+	else
+	{
+		//cout << "오차 심함" << endl;
+		needsync = true;
+	}
+
+	{
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(player->GetObjectId(), player->GetState(), player->GetDir(), player->GetPos().x, player->GetPos().y, needsync);
 		Broadcast(sendBuffer);
 	}
 }
@@ -139,7 +158,7 @@ void GameRoom::AddObject(ObjectRef object)
 			PlayerRef player = static_pointer_cast<Player>(object);
 			_players[id] = player;
 
-			SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject({ id }, { objectType }, { (int32)player->GetPos().x }, {(int32)player->GetPos().y}, {player->GetState()}, {player->GetDir()}, {(int32)player->GetMoveSpeed()});
+			SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject({ id }, { objectType }, { player->GetPos().x }, {player->GetPos().y}, {player->GetState()}, {player->GetDir()}, {player->GetMoveSpeed()});
 			Broadcast(sendBuffer);
 		}
 			break;

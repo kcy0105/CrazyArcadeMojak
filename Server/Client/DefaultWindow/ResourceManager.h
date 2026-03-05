@@ -24,11 +24,12 @@ public:
 	Texture* LoadTexture(const wstring& key, const wstring& path, uint32 transparent = RGB(255, 0, 255));
 
 	Sprite* GetSprite(const wstring& key) { return _sprites[key]; }
-	Sprite* CreateSprite(const wstring& key, Texture* texture, int32 x = 0, int32 y = 0, int32 cx = 0, int32 cy = 0);
-	Sprite* CreateSprite(const wstring& key, Texture* texture, int32 x, int32 y, int32 cx, int32 cy, int32 pivotx, int32 pivoty);
+	Sprite* CreateSprite(const wstring& key, Texture* texture, Vec2Int pos, Vec2Int size);
+	Sprite* CreateSprite(const wstring& key, Texture* texture, Vec2Int pos, Vec2Int size, Vec2Int pivot);
 
 	Flipbook* GetFlipbook(const wstring& key) { return _flipbooks[key]; }
 	Flipbook* CreateFlipbook(const wstring& key, Texture* texture, Vec2Int size, int32 start, int32 end, int32 line, float duration, bool loop);
+	Flipbook* CreateFlipbook(const wstring& key, Texture* texture, Vec2Int size, Vec2Int pivot, int32 start, int32 end, int32 line, float duration, bool loop);
 
 	Tilemap* GetTilemap(const wstring& key) { return _tilemaps[key]; }
 	Tilemap* CreateTilemap(const wstring& key);

@@ -121,11 +121,11 @@ struct VectorInt
 		return ret;
 	}
 
-	VectorInt operator*(int32 value)
+	VectorInt operator*(float value)
 	{
 		VectorInt ret;
-		ret.x = x * value;
-		ret.y = y * value;
+		ret.x = (int32)(x * value);
+		ret.y = (int32)(y * value);
 		return ret;
 	}
 

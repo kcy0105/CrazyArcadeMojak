@@ -30,11 +30,11 @@ void Game::Init()
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
-	GET_SINGLE(ResourceManager)->Init(fs::path(L"C:\\Users\\user\\OneDrive - postech.ac.kr\\¹ÙÅÁ È­¸é\\CrazyArcadeMojak\\Server\\Client\\Resources"));
+	GET_SINGLE(ResourceManager)->Init(fs::path(L"C:\\Users\\user\\¹ÙÅÁ È­¸é\\CrazyArcadeMojak\\Server\\Client\\Resources"));
 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
 
-	GET_SINGLE(NetworkManager)->Init();
+	
 }
 
 void Game::Update()
@@ -42,7 +42,7 @@ void Game::Update()
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(InputManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
-	GET_SINGLE(NetworkManager)->Update();
+	
 }
 
 void Game::Render()

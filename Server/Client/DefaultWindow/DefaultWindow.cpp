@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "DefaultWindow.h"
 #include "Game.h"
+#include "NetworkManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -46,10 +47,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Game game;
     game.Init();
 
+    GET_SINGLE(NetworkManager)->Init();
+
     MSG msg;
 
-    //float accumulator = 0.f;
-    //uint64 last = GetTickCount64();
+    float accumulator = 0.f;
+    uint64 last = GetTickCount64();
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -64,24 +67,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            
-            //uint64 now = GetTickCount64();
-            //float delta = (now - last) / 1000.f;
-            //last = now;
+            GET_SINGLE(NetworkManager)->Update();
 
-            //accumulator += delta;
+            uint64 now = GetTickCount64();
+            float delta = (now - last) / 1000.f;
+            last = now;
 
-            //float targetFps = 60;
-            //float tick = 1 / targetFps;
+            accumulator += delta;
 
-            //while (accumulator >= tick)
-            //{
-            //    game.Update();
-            //    game.Render();
-            //    accumulator -= tick;
-            //}
-            game.Update();
-            game.Render();
+            float targetFps = 60;
+            float tick = 1 / targetFps;
+
+            while (accumulator >= tick)
+            {
+                game.Update();
+                game.Render();
+                accumulator -= tick;
+            }
         }
     }
 

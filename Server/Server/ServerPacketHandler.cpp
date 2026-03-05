@@ -17,6 +17,7 @@ void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int
 	case C_Move:
 		Handle_C_Move(session, buffer, len);
 		break;
+
 	default:
 		break;
 	}
@@ -31,12 +32,16 @@ void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, in
 	Protocol::C_Move pkt;
 	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
 
+	//if (pkt.state() == PLAYER_STATE_MOVE)
+	//	cout << "\nReceived : Move : " << pkt.dir() << endl;
+	//else
+	//	cout << "\nReceived : Stop" << endl;
+
 	GameRoomRef room = session->gameRoom.lock();
 	if (room)
 		room->Handle_C_Move(pkt);
 
-	// 로그 찍기
-	//cout << id << " 패킷 받았는데 위치는 " << pkt.info().posx() << " " << pkt.info().posy() << endl;
+	
 }
 
 SendBufferRef ServerPacketHandler::Make_S_EnterGame()
@@ -49,7 +54,7 @@ SendBufferRef ServerPacketHandler::Make_S_EnterGame()
 	return MakeSendBuffer(pkt, S_EnterGame);
 }
 
-SendBufferRef ServerPacketHandler::Make_S_MyPlayer(uint64 objectid, int32 posx, int32 posy, int32 dir, int32 colsize, int32 state, int32 movespeed)
+SendBufferRef ServerPacketHandler::Make_S_MyPlayer(uint64 objectid, float posx, float posy, int32 dir, int32 state, float movespeed)
 {
 	Protocol::S_MyPlayer pkt;
 
@@ -57,14 +62,13 @@ SendBufferRef ServerPacketHandler::Make_S_MyPlayer(uint64 objectid, int32 posx, 
 	pkt.set_posx(posx);
 	pkt.set_posy(posy);
 	pkt.set_dir(dir);
-	pkt.set_colsize(colsize);
 	pkt.set_state(state);
 	pkt.set_movespeed(movespeed);
 
 	return MakeSendBuffer(pkt, S_MyPlayer);
 }
 
-SendBufferRef ServerPacketHandler::Make_S_AddObject(const vector<uint64>& objectids, const vector<int32>& objecttypes, const vector<int32>& posxs, const vector<int32>& posys, const vector<int32>& states, const vector<int32>& dirs, const vector<int32>& movespeeds)
+SendBufferRef ServerPacketHandler::Make_S_AddObject(const vector<uint64>& objectids, const vector<int32>& objecttypes, const vector<float>& posxs, const vector<float>& posys, const vector<int32>& states, const vector<int32>& dirs, const vector<float>& movespeeds)
 {
 	Protocol::S_AddObject pkt;
 
@@ -102,7 +106,7 @@ SendBufferRef ServerPacketHandler::Make_S_RemoveObject(const vector<uint64>& obj
 	return MakeSendBuffer(pkt, S_RemoveObject);
 }
 
-SendBufferRef ServerPacketHandler::Make_S_Move(uint64 objectid, int32 state, int32 dir, int32 posx, int32 posy)
+SendBufferRef ServerPacketHandler::Make_S_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy, bool needsync)
 {
 	Protocol::S_Move pkt;
 
@@ -111,9 +115,11 @@ SendBufferRef ServerPacketHandler::Make_S_Move(uint64 objectid, int32 state, int
 	pkt.set_dir(dir);
 	pkt.set_posx(posx);
 	pkt.set_posy(posy);
+	pkt.set_needsync(needsync);
 
 	return MakeSendBuffer(pkt, S_Move);
 }
+
 
 SendBufferRef ServerPacketHandler::Make_S_Tilemap(int32 mapsizex, int32 mapsizey, int32 tilesize, const vector<vector<int32>>& values)
 {

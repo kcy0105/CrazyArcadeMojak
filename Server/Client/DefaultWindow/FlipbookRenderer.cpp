@@ -42,8 +42,8 @@ void FlipbookRenderer::Render(HDC hdc)
 	Vec2 pos = GetOwner()->GetPos();
 
 	::TransparentBlt(hdc,
-		(int32)pos.x - _flipbook->GetSize().x / 2 - ((int32)cameraPos.x - GWinSizeX / 2),
-		(int32)pos.y - _flipbook->GetSize().y / 2 - ((int32)cameraPos.y - GWinSizeY / 2),
+		(int32)pos.x - _flipbook->GetPivot().x - ((int32)cameraPos.x - GWinSizeX / 2),
+		(int32)pos.y - _flipbook->GetPivot().y - ((int32)cameraPos.y - GWinSizeY / 2),
 		_flipbook->GetSize().x,
 		_flipbook->GetSize().y,
 		_flipbook->GetTexture()->GetDC(),

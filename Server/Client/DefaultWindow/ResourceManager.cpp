@@ -59,47 +59,57 @@ Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path, u
 	return texture;
 }
 
-Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int32 x, int32 y, int32 cx, int32 cy)
+Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, Vec2Int pos, Vec2Int size)
 {
 	if (_sprites.find(key) != _sprites.end())
 		return _sprites[key];
 
-	if (cx == 0)
-		cx = texture->GetSize().x;
+	if (size.x == 0)
+		size.x = texture->GetSize().x;
 
-	if (cy == 0)
-		cy = texture->GetSize().y;
+	if (size.y == 0)
+		size.y = texture->GetSize().y;
 
-	Sprite* sprite = new Sprite(texture, x, y, cx, cy);
+	Sprite* sprite = new Sprite(texture, pos, size);
 	_sprites[key] = sprite;
 
 	return sprite;
 }
 
-Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, int32 x, int32 y, int32 cx, int32 cy, int32 pivotx, int32 pivoty)
+Sprite* ResourceManager::CreateSprite(const wstring& key, Texture* texture, Vec2Int pos, Vec2Int size, Vec2Int pivot)
 {
 	if (_sprites.find(key) != _sprites.end())
 		return _sprites[key];
 
-	if (cx == 0)
-		cx = texture->GetSize().x;
+	if (size.x == 0)
+		size.x = texture->GetSize().x;
 
-	if (cy == 0)
-		cy = texture->GetSize().y;
+	if (size.y == 0)
+		size.y = texture->GetSize().y;
 
-	Sprite* sprite = new Sprite(texture, x, y, cx, cy, pivotx, pivoty);
+	Sprite* sprite = new Sprite(texture, pos, size, pivot);
 	_sprites[key] = sprite;
 
 	return sprite;
 }
 
 Flipbook* ResourceManager::CreateFlipbook(const wstring& key, Texture* texture, Vec2Int size, int32 start, int32 end, int32 line, float duration, bool loop)
-
 {
 	if (_flipbooks.find(key) != _flipbooks.end())
 		return _flipbooks[key];
 
 	Flipbook* fb = new Flipbook(texture, size, start, end, line, duration, loop);
+	_flipbooks[key] = fb;
+
+	return fb;
+}
+
+Flipbook* ResourceManager::CreateFlipbook(const wstring& key, Texture* texture, Vec2Int size, Vec2Int pivot, int32 start, int32 end, int32 line, float duration, bool loop)
+{
+	if (_flipbooks.find(key) != _flipbooks.end())
+		return _flipbooks[key];
+
+	Flipbook* fb = new Flipbook(texture, size, pivot, start, end, line, duration, loop);
 	_flipbooks[key] = fb;
 
 	return fb;

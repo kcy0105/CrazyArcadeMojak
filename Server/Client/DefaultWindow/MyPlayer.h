@@ -7,15 +7,13 @@ public:
 	virtual ~MyPlayer() {}
 
 private:
-	void MoveInput();
-
 	virtual void OnUpdate() override;
 	virtual void OnUpdateIdle() override;
 	virtual void OnUpdateMove() override;
 
+private:
 	void SyncToServer();
-
-protected:
+	
 	bool _dirtyFlag = false;
 };
 

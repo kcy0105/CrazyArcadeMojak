@@ -2,15 +2,14 @@
 #include "Sprite.h"
 #include "Texture.h"
 
-Sprite::Sprite(Texture* texture, int32 x, int32 y, int32 cx, int32 cy)
-	: _texture(texture), _x(x), _y(y), _cx(cx), _cy(cy)
+Sprite::Sprite(Texture* texture, Vec2Int pos, Vec2Int size)
+	: _texture(texture), _pos(pos), _size(size)
 {
-	_pivotx = _cx / 2;
-	_pivoty = _cy / 2;
+	_pivot = { _size.x / 2, _size.y / 2 };
 }
 
-Sprite::Sprite(Texture* texture, int32 x, int32 y, int32 cx, int32 cy, int32 pivotx, int32 pivoty)
-	: _texture(texture), _x(x), _y(y), _cx(cx), _cy(cy), _pivotx(pivotx), _pivoty(pivoty)
+Sprite::Sprite(Texture* texture, Vec2Int pos, Vec2Int size, Vec2Int pivot)
+	: _texture(texture), _pos(pos), _size(size), _pivot(pivot)
 {
 }
 

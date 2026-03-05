@@ -28,22 +28,22 @@ void Player::Update()
 			pos.y += _moveSpeed * TICK;
 			break;
 		}
+		
+		//SetPos(pos);
 
-		SetPos(pos);
+		//{
+		//	SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MoveStart(GetObjectId(), GetDir(), (int32)pos.x, (int32)pos.y);
+		//	room->Broadcast(sendBuffer);
+		//}
 
+		if (room->CanGo((uint8)_colSize, { (int32)pos.x, (int32)pos.y }))
 		{
-			SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(GetObjectId(), GetState(), GetDir(), (int32)pos.x, (int32)pos.y);
-			room->Broadcast(sendBuffer);
+			SetPos(pos);
 		}
-
-		//if (room->CanGo((uint8)_colSize, { (int32)pos.x, (int32)pos.y }))
-		//{
-		//	SetPos(pos);
-		//}
-		//else
-		//{
-		//	// TODO
-		//}
+		else
+		{
+			// TODO
+		}
 	}
 
 		
