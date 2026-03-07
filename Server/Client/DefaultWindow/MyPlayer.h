@@ -14,6 +14,6 @@ private:
 private:
 	void SyncToServer();
 	
-	bool _dirtyFlag = false;
+	bool _moveDirtyFlag = false;
 };
 

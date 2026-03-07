@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Tilemap.h"
-#include <iostream>
 #include <fstream>
 #include "Object.h"
-#include "Block.h"
-#include "Wall.h"
+#include "BreakableBlock.h"
+#include "SolidBlock.h"
 
 void Tilemap::LoadFile(const wstring& path)
 {
@@ -52,12 +51,12 @@ void Tilemap::SaveFile(const wstring& path)
 	return;
 }
 
-Tile* Tilemap::GetTileAt(Vec2Int pos)
+Tile* Tilemap::GetTileAt(Vec2Int tilePos)
 {
-	if (pos.x < 0 || pos.x >= _mapSize.x || pos.y < 0 || pos.y >= _mapSize.y)
+	if (tilePos.x < 0 || tilePos.x >= _mapSize.x || tilePos.y < 0 || tilePos.y >= _mapSize.y)
 		return nullptr;
 
-	return &_tiles[pos.y][pos.x];
+	return &_tiles[tilePos.y][tilePos.x];
 }
 
 void Tilemap::SetMapSize(Vec2Int size)
@@ -75,15 +74,8 @@ void Tilemap::SetMapSize(Vec2Int size)
 	}
 }
 
-void Tilemap::SetTileSize(int32 size)
-{
-	_tileSize = size;
-}
-
 void Tilemap::BuildMap()
 {
-	// TODO : ObjectManager
-
 	for (int32 y = 0; y < _mapSize.y; y++)
 	{
 		for (int32 x = 0; x < _mapSize.x; x++)
@@ -94,13 +86,13 @@ void Tilemap::BuildMap()
 				switch (_tiles[y][x].value)
 				{
 				case 1:
-					object = Object::CreateObject<Block>();
+					object = Object::CreateObject<BreakableBlock>();
 					break;
 				case 2:
-					object = Object::CreateObject<Wall>();
+					object = Object::CreateObject<SolidBlock>();
 					break;
 				}
-				object->SetPos(x * _tileSize + _tileSize / 2, y * _tileSize + _tileSize / 2);
+				object->SetPos(Utils::TileToWorld({x, y}));
 			}
 			
 		}

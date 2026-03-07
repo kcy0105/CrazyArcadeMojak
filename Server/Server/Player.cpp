@@ -29,24 +29,9 @@ void Player::Update()
 			break;
 		}
 		
-		//SetPos(pos);
-
-		//{
-		//	SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MoveStart(GetObjectId(), GetDir(), (int32)pos.x, (int32)pos.y);
-		//	room->Broadcast(sendBuffer);
-		//}
-
-		if (room->CanGo((uint8)_colSize, { (int32)pos.x, (int32)pos.y }))
-		{
-			SetPos(pos);
-		}
-		else
-		{
-			// TODO
-		}
+		room->TryMove(*this, pos);
 	}
 
-		
 		break;
 	}
 }

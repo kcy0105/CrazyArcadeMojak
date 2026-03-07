@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "CollisionManager.h"
 #include "UI.h"
+#include "Player.h"
 
 Scene::Scene()
 {
@@ -36,6 +37,7 @@ void Scene::Render(HDC hdc)
 	OnRender(hdc);
 
 	RenderObjects(hdc);
+	DebugRenderObjects(hdc);
 	RenderUIs(hdc);
 }
 
@@ -87,8 +89,14 @@ void Scene::RenderObjects(HDC hdc)
 	{
 		obj->Render(hdc);
 	}
+}
 
-	// tilemap object에서 render하는게 아니라 tilemap을 참고해 실제 오브젝트를 만들자.
+void Scene::DebugRenderObjects(HDC hdc)
+{
+	for (Object* obj : _objects)
+	{
+		obj->DebugRender(hdc);
+	}
 }
 
 void Scene::UpdateObjects()
@@ -173,3 +181,4 @@ void Scene::ReleaseUIs()
 	}
 	_uis.clear();
 }
+

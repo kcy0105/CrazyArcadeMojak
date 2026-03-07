@@ -26,6 +26,6 @@ private:
 	PLAYER_STATE _state = {};
 	DIR _dir = {};
 	float _moveSpeed = {};
-	float _colSize = {};
+	float _colSize = 30;
 };
 

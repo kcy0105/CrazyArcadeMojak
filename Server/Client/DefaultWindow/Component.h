@@ -9,6 +9,7 @@ public:
 	virtual void Update() {}
 	virtual void LateUpdate() {}
 	virtual void Render(HDC hdc) {}
+	virtual void DebugRender(HDC hdc) {}
 	virtual void Release() {}
 
 	void SetOwner(Object* owner) { _owner = owner; }

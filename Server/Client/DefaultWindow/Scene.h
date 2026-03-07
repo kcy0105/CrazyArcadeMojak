@@ -1,6 +1,7 @@
 #pragma once
 class Object;
 class UI;
+class Player;
 
 class Scene
 {
@@ -29,6 +30,7 @@ private:
 	void UpdateObjects();
 	void LateUpdateObjects();
 	void RenderObjects(HDC hdc);
+	void DebugRenderObjects(HDC hdc);
 	void RemoveDeadObjects();
 	void ReleaseObjects();
 
@@ -36,6 +38,8 @@ private:
 	void RenderUIs(HDC hdc);
 	void RemoveDeadUIs();
 	void ReleaseUIs();
+
+
 
 protected:
 	vector<Object*> _objects;

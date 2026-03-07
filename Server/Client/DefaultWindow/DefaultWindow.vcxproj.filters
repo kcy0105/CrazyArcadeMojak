@@ -63,6 +63,9 @@
     <Filter Include="소스 파일\Protocol">
       <UniqueIdentifier>{b46fe7c1-fe6a-4ae4-812e-2cc0791656a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03. Obj\Game\Map">
+      <UniqueIdentifier>{ae569a64-16bb-4e37-af87-bf7f03558039}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -209,14 +212,23 @@
     <ClInclude Include="Tilemap.h">
       <Filter>소스 파일\04. Resources</Filter>
     </ClInclude>
-    <ClInclude Include="TilemapObject.h">
+    <ClInclude Include="TilemapEditor.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
+    <ClInclude Include="BreakableBlock.h">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
+    <ClInclude Include="BlockingObject.h">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidBlock.h">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterBomb.h">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,14 +355,23 @@
     <ClCompile Include="Tilemap.cpp">
       <Filter>소스 파일\04. Resources</Filter>
     </ClCompile>
-    <ClCompile Include="TilemapObject.cpp">
+    <ClCompile Include="TilemapEditor.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
+    <ClCompile Include="BreakableBlock.cpp">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
+    <ClCompile Include="BlockingObject.cpp">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidBlock.cpp">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterBomb.cpp">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

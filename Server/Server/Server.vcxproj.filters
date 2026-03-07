@@ -30,6 +30,9 @@
     <Filter Include="소스 파일\Game\Manager">
       <UniqueIdentifier>{f54c9de3-4b60-4997-a4c2-06fa52a23b58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Object\Map">
+      <UniqueIdentifier>{a0cae170-0a29-4020-944d-3c0893e50b70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -65,8 +68,20 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Tilemap.cpp">
-      <Filter>소스 파일\Game\Room</Filter>
+    <ClCompile Include="BlockingObject.cpp">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidBlock.cpp">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBlock.cpp">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterBomb.cpp">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>소스 파일\Game\Object\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +115,6 @@
     <ClInclude Include="Object.h">
       <Filter>소스 파일\Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Tilemap.h">
-      <Filter>소스 파일\Game\Room</Filter>
-    </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
@@ -111,6 +123,21 @@
     </ClInclude>
     <ClInclude Include="Values.h">
       <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingObject.h">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidBlock.h">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBlock.h">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterBomb.h">
+      <Filter>소스 파일\Game\Object\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>소스 파일\Game\Object\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

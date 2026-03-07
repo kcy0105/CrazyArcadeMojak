@@ -25,6 +25,9 @@ void CollisionManager::Update()
 					src->_collisionMap.insert(dest);
 					dest->_collisionMap.insert(src);
 				}
+
+				src->GetOwner()->OnColliderStayOverlap(src, dest);
+				dest->GetOwner()->OnColliderStayOverlap(dest, src);
 			}
 			else
 			{

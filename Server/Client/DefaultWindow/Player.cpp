@@ -5,7 +5,9 @@
 #include "FlipbookRenderer.h"
 #include "ResourceManager.h"
 #include "BoxCollider.h"
-#include "Block.h"
+#include "BlockingObject.h"
+#include "CollisionManager.h"
+#include "WaterBomb.h"
 
 
 void Player::OnInit()
@@ -53,9 +55,13 @@ void Player::OnRelease()
 
 }
 
-void Player::OnColliderBeginOverlap(Collider* collider, Collider* other)
+void Player::OnColliderStayOverlap(Collider* collider, Collider* other)
 {
-	Block* block = dynamic_cast<Block*>(other->GetOwner());
+	auto bomb = dynamic_cast<WaterBomb*>(other->GetOwner());
+	if (bomb && bomb->GetOwner() == this && bomb->GetOwnerCanPass())
+		return;
+
+	BlockingObject* block = dynamic_cast<BlockingObject*>(other->GetOwner());
 
 	if (block)
 	{
@@ -95,11 +101,6 @@ void Player::OnColliderBeginOverlap(Collider* collider, Collider* other)
 			}
 		}
 	}
-}
-
-void Player::OnColliderEndOverlap(Collider* collider, Collider* other)
-{
-
 }
 
 

@@ -28,6 +28,13 @@ void Object::Render(HDC hdc)
 		component->Render(hdc);
 }
 
+void Object::DebugRender(HDC hdc)
+{
+	OnDebugRender(hdc);
+	for (Component* component : _components)
+		component->DebugRender(hdc);
+}
+
 void Object::Release()
 {
 	OnRelease();

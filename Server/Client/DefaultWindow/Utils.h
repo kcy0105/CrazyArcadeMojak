@@ -24,5 +24,9 @@ public:
 
 public:
 	static Vec2 GetDirection(float angle);
+
+public:
+	static Vec2Int WorldToTile(Vec2 worldPos);
+	static Vec2 TileToWorld(Vec2Int tilePos);
 };
 

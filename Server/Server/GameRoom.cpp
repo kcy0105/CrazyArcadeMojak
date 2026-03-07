@@ -2,13 +2,15 @@
 #include "GameRoom.h"
 #include "Player.h"
 #include "GameSession.h"
+#include "BreakableBlock.h"
+#include "SolidBlock.h"
+#include "WaterBomb.h"
 
 GameRoomRef GRoom = make_shared<GameRoom>();
 
 void GameRoom::Init()
 {
-	_tilemap.LoadFile(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\Server\\Client\\Resources\\Tilemap.txt");
-	_tilemap.SetTileSize(40);
+	LoadTilemap(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\Server\\Client\\Resources\\Tilemap.txt");
 }
 
 void GameRoom::Update()
@@ -67,19 +69,19 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	}
 	// 타일맵 정보 전송
 	{
-		int32 mapsizex = _tilemap.GetMapSize().x;
-		int32 mapsizey = _tilemap.GetMapSize().y;
-		int32 tilesize = _tilemap.GetTileSize();
+		int32 mapsizex = _mapObjects[0].size();
+		int32 mapsizey = _mapObjects.size();
 		vector<vector<int>> values = vector<vector<int>>(mapsizey, vector<int>(mapsizex));
 		for (int y = 0; y < mapsizey; y++)
 		{
 			for (int x = 0; x < mapsizex; x++)
 			{
-				values[y][x] = _tilemap.GetTiles()[y][x].value;
+				if (_mapObjects[y][x])
+					values[y][x] = _mapObjects[y][x]->GetMapObjectType();
 			}
 		}
 		
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Tilemap(mapsizex, mapsizey, tilesize, values);
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Tilemap(mapsizex, mapsizey, values);
 		session->Send(sendBuffer);
 	}
 
@@ -145,6 +147,26 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	}
 }
 
+void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
+{
+	int32 tilePosX = pkt.tileposx();
+	int32 tilePosY = pkt.tileposy();
+
+	// 일단 검증
+	if (_mapObjects[tilePosY][tilePosX] != nullptr)
+	{
+		return;
+	}
+
+	_mapObjects[tilePosY][tilePosX] = make_shared<WaterBomb>();
+
+	// TODO
+	//{
+	//	SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(player->GetObjectId(), player->GetState(), player->GetDir(), player->GetPos().x, player->GetPos().y, needsync);
+	//	Broadcast(sendBuffer);
+	//}
+}
+
 void GameRoom::AddObject(ObjectRef object)
 {
 	uint64 id = object->GetObjectId();
@@ -167,7 +189,6 @@ void GameRoom::AddObject(ObjectRef object)
 	}
 
 	object->room = GetRoomRef();
-	
 }
 
 void GameRoom::RemoveObject(uint64 id)
@@ -202,13 +223,99 @@ void GameRoom::Broadcast(SendBufferRef& sendBuffer)
 	}
 }
 
-bool GameRoom::CanGo(uint8 colSize, Vec2Int pos)
+void GameRoom::TryMove(Player& player, Pos nextPos)
 {
-	int32 tileSize = _tilemap.GetTileSize();
+	float half = player.GetColSize() * 0.5f;
 
-	RECT* r1 = new RECT({ pos.x - colSize / 2, pos.y - colSize / 2, pos.x + colSize / 2, pos.y + colSize / 2 });
-	RECT* r2 = new RECT({ (pos.x / tileSize) * tileSize, (pos.y / tileSize) * tileSize, (pos.x / tileSize) * tileSize + tileSize, (pos.y / tileSize) * tileSize + tileSize });
+	RECT playerRect =
+	{
+		(LONG)(nextPos.x - half),
+		(LONG)(nextPos.y - half),
+		(LONG)(nextPos.x + half),
+		(LONG)(nextPos.y + half)
+	};
 
-	RECT r;
-	return ::IntersectRect(&r, r1, r2) == false;
+	int32 minTileX = playerRect.left	/ TILE_SIZE;
+	int32 maxTileX = playerRect.right	/ TILE_SIZE;
+	int32 minTileY = playerRect.top		/ TILE_SIZE;
+	int32 maxTileY = playerRect.bottom	/ TILE_SIZE;
+
+	for (int32 y = minTileY; y <= maxTileY; y++)
+	{
+		for (int32 x = minTileX; x <= maxTileX; x++)
+		{
+			if (_mapObjects[y][x] == nullptr)
+				continue;
+
+			RECT tileRect =
+			{
+				x * TILE_SIZE,
+				y * TILE_SIZE,
+				x * TILE_SIZE + TILE_SIZE,
+				y * TILE_SIZE + TILE_SIZE
+			};
+
+			RECT intersect;
+			if (::IntersectRect(&intersect, &playerRect, &tileRect))
+			{
+				int32 w = intersect.right - intersect.left;
+				int32 h = intersect.bottom - intersect.top;
+
+				if (w < h)
+				{
+					if (playerRect.left < tileRect.left)
+						nextPos.x -= w;
+					else
+						nextPos.x += w;
+				}
+				else
+				{
+					if (playerRect.top < tileRect.top)
+						nextPos.y -= h;
+					else
+						nextPos.y += h;
+				}
+
+				playerRect =
+				{
+					(LONG)(nextPos.x - half),
+					(LONG)(nextPos.y - half),
+					(LONG)(nextPos.x + half),
+					(LONG)(nextPos.y + half)
+				};
+			}
+		}
+	}
+
+	player.SetPos(nextPos);
 }
+
+void GameRoom::LoadTilemap(wstring path)
+{
+	FILE* file = nullptr;
+
+	::_wfopen_s(&file, path.c_str(), L"rb");
+	assert(file);
+
+	int32 mapSizeX;
+	int32 mapSizeY;
+
+	::fread(&mapSizeX, sizeof(mapSizeX), 1, file);
+	::fread(&mapSizeY, sizeof(mapSizeY), 1, file);
+
+	_mapObjects = vector<vector<MapObjectRef>>(mapSizeY, vector<MapObjectRef>(mapSizeX));
+
+	for (int32 y = 0; y < mapSizeY; y++)
+	{
+		for (int32 x = 0; x < mapSizeX; x++)
+		{
+			int32 value = -1;
+			::fread(&value, sizeof(value), 1, file);
+
+			_mapObjects[y][x] = MapObject::Factory((MAP_OBJECT_TYPE)value);
+		}
+	}
+
+	::fclose(file);
+}
+

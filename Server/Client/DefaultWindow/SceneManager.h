@@ -1,6 +1,7 @@
 #pragma once
 
 class Scene;
+#include "DevScene.h"
 
 class SceneManager
 {
@@ -27,5 +28,8 @@ public:
 
 private:
 	Vec2 _cameraPos = { GWinSizeX / 2, GWinSizeY / 2 };
+
+public:
+	DevScene* GetDevScene() { return dynamic_cast<DevScene*>(_scene); }
 };
 

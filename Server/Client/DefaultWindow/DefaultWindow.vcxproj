@@ -137,7 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
+    <ClInclude Include="BreakableBlock.h" />
+    <ClInclude Include="BlockingObject.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="FlipbookRenderer.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="SyncObject.h" />
@@ -162,7 +164,7 @@
     <ClInclude Include="TestPanel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tilemap.h" />
-    <ClInclude Include="TilemapObject.h" />
+    <ClInclude Include="TilemapEditor.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
@@ -187,10 +189,12 @@
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="SolidBlock.h" />
+    <ClInclude Include="WaterBomb.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="BreakableBlock.cpp" />
+    <ClCompile Include="BlockingObject.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -203,6 +207,7 @@
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="FlipbookRenderer.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="SyncObject.cpp" />
@@ -221,7 +226,7 @@
     <ClCompile Include="TestPanel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tilemap.cpp" />
-    <ClCompile Include="TilemapObject.cpp" />
+    <ClCompile Include="TilemapEditor.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
@@ -241,7 +246,8 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="SolidBlock.cpp" />
+    <ClCompile Include="WaterBomb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DefaultWindow.rc" />

@@ -12,6 +12,8 @@ enum
 	S_Move = 11,
 
 	S_Tilemap = 15,
+
+	C_WaterBomb = 20,
 };
 
 class ClientPacketHandler
@@ -29,6 +31,7 @@ public:
 
 	// º¸³»±â
 	static SendBufferRef Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy);
+	static SendBufferRef Make_C_WaterBomb(float tileposx, float tileposy);
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)

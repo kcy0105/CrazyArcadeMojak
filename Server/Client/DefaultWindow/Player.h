@@ -16,8 +16,7 @@ public:
 	virtual void OnRender(HDC hdc) override;
 	virtual void OnRelease() override;
 
-	virtual void OnColliderBeginOverlap(Collider* collider, Collider* other);
-	virtual void OnColliderEndOverlap(Collider* collider, Collider* other);
+	virtual void OnColliderStayOverlap(Collider* collider, Collider* other) override;
 
 protected:
 	void UpdateAnimation();
@@ -35,6 +34,7 @@ public:
 	uint64 GetObjectId() const { return _objectId; }
 	PLAYER_STATE GetState() const { return _state; }
 	DIR GetDir() const { return _dir; }
+	Vec2Int GetTilePos() const { return Utils::WorldToTile(_pos); }
 
 protected:
 	uint64 _objectId = {};

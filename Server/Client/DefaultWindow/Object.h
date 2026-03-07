@@ -16,6 +16,7 @@ public:
 	void Update();
 	void LateUpdate();
 	void Render(HDC hdc);
+	void DebugRender(HDC hdc);
 	void Release();
 
 protected:
@@ -23,18 +24,17 @@ protected:
 	virtual void OnUpdate() {}
 	virtual void OnLateUpdate() {}
 	virtual void OnRender(HDC hdc) {}
+	virtual void OnDebugRender(HDC hdc) {}
 	virtual void OnRelease() {}
 	
 public: // 충돌 처리 필요 시 override
 	virtual void OnColliderBeginOverlap(Collider* collider, Collider* other) {}
 	virtual void OnColliderEndOverlap(Collider* collider, Collider* other) {}
+	virtual void OnColliderStayOverlap(Collider* collider, Collider* other) {}
 
 public:
 	Pos GetPos() { return _pos; }
-	void SetPos(float x, float y) { _pos = { x, y }; }
-	void SetPos(int32 x, int32 y) { _pos = { (float)x, (float)y }; }
-	void SetPos(float x, int32 y) { _pos = { x, (float)y }; }
-	void SetPos(int32 x, float y) { _pos = { (float)x, y }; }
+	void SetPos(Pos pos) { _pos = pos; }
 	wstring GetTag() { return _tag; }
 	void SetTag(wstring tag) { _tag = tag; }
 

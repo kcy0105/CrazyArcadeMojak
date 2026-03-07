@@ -10,16 +10,10 @@ void CircleCollider::Init()
 
 void CircleCollider::Update()
 {
-	__super::Update();
 }
 
-void CircleCollider::Render(HDC hdc)
+void CircleCollider::DebugRender(HDC hdc)
 {
-	__super::Render(hdc);
-
-	if (_showDebug == false)
-		return;
-
 	Vec2 pos = GetOwner()->GetPos();
 
 	HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));

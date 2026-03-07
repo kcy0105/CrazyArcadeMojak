@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Tilemap.h"
-
 class Player;
 
 
@@ -22,18 +20,22 @@ public:
 public:
 	// PacketHandler
 	void Handle_C_Move(Protocol::C_Move& pkt);
+	void Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt);
 
 public:
 	void AddObject(ObjectRef gameObject);
 	void RemoveObject(uint64 id);
 	void Broadcast(SendBufferRef& sendBuffer);
 
-public:
-	bool CanGo(uint8 size, Vec2Int pos);
+	void TryMove(Player& player, Pos nextPos);
+
+private:
+	void LoadTilemap(wstring path);
 
 private:
 	map<uint64, PlayerRef> _players;
-	Tilemap _tilemap;
+	vector<vector<MapObjectRef>> _mapObjects;
+	//Tilemap _tilemap;
 };
 
 extern GameRoomRef GRoom;

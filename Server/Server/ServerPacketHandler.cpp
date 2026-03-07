@@ -44,6 +44,20 @@ void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, in
 	
 }
 
+void ServerPacketHandler::Handle_C_WaterBomb(GameSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::C_WaterBomb pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	GameRoomRef room = session->gameRoom.lock();
+	if (room)
+		room->Handle_C_WaterBomb(pkt);
+}
+
 SendBufferRef ServerPacketHandler::Make_S_EnterGame()
 {
 	Protocol::S_EnterGame pkt;
@@ -121,13 +135,12 @@ SendBufferRef ServerPacketHandler::Make_S_Move(uint64 objectid, int32 state, int
 }
 
 
-SendBufferRef ServerPacketHandler::Make_S_Tilemap(int32 mapsizex, int32 mapsizey, int32 tilesize, const vector<vector<int32>>& values)
+SendBufferRef ServerPacketHandler::Make_S_Tilemap(int32 mapsizex, int32 mapsizey, const vector<vector<int32>>& values)
 {
 	Protocol::S_Tilemap pkt;
 
 	pkt.set_mapsizex(mapsizex);
 	pkt.set_mapsizey(mapsizey);
-	pkt.set_tilesize(tilesize);
 
 	for (int y = 0; y < mapsizey; y++)
 	{

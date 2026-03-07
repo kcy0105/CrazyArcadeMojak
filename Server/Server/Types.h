@@ -5,12 +5,12 @@ using GameRoomRef = std::shared_ptr<class GameRoom>;
 
 using ObjectRef = std::shared_ptr<class Object>;
 using PlayerRef = std::shared_ptr<class Player>;
+using MapObjectRef = std::shared_ptr<class MapObject>;
 
 struct Vector
 {
 	Vector() {}
 	Vector(float x, float y) : x(x), y(y) {}
-	//Vector(POINT pt) : x((float)pt.x), y((float)pt.y) { }
 
 	Vector operator+(const Vector& other)
 	{

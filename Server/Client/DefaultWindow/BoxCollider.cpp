@@ -10,13 +10,10 @@ void BoxCollider::Init()
 
 void BoxCollider::Update()
 {
-	__super::Update();
 }
 
-void BoxCollider::Render(HDC hdc)
+void BoxCollider::DebugRender(HDC hdc)
 {
-	__super::Render(hdc);
-
 	Vec2 pos = GetOwner()->GetPos();
 
 	HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
