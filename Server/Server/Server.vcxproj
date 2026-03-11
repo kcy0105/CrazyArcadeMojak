@@ -126,7 +126,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>call "$(SolutionDir)\Common\protoc-21.12-win64\bin\GenPackets.bat"</Command>
+      <Command>call "$(SolutionDir)\Common\protoc-21.12-win64\binaries\GenPackets.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -207,10 +207,10 @@
     <ClInclude Include="WaterBomb.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Common\protoc-21.12-win64\bin\Enum.proto" />
-    <None Include="..\Common\protoc-21.12-win64\bin\GenPackets.bat" />
-    <None Include="..\Common\protoc-21.12-win64\bin\Protocol.proto" />
-    <None Include="..\Common\protoc-21.12-win64\bin\Struct.proto" />
+    <None Include="..\Common\protoc-21.12-win64\binaries\Enum.proto" />
+    <None Include="..\Common\protoc-21.12-win64\binaries\GenPackets.bat" />
+    <None Include="..\Common\protoc-21.12-win64\binaries\Protocol.proto" />
+    <None Include="..\Common\protoc-21.12-win64\binaries\Struct.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
