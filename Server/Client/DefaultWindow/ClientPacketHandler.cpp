@@ -5,6 +5,8 @@
 #include "MyPlayer.h"
 #include "SceneManager.h"
 #include "MapObject.h"
+#include "MapManager.h"
+#include "WaterBomb.h"
 
 void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, int32 len)
 {
@@ -30,9 +32,11 @@ void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, i
 		case S_Move:
 			Handle_S_Move(session, buffer, len);
 			break;
-			break;
 		case S_Tilemap:
 			Handle_S_Tilemap(session, buffer, len);
+			break;
+		case S_WaterBomb:
+			Handle_S_WaterBomb(session, buffer, len);
 			break;
 	}
 }
@@ -147,7 +151,7 @@ void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, 
 	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
 	if (scene)
 	{
-		Player* player = scene->GetSyncObject(pkt.objectid());
+		Player* player = dynamic_cast<Player*>(scene->GetSyncObject(pkt.objectid()));
 		if (player)
 		{
 			// 오차가 심한 경우 서버 위치로 세팅해야 할 수도.
@@ -159,12 +163,19 @@ void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, 
 				return;
 			}
 
-			player->SetState((PLAYER_STATE)pkt.state());
+			if (player->GetState() == PLAYER_STATE_IDLE)
+			{
+				player->SetState((PLAYER_STATE)pkt.state());
+			}
+			else
+			{
+				player->SetServerState((PLAYER_STATE)pkt.state());
+			}
+
+			player->SetServerPos({ pkt.posx(), pkt.posy() });
 			player->SetDir((DIR)pkt.dir());
-			player->SetPos({ pkt.posx(), pkt.posy() });
 		}
 	}
-	
 }
 
 void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len)
@@ -179,19 +190,58 @@ void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffe
 	int32 mapSizeX = pkt.mapsizex();
 	int32 mapSizeY = pkt.mapsizey();
 
+	GET_SINGLE(MapManager)->InitMap(mapSizeX, mapSizeY);
+
 	for (int y = 0; y < mapSizeY; y++)
 	{
 		for (int x = 0; x < mapSizeX; x++)
 		{
 			int i = y * mapSizeX + x;
 			int32 value = pkt.values(i);
-			if (value > 0)
-			{
-				auto obj = MapObject::Factory((MAP_OBJECT_TYPE)value);
-				obj->SetPos(Utils::TileToWorld({ x, y }));
-			}
 
+			GET_SINGLE(MapManager)->SpawnMapObject((MAP_OBJECT_TYPE)value, { x, y });
 		}
+	}
+}
+
+void ClientPacketHandler::Handle_S_WaterBomb(ServerSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::S_WaterBomb pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	uint64 objectid = pkt.objectid();
+	uint64 ownerid = pkt.ownerid();
+	int32 tileposx = pkt.tileposx();
+	int32 tileposy = pkt.tileposy();
+
+	MyPlayer* myPlayer = GET_SINGLE(SceneManager)->GetDevScene()->GetMyPlayer();
+
+	if (ownerid == myPlayer->GetObjectId())
+	{
+		auto bomb = myPlayer->pendingBombs.front();
+		myPlayer->pendingBombs.pop();
+		bomb->SetObjectId(objectid);
+		return;
+	}
+		
+
+	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(MapManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tileposx, tileposy }));
+	Player* player = static_cast<Player*>(GET_SINGLE(SceneManager)->GetDevScene()->GetSyncObject(ownerid));
+	bomb->SetOwner(player);
+
+
+	RECT r1 = myPlayer->GetRect();
+	RECT r2 = bomb->GetRect();
+	RECT r;
+
+	if (::IntersectRect(&r, &r1, &r2))
+	{
+		bomb->SetPassable(true);
+		myPlayer->AddOverlapBomb(bomb);
 	}
 }
 
@@ -208,10 +258,11 @@ SendBufferRef ClientPacketHandler::Make_C_Move(uint64 objectid, int32 state, int
 	return MakeSendBuffer(pkt, C_Move);
 }
 
-SendBufferRef ClientPacketHandler::Make_C_WaterBomb(float tileposx, float tileposy)
+SendBufferRef ClientPacketHandler::Make_C_WaterBomb(uint64 ownerid, float tileposx, float tileposy)
 {
 	Protocol::C_WaterBomb pkt;
 
+	pkt.set_ownerid(ownerid);
 	pkt.set_tileposx(tileposx);
 	pkt.set_tileposy(tileposy);
 

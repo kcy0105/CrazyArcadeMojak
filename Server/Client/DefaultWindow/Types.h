@@ -65,6 +65,16 @@ struct Vector
 		y *= ratio;
 	}
 
+	bool operator==(const Vector& other) const
+	{
+		return x == other.x && y == other.y;
+	}
+
+	bool operator!=(const Vector& other) const
+	{
+		return !(*this == other);
+	}
+
 	float LengthSquared()
 	{
 		return x * x + y * y;
@@ -144,6 +154,16 @@ struct VectorInt
 	{
 		x -= other.x;
 		y -= other.y;
+	}
+
+	bool operator==(const VectorInt& other) const
+	{
+		return x == other.x && y == other.y;
+	}
+
+	bool operator!=(const VectorInt& other) const
+	{
+		return !(*this == other);
 	}
 
 	int32 LengthSquared()

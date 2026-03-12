@@ -143,7 +143,8 @@ struct S_TilemapDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_TilemapDefaultTypeInternal _S_Tilemap_default_instance_;
 PROTOBUF_CONSTEXPR C_WaterBomb::C_WaterBomb(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.tileposx_)*/0
+    /*decltype(_impl_.ownerid_)*/uint64_t{0u}
+  , /*decltype(_impl_.tileposx_)*/0
   , /*decltype(_impl_.tileposy_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C_WaterBombDefaultTypeInternal {
@@ -155,8 +156,24 @@ struct C_WaterBombDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_WaterBombDefaultTypeInternal _C_WaterBomb_default_instance_;
+PROTOBUF_CONSTEXPR S_WaterBomb::S_WaterBomb(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.objectid_)*/uint64_t{0u}
+  , /*decltype(_impl_.ownerid_)*/uint64_t{0u}
+  , /*decltype(_impl_.tileposx_)*/0
+  , /*decltype(_impl_.tileposy_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S_WaterBombDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S_WaterBombDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S_WaterBombDefaultTypeInternal() {}
+  union {
+    S_WaterBomb _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_WaterBombDefaultTypeInternal _S_WaterBomb_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_Protocol_2eproto[8];
+static ::_pb::Metadata file_level_metadata_Protocol_2eproto[9];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Protocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Protocol_2eproto = nullptr;
 
@@ -239,8 +256,19 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_WaterBomb, _impl_.ownerid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_WaterBomb, _impl_.tileposx_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_WaterBomb, _impl_.tileposy_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_WaterBomb, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_WaterBomb, _impl_.objectid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_WaterBomb, _impl_.ownerid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_WaterBomb, _impl_.tileposx_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_WaterBomb, _impl_.tileposy_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::S_EnterGame)},
@@ -251,6 +279,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 51, -1, -1, sizeof(::Protocol::S_Move)},
   { 63, -1, -1, sizeof(::Protocol::S_Tilemap)},
   { 72, -1, -1, sizeof(::Protocol::C_WaterBomb)},
+  { 81, -1, -1, sizeof(::Protocol::S_WaterBomb)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -262,6 +291,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_S_Move_default_instance_._instance,
   &::Protocol::_S_Tilemap_default_instance_._instance,
   &::Protocol::_C_WaterBomb_default_instance_._instance,
+  &::Protocol::_S_WaterBomb_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -280,9 +310,11 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\010objectid\030\001 \001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 "
   "\001(\005\022\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\022\020\n\010needs"
   "ync\030\006 \001(\010\"\?\n\tS_Tilemap\022\020\n\010mapsizex\030\001 \001(\005"
-  "\022\020\n\010mapsizey\030\002 \001(\005\022\016\n\006values\030\003 \003(\005\"1\n\013C_"
-  "WaterBomb\022\020\n\010tileposx\030\001 \001(\005\022\020\n\010tileposy\030"
-  "\002 \001(\005b\006proto3"
+  "\022\020\n\010mapsizey\030\002 \001(\005\022\016\n\006values\030\003 \003(\005\"B\n\013C_"
+  "WaterBomb\022\017\n\007ownerid\030\001 \001(\004\022\020\n\010tileposx\030\002"
+  " \001(\005\022\020\n\010tileposy\030\003 \001(\005\"T\n\013S_WaterBomb\022\020\n"
+  "\010objectid\030\001 \001(\004\022\017\n\007ownerid\030\002 \001(\004\022\020\n\010tile"
+  "posx\030\003 \001(\005\022\020\n\010tileposy\030\004 \001(\005b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -290,9 +322,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 693, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 796, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
-    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 8,
+    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 9,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
     file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto,
     file_level_service_descriptors_Protocol_2eproto,
@@ -2377,14 +2409,15 @@ C_WaterBomb::C_WaterBomb(const C_WaterBomb& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   C_WaterBomb* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.tileposx_){}
+      decltype(_impl_.ownerid_){}
+    , decltype(_impl_.tileposx_){}
     , decltype(_impl_.tileposy_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.tileposx_, &from._impl_.tileposx_,
+  ::memcpy(&_impl_.ownerid_, &from._impl_.ownerid_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tileposy_) -
-    reinterpret_cast<char*>(&_impl_.tileposx_)) + sizeof(_impl_.tileposy_));
+    reinterpret_cast<char*>(&_impl_.ownerid_)) + sizeof(_impl_.tileposy_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C_WaterBomb)
 }
 
@@ -2393,7 +2426,8 @@ inline void C_WaterBomb::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.tileposx_){0}
+      decltype(_impl_.ownerid_){uint64_t{0u}}
+    , decltype(_impl_.tileposx_){0}
     , decltype(_impl_.tileposy_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -2422,9 +2456,9 @@ void C_WaterBomb::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.tileposx_, 0, static_cast<size_t>(
+  ::memset(&_impl_.ownerid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.tileposy_) -
-      reinterpret_cast<char*>(&_impl_.tileposx_)) + sizeof(_impl_.tileposy_));
+      reinterpret_cast<char*>(&_impl_.ownerid_)) + sizeof(_impl_.tileposy_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2434,17 +2468,25 @@ const char* C_WaterBomb::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 tileposx = 1;
+      // uint64 ownerid = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.ownerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 tileposx = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.tileposx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 tileposy = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+      // int32 tileposy = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.tileposy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -2479,16 +2521,22 @@ uint8_t* C_WaterBomb::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 tileposx = 1;
-  if (this->_internal_tileposx() != 0) {
+  // uint64 ownerid = 1;
+  if (this->_internal_ownerid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_tileposx(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_ownerid(), target);
   }
 
-  // int32 tileposy = 2;
+  // int32 tileposx = 2;
+  if (this->_internal_tileposx() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_tileposx(), target);
+  }
+
+  // int32 tileposy = 3;
   if (this->_internal_tileposy() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_tileposy(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_tileposy(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2507,12 +2555,17 @@ size_t C_WaterBomb::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 tileposx = 1;
+  // uint64 ownerid = 1;
+  if (this->_internal_ownerid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_ownerid());
+  }
+
+  // int32 tileposx = 2;
   if (this->_internal_tileposx() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tileposx());
   }
 
-  // int32 tileposy = 2;
+  // int32 tileposy = 3;
   if (this->_internal_tileposy() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tileposy());
   }
@@ -2535,6 +2588,9 @@ void C_WaterBomb::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_ownerid() != 0) {
+    _this->_internal_set_ownerid(from._internal_ownerid());
+  }
   if (from._internal_tileposx() != 0) {
     _this->_internal_set_tileposx(from._internal_tileposx());
   }
@@ -2561,15 +2617,274 @@ void C_WaterBomb::InternalSwap(C_WaterBomb* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(C_WaterBomb, _impl_.tileposy_)
       + sizeof(C_WaterBomb::_impl_.tileposy_)
-      - PROTOBUF_FIELD_OFFSET(C_WaterBomb, _impl_.tileposx_)>(
-          reinterpret_cast<char*>(&_impl_.tileposx_),
-          reinterpret_cast<char*>(&other->_impl_.tileposx_));
+      - PROTOBUF_FIELD_OFFSET(C_WaterBomb, _impl_.ownerid_)>(
+          reinterpret_cast<char*>(&_impl_.ownerid_),
+          reinterpret_cast<char*>(&other->_impl_.ownerid_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C_WaterBomb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
       file_level_metadata_Protocol_2eproto[7]);
+}
+
+// ===================================================================
+
+class S_WaterBomb::_Internal {
+ public:
+};
+
+S_WaterBomb::S_WaterBomb(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S_WaterBomb)
+}
+S_WaterBomb::S_WaterBomb(const S_WaterBomb& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S_WaterBomb* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){}
+    , decltype(_impl_.ownerid_){}
+    , decltype(_impl_.tileposx_){}
+    , decltype(_impl_.tileposy_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tileposy_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.tileposy_));
+  // @@protoc_insertion_point(copy_constructor:Protocol.S_WaterBomb)
+}
+
+inline void S_WaterBomb::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){uint64_t{0u}}
+    , decltype(_impl_.ownerid_){uint64_t{0u}}
+    , decltype(_impl_.tileposx_){0}
+    , decltype(_impl_.tileposy_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+S_WaterBomb::~S_WaterBomb() {
+  // @@protoc_insertion_point(destructor:Protocol.S_WaterBomb)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S_WaterBomb::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void S_WaterBomb::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S_WaterBomb::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S_WaterBomb)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.tileposy_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.tileposy_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_WaterBomb::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint64 objectid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.objectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 ownerid = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.ownerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 tileposx = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.tileposx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 tileposy = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.tileposy_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_WaterBomb::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S_WaterBomb)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 objectid = 1;
+  if (this->_internal_objectid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
+  }
+
+  // uint64 ownerid = 2;
+  if (this->_internal_ownerid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(2, this->_internal_ownerid(), target);
+  }
+
+  // int32 tileposx = 3;
+  if (this->_internal_tileposx() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_tileposx(), target);
+  }
+
+  // int32 tileposy = 4;
+  if (this->_internal_tileposy() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_tileposy(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S_WaterBomb)
+  return target;
+}
+
+size_t S_WaterBomb::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S_WaterBomb)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 objectid = 1;
+  if (this->_internal_objectid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
+  }
+
+  // uint64 ownerid = 2;
+  if (this->_internal_ownerid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_ownerid());
+  }
+
+  // int32 tileposx = 3;
+  if (this->_internal_tileposx() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tileposx());
+  }
+
+  // int32 tileposy = 4;
+  if (this->_internal_tileposy() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tileposy());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_WaterBomb::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_WaterBomb::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_WaterBomb::GetClassData() const { return &_class_data_; }
+
+
+void S_WaterBomb::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_WaterBomb*>(&to_msg);
+  auto& from = static_cast<const S_WaterBomb&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S_WaterBomb)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_objectid() != 0) {
+    _this->_internal_set_objectid(from._internal_objectid());
+  }
+  if (from._internal_ownerid() != 0) {
+    _this->_internal_set_ownerid(from._internal_ownerid());
+  }
+  if (from._internal_tileposx() != 0) {
+    _this->_internal_set_tileposx(from._internal_tileposx());
+  }
+  if (from._internal_tileposy() != 0) {
+    _this->_internal_set_tileposy(from._internal_tileposy());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S_WaterBomb::CopyFrom(const S_WaterBomb& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S_WaterBomb)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S_WaterBomb::IsInitialized() const {
+  return true;
+}
+
+void S_WaterBomb::InternalSwap(S_WaterBomb* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(S_WaterBomb, _impl_.tileposy_)
+      + sizeof(S_WaterBomb::_impl_.tileposy_)
+      - PROTOBUF_FIELD_OFFSET(S_WaterBomb, _impl_.objectid_)>(
+          reinterpret_cast<char*>(&_impl_.objectid_),
+          reinterpret_cast<char*>(&other->_impl_.objectid_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S_WaterBomb::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
+      file_level_metadata_Protocol_2eproto[8]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2606,6 +2921,10 @@ Arena::CreateMaybeMessage< ::Protocol::S_Tilemap >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protocol::C_WaterBomb*
 Arena::CreateMaybeMessage< ::Protocol::C_WaterBomb >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::C_WaterBomb >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::S_WaterBomb*
+Arena::CreateMaybeMessage< ::Protocol::S_WaterBomb >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S_WaterBomb >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -4,8 +4,6 @@
 
 void BlockingObject::OnInit()
 {
-	BoxCollider* box = AddComponent<BoxCollider>();
-	box->SetSize({ 40, 40 });
 }
 
 void BlockingObject::OnUpdate()

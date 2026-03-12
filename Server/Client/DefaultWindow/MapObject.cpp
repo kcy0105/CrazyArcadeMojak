@@ -16,21 +16,22 @@ void MapObject::OnRender(HDC hdc)
 {
 }
 
-void MapObject::OnRelease()
+void MapObject::OnDebugRender(HDC hdc)
 {
+	HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+	HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+
+	HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
+
+	Utils::DrawRectInWorld(hdc, GetPos(), TILE_SIZE, TILE_SIZE);
+
+	SelectObject(hdc, oldBrush);
+	SelectObject(hdc, oldPen);
+
+	DeleteObject(pen);
 }
 
-MapObject* MapObject::Factory(MAP_OBJECT_TYPE type)
+void MapObject::OnRelease()
 {
-	switch (type)
-	{
-	case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
-		return Object::CreateObject<BreakableBlock>();
-	case MAP_OBJECT_TYPE_SOLID_BLOCK:
-		return Object::CreateObject<SolidBlock>();
-	case MAP_OBJECT_TYPE_WATER_BOMB:
-		return Object::CreateObject<WaterBomb>();
-	}
-
-	return nullptr;
 }

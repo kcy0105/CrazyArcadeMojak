@@ -14,6 +14,7 @@ enum
 	S_Tilemap = 15,
 
 	C_WaterBomb = 20,
+	S_WaterBomb = 21,
 };
 
 class ServerPacketHandler
@@ -33,7 +34,7 @@ public:
 	static SendBufferRef Make_S_RemoveObject(const vector<uint64>& objectids);
 	static SendBufferRef Make_S_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy, bool needsync);
 	static SendBufferRef Make_S_Tilemap(int32 mapsizex, int32 mapsizey, const vector<vector<int32>>& values);
-
+	static SendBufferRef Make_S_WaterBomb(uint64 objectid, uint64 ownerid, float tileposx, float tileposy);
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)

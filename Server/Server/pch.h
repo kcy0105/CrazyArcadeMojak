@@ -5,6 +5,7 @@
 #include "Enums.h"
 #include "Types.h"
 #include "Values.h"
+#include "Utils.h"
 
 #include "Protocol.pb.h"
 #include "Enum.pb.h"

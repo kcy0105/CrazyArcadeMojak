@@ -7,13 +7,7 @@ public:
 
 	virtual void Update() {}
 
-	static PlayerRef CreatePlayer();
-
-
-
-
 public:
-	//Protocol::ObjectInfo info;
 	GameRoomRef room;
 
 public:
@@ -24,12 +18,12 @@ public:
 	void SetPos(Pos pos) { _pos = pos; }
 	Pos GetPos() { return _pos; }
 
-private:
+protected:
 	uint64 _objectId = {};
 	OBJECT_TYPE _objectType = {};
 	Pos _pos;
 
-private:
+public:
 	static atomic<uint64> s_idGenerator;
 };
 

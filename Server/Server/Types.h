@@ -6,6 +6,7 @@ using GameRoomRef = std::shared_ptr<class GameRoom>;
 using ObjectRef = std::shared_ptr<class Object>;
 using PlayerRef = std::shared_ptr<class Player>;
 using MapObjectRef = std::shared_ptr<class MapObject>;
+using WaterBombRef = std::shared_ptr<class WaterBomb>;
 
 struct Vector
 {
@@ -57,6 +58,16 @@ struct Vector
 	{
 		x *= ratio;
 		y *= ratio;
+	}
+
+	bool operator==(const Vector& other) const
+	{
+		return x == other.x && y == other.y;
+	}
+
+	bool operator!=(const Vector& other) const
+	{
+		return !(*this == other);
 	}
 
 	float LengthSquared()
@@ -139,11 +150,6 @@ struct VectorInt
 		return y > other.y;
 	}
 
-	bool operator==(const VectorInt& other)
-	{
-		return x == other.x && y == other.y;
-	}
-
 	void operator+=(const VectorInt& other)
 	{
 		x += other.x;
@@ -154,6 +160,16 @@ struct VectorInt
 	{
 		x -= other.x;
 		y -= other.y;
+	}
+
+	bool operator==(const Vector& other) const
+	{
+		return x == other.x && y == other.y;
+	}
+
+	bool operator!=(const Vector& other) const
+	{
+		return !(*this == other);
 	}
 
 	int32 LengthSquared()

@@ -14,6 +14,7 @@ enum
 	S_Tilemap = 15,
 
 	C_WaterBomb = 20,
+	S_WaterBomb = 21,
 };
 
 class ClientPacketHandler
@@ -28,10 +29,11 @@ public:
 	static void Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len);
 	static void Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len);
 	static void Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_WaterBomb(ServerSessionRef session, BYTE* buffer, int32 len);
 
 	// º¸³»±â
 	static SendBufferRef Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy);
-	static SendBufferRef Make_C_WaterBomb(float tileposx, float tileposy);
+	static SendBufferRef Make_C_WaterBomb(uint64 ownerid, float tileposx, float tileposy);
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)

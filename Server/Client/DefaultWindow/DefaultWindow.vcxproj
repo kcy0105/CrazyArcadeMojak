@@ -152,6 +152,7 @@
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="SyncObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Protocol.pb.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="SyncObject.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Protocol.pb.cc">

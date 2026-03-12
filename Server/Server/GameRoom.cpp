@@ -23,7 +23,7 @@ void GameRoom::Update()
 
 void GameRoom::EnterRoom(GameSessionRef session)
 {
-	PlayerRef player = Object::CreatePlayer();
+	PlayerRef player = SpawnPlayer();
 
 	// 서로의 존재를 연결
 	session->gameRoom = GetRoomRef();
@@ -149,6 +149,7 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 
 void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 {
+	uint64 ownerId = pkt.ownerid();
 	int32 tilePosX = pkt.tileposx();
 	int32 tilePosY = pkt.tileposy();
 
@@ -158,13 +159,37 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 		return;
 	}
 
-	_mapObjects[tilePosY][tilePosX] = make_shared<WaterBomb>();
+	PlayerRef owner = dynamic_pointer_cast<Player>(FindObject(ownerId));
 
-	// TODO
-	//{
-	//	SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(player->GetObjectId(), player->GetState(), player->GetDir(), player->GetPos().x, player->GetPos().y, needsync);
-	//	Broadcast(sendBuffer);
-	//}
+	if (!owner)
+	{
+		return;
+	}
+
+
+	auto bomb = static_pointer_cast<WaterBomb>(SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tilePosX, tilePosY }));
+	bomb->SetOwner(owner);
+
+
+	for (auto& p : _players)
+	{
+		PlayerRef player = p.second;
+
+		RECT r1 = player->GetRect();
+		RECT r2 = bomb->GetRect();
+		RECT r;
+
+		if (::IntersectRect(&r, &r1, &r2))
+		{
+			bomb->AddPassablePlayer(player);
+			player->AddOverlapBomb(bomb);
+		}
+	}
+
+	{
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_WaterBomb(bomb->GetObjectId(), ownerId, tilePosX, tilePosY);
+		Broadcast(sendBuffer);
+	}
 }
 
 void GameRoom::AddObject(ObjectRef object)
@@ -225,69 +250,72 @@ void GameRoom::Broadcast(SendBufferRef& sendBuffer)
 
 void GameRoom::TryMove(Player& player, Pos nextPos)
 {
-	float half = player.GetColSize() * 0.5f;
+	Pos pos = player.GetPos();
+	float half = PLAYER_SIZE / 2;
 
-	RECT playerRect =
+	for (int i = 0; i < 2; i++)
 	{
-		(LONG)(nextPos.x - half),
-		(LONG)(nextPos.y - half),
-		(LONG)(nextPos.x + half),
-		(LONG)(nextPos.y + half)
-	};
+		if (i == 0)
+			pos.x = nextPos.x;
+		else
+			pos.y = nextPos.y;
 
-	int32 minTileX = playerRect.left	/ TILE_SIZE;
-	int32 maxTileX = playerRect.right	/ TILE_SIZE;
-	int32 minTileY = playerRect.top		/ TILE_SIZE;
-	int32 maxTileY = playerRect.bottom	/ TILE_SIZE;
-
-	for (int32 y = minTileY; y <= maxTileY; y++)
-	{
-		for (int32 x = minTileX; x <= maxTileX; x++)
+		RECT playerRect =
 		{
-			if (_mapObjects[y][x] == nullptr)
-				continue;
+			(LONG)(pos.x - half),
+			(LONG)(pos.y - half),
+			(LONG)(pos.x + half),
+			(LONG)(pos.y + half)
+		};
 
-			RECT tileRect =
+		int32 minTileX = playerRect.left / TILE_SIZE;
+		int32 maxTileX = (playerRect.right - 1) / TILE_SIZE;
+		int32 minTileY = playerRect.top / TILE_SIZE;
+		int32 maxTileY = (playerRect.bottom - 1) / TILE_SIZE;
+
+		for (int32 y = minTileY; y <= maxTileY; y++)
+		{
+			for (int32 x = minTileX; x <= maxTileX; x++)
 			{
-				x * TILE_SIZE,
-				y * TILE_SIZE,
-				x * TILE_SIZE + TILE_SIZE,
-				y * TILE_SIZE + TILE_SIZE
-			};
+				MapObjectRef obj = _mapObjects[y][x];
 
-			RECT intersect;
-			if (::IntersectRect(&intersect, &playerRect, &tileRect))
-			{
-				int32 w = intersect.right - intersect.left;
-				int32 h = intersect.bottom - intersect.top;
+				if (obj == nullptr)
+					continue;
 
-				if (w < h)
-				{
-					if (playerRect.left < tileRect.left)
-						nextPos.x -= w;
-					else
-						nextPos.x += w;
-				}
-				else
-				{
-					if (playerRect.top < tileRect.top)
-						nextPos.y -= h;
-					else
-						nextPos.y += h;
-				}
+				if (!obj->BlocksPlayer(&player))
+					continue;
 
-				playerRect =
+				RECT tileRect =
 				{
-					(LONG)(nextPos.x - half),
-					(LONG)(nextPos.y - half),
-					(LONG)(nextPos.x + half),
-					(LONG)(nextPos.y + half)
+					x * TILE_SIZE,
+					y * TILE_SIZE,
+					x * TILE_SIZE + TILE_SIZE,
+					y * TILE_SIZE + TILE_SIZE
 				};
+
+				RECT intersect;
+				if (::IntersectRect(&intersect, &playerRect, &tileRect))
+				{
+					if (i == 0)
+					{
+						if (nextPos.x > player.GetPos().x)
+							pos.x = tileRect.left - half;
+						else
+							pos.x = tileRect.right + half;
+					}
+					else
+					{
+						if (nextPos.y > player.GetPos().y)
+							pos.y = tileRect.top - half;
+						else
+							pos.y = tileRect.bottom + half;
+					}
+				}
 			}
 		}
 	}
 
-	player.SetPos(nextPos);
+	player.SetPos(pos);
 }
 
 void GameRoom::LoadTilemap(wstring path)
@@ -312,10 +340,48 @@ void GameRoom::LoadTilemap(wstring path)
 			int32 value = -1;
 			::fread(&value, sizeof(value), 1, file);
 
-			_mapObjects[y][x] = MapObject::Factory((MAP_OBJECT_TYPE)value);
+			SpawnMapObject((MAP_OBJECT_TYPE)value, { x, y });
 		}
 	}
 
 	::fclose(file);
+}
+
+PlayerRef GameRoom::SpawnPlayer()
+{
+	PlayerRef player = make_shared<Player>();
+	player->SetObjectId(Object::s_idGenerator++);
+	player->SetObjectType(OBJECT_TYPE_PLAYER);
+
+	return player;
+}
+
+MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
+{
+	MapObjectRef obj = nullptr;
+	switch (type)
+	{
+	case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
+		obj = make_shared<BreakableBlock>();
+		break;
+	case MAP_OBJECT_TYPE_SOLID_BLOCK:
+		obj = make_shared<SolidBlock>();
+		break;
+	case MAP_OBJECT_TYPE_WATER_BOMB:
+		obj = make_shared<WaterBomb>();
+		break;
+	}
+
+	if (obj)
+	{
+		obj->SetMapObjectType(type);
+		obj->SetPos(Utils::TileToWorld(tilePos));
+		_mapObjects[tilePos.y][tilePos.x] = obj;
+
+		obj->SetObjectId(Object::s_idGenerator++);
+	}
+
+
+	return obj;
 }
 

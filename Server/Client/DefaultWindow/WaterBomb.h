@@ -14,18 +14,25 @@ public:
 	virtual void OnRender(HDC hdc) override;
 	virtual void OnRelease() override;
 
-	virtual void OnColliderEndOverlap(Collider* collider, Collider* other) override;
-
 public:
 	void SetOwner(Player* owner)			{ _owner = owner; }
-	void SetOwnerCanPass(bool ownerCanPass) { _ownerCanPass = ownerCanPass; }
+	void SetPassable(bool passable) { _passable = passable; }
 	
 	Player* GetOwner()				const	{ return _owner; }
-	bool	GetOwnerCanPass()		const	{ return _ownerCanPass; }
+	bool	GetOwnerPassable()		const	{ return _passable; }
+
+public:
+	virtual bool BlocksPlayer(const Player* player) const override
+	{
+		if (_passable)
+			return false;
+
+		return true;
+	}
 
 private:
 	Player* _owner = nullptr;
-
-	bool _ownerCanPass = true;
+	bool _passable = true;
+	uint64 _localId = 0;
 };
 

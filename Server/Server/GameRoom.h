@@ -29,13 +29,15 @@ public:
 
 	void TryMove(Player& player, Pos nextPos);
 
+	PlayerRef SpawnPlayer();
+	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
+
 private:
 	void LoadTilemap(wstring path);
 
 private:
 	map<uint64, PlayerRef> _players;
 	vector<vector<MapObjectRef>> _mapObjects;
-	//Tilemap _tilemap;
 };
 
 extern GameRoomRef GRoom;

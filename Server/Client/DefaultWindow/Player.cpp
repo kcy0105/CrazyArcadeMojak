@@ -8,6 +8,7 @@
 #include "BlockingObject.h"
 #include "CollisionManager.h"
 #include "WaterBomb.h"
+#include "MapManager.h"
 
 
 void Player::OnInit()
@@ -25,7 +26,6 @@ void Player::OnInit()
 	_flipbookMove[DIR_RIGHT]	= GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveRight");
 
 	_fb = AddComponent<FlipbookRenderer>();
-	AddComponent<BoxCollider>()->SetSize({ 30, 30 });
 
 	SetDir(DIR_DOWN);
 	SetState(PLAYER_STATE_IDLE);
@@ -50,58 +50,30 @@ void Player::OnRender(HDC hdc)
 
 }
 
+void Player::OnDebugRender(HDC hdc)
+{
+	HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+	HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+
+	HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
+
+	Utils::DrawRectInWorld(hdc, GetPos(), PLAYER_SIZE, PLAYER_SIZE);
+
+	SelectObject(hdc, oldBrush);
+	SelectObject(hdc, oldPen);
+
+	DeleteObject(pen);
+
+	//Utils::DrawTextInWorld(hdc, GetPos(), ::format(L"{0},{1}", GetPos().x, GetPos().y));
+}
+
 void Player::OnRelease()
 {
 
 }
 
-void Player::OnColliderStayOverlap(Collider* collider, Collider* other)
-{
-	auto bomb = dynamic_cast<WaterBomb*>(other->GetOwner());
-	if (bomb && bomb->GetOwner() == this && bomb->GetOwnerCanPass())
-		return;
 
-	BlockingObject* block = dynamic_cast<BlockingObject*>(other->GetOwner());
-
-	if (block)
-	{
-		BoxCollider* myBox = static_cast<BoxCollider*>(collider);
-		BoxCollider* blockBox = static_cast<BoxCollider*>(other);
-
-		RECT r1 = myBox->GetRect();
-		RECT r2 = blockBox->GetRect();
-
-		RECT intersect = {};
-		if (::IntersectRect(&intersect, &r1, &r2))
-		{
-			int32 w = intersect.right - intersect.left;
-			int32 h = intersect.bottom - intersect.top;
-
-			if (w > h)
-			{
-				if (intersect.top == r2.top)
-				{
-					_pos.y -= h;
-				}
-				else
-				{
-					_pos.y += h;
-				}
-			}
-			else
-			{
-				if (intersect.left == r2.left)
-				{
-					_pos.x -= w;
-				}
-				else
-				{
-					_pos.x += w;
-				}
-			}
-		}
-	}
-}
 
 
 void Player::UpdateAnimation()
@@ -141,20 +113,21 @@ void Player::OnUpdateMove()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	switch (_dir)
+	Vec2 pos = GetPos();
+	Vec2 diff = _serverPos - pos;
+	float dist = diff.Length();
+
+	if (diff.Length() < 1.f || diff.Length() > 200.f) // 도착하면 상태 변경. 너무 멀어도 바로 싱크.
 	{
-	case DIR_LEFT:
-		_pos.x -= _moveSpeed * deltaTime;
-		break;
-	case DIR_RIGHT:
-		_pos.x += _moveSpeed * deltaTime;
-		break;
-	case DIR_UP:
-		_pos.y -= _moveSpeed * deltaTime;
-		break;
-	case DIR_DOWN:
-		_pos.y += _moveSpeed * deltaTime;
-		break;
+		SetPos(_serverPos);
+		SetState(_serverState);
+		return;
 	}
+
+	pos += diff * 20.f * deltaTime;
+
+	SetPos(pos);
 }
+
+
 

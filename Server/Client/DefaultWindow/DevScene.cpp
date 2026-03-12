@@ -7,28 +7,29 @@
 #include "Player.h"
 #include "MyPlayer.h"
 #include "MapObject.h"
+#include "MapManager.h"
 
 void DevScene::OnInit()
 {
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerUp", L"PlayerUp.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleUp", texture, { 47, 56 }, { 23, 40 }, 0, 0, 0, 0.f, false);
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveUp", texture, { 47, 56 }, { 23, 40 }, 0, 5, 0, 0.8f, true);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleUp", texture, { 47, 56 }, { 23, 36 }, 0, 0, 0, 0.f, false);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveUp", texture, { 47, 56 }, { 23, 36 }, 0, 5, 0, 0.8f, true);
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDown", L"PlayerDown.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleDown", texture, { 47, 56 }, { 23, 40 }, 0, 0, 0, 0.f, false);
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveDown", texture, { 47, 56 }, { 23, 40 }, 0, 5, 0, 0.8f, true);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleDown", texture, { 47, 56 }, { 23, 36 }, 0, 0, 0, 0.f, false);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveDown", texture, { 47, 56 }, { 23, 36 }, 0, 5, 0, 0.8f, true);
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerLeft", L"PlayerLeft.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleLeft", texture, { 47, 56 }, { 23, 40 }, 0, 0, 0, 0.f, false);
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveLeft", texture, { 47, 56 }, { 23, 40 }, 0, 5, 0, 0.8f, true);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleLeft", texture, { 47, 56 }, { 23, 36 }, 0, 0, 0, 0.f, false);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveLeft", texture, { 47, 56 }, { 23, 36 }, 0, 5, 0, 0.8f, true);
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerRight", L"PlayerRight.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleRight", texture, { 47, 56 }, { 23, 40 }, 0, 0, 0, 0.f, false);
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight", texture, { 47, 56 }, { 23, 40 }, 0, 5, 0, 0.8f, true);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_IdleRight", texture, { 47, 56 }, { 23, 36 }, 0, 0, 0, 0.f, false);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight", texture, { 47, 56 }, { 23, 36 }, 0, 5, 0, 0.8f, true);
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"Block", L"Block.bmp", RGB(255, 0, 255));
@@ -53,31 +54,19 @@ void DevScene::OnRelease()
 {
 }
 
-MapObject* DevScene::GetMapObjectAt(Pos pos)
-{
-	for (Object* obj : _objects)
-	{
-		MapObject* mapObj = dynamic_cast<MapObject*>(obj);
-		if (mapObj && (mapObj->GetPos()-pos).LengthSquared() < 1)
-			return mapObj;
-	}
-
-	return nullptr;
-}
-
 uint64 DevScene::GetMyPlayerId()
 {
 	return _myPlayer->GetObjectId();
 }
 
-Player* DevScene::GetSyncObject(uint64 id)
+// TODO : ObjectManager로 이동 & id map
+SyncObject* DevScene::GetSyncObject(uint64 id)
 {
-	// TODO : player가 아닌 sync object 반환
 	for (Object* object : _objects)
 	{
-		Player* player = dynamic_cast<Player*>(object);
-		if (player && player->GetObjectId() == id)
-			return player;
+		SyncObject* syncObj = dynamic_cast<SyncObject*>(object);
+		if (syncObj && syncObj->GetObjectId() == id)
+			return syncObj;
 	}
 	return nullptr;
 }

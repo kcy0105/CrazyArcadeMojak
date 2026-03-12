@@ -6,4 +6,7 @@ const int32 GWinSizeY = 600;
 const float PI = 3.1415926f;
 const float DEG2RAD = PI / 180;
 
+#pragma region COMMON
 const int32 TILE_SIZE = 40;
+const int32 PLAYER_SIZE = 32;
+#pragma endregion

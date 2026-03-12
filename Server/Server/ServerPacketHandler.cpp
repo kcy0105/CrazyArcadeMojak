@@ -17,6 +17,9 @@ void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int
 	case C_Move:
 		Handle_C_Move(session, buffer, len);
 		break;
+	case C_WaterBomb:
+		Handle_C_WaterBomb(session, buffer, len);
+		break;
 
 	default:
 		break;
@@ -151,4 +154,16 @@ SendBufferRef ServerPacketHandler::Make_S_Tilemap(int32 mapsizex, int32 mapsizey
 	}
 
 	return MakeSendBuffer(pkt, S_Tilemap);
+}
+
+SendBufferRef ServerPacketHandler::Make_S_WaterBomb(uint64 objectid, uint64 ownerid, float tileposx, float tileposy)
+{
+	Protocol::S_WaterBomb pkt;
+
+	pkt.set_objectid(objectid);
+	pkt.set_ownerid(ownerid);
+	pkt.set_tileposx(tileposx);
+	pkt.set_tileposy(tileposy);
+
+	return MakeSendBuffer(pkt, S_WaterBomb);
 }

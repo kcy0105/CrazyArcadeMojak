@@ -25,11 +25,5 @@ void WaterBomb::OnRelease()
 {
 }
 
-void WaterBomb::OnColliderEndOverlap(Collider* collider, Collider* other)
-{
-	if (other->GetOwner() == static_cast<Object*>(_owner))
-	{
-		_ownerCanPass = false;
-	}
-}
+
 

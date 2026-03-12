@@ -3,6 +3,7 @@
 
 class MyPlayer;
 class MapObject;
+class SyncObject;
 
 class DevScene : public Scene
 {
@@ -15,15 +16,12 @@ public:
 	virtual void OnRelease() override;
 
 public:
-	MapObject* GetMapObjectAt(Pos pos);
-
-public:
 	void SetMyPlayer(MyPlayer* myPlayer) { _myPlayer = myPlayer; }
 	MyPlayer* GetMyPlayer() { return _myPlayer; }
 	uint64 GetMyPlayerId();
 
 public:
-	Player* GetSyncObject(uint64 id);
+	SyncObject* GetSyncObject(uint64 id);
 
 private:
 	MyPlayer* _myPlayer = nullptr;

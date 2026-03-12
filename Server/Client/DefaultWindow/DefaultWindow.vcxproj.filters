@@ -66,6 +66,9 @@
     <Filter Include="소스 파일\03. Obj\Game\Map">
       <UniqueIdentifier>{ae569a64-16bb-4e37-af87-bf7f03558039}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. Manager\Game">
+      <UniqueIdentifier>{f49011f1-0947-43e1-9059-422bd8d9515b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -230,6 +233,9 @@
     <ClInclude Include="MapObject.h">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>소스 파일\01. Manager\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -372,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>소스 파일\01. Manager\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

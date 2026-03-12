@@ -71,6 +71,9 @@ extern S_RemoveObjectDefaultTypeInternal _S_RemoveObject_default_instance_;
 class S_Tilemap;
 struct S_TilemapDefaultTypeInternal;
 extern S_TilemapDefaultTypeInternal _S_Tilemap_default_instance_;
+class S_WaterBomb;
+struct S_WaterBombDefaultTypeInternal;
+extern S_WaterBombDefaultTypeInternal _S_WaterBomb_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C_Move* Arena::CreateMaybeMessage<::Protocol::C_Move>(Arena*);
@@ -81,6 +84,7 @@ template<> ::Protocol::S_Move* Arena::CreateMaybeMessage<::Protocol::S_Move>(Are
 template<> ::Protocol::S_MyPlayer* Arena::CreateMaybeMessage<::Protocol::S_MyPlayer>(Arena*);
 template<> ::Protocol::S_RemoveObject* Arena::CreateMaybeMessage<::Protocol::S_RemoveObject>(Arena*);
 template<> ::Protocol::S_Tilemap* Arena::CreateMaybeMessage<::Protocol::S_Tilemap>(Arena*);
+template<> ::Protocol::S_WaterBomb* Arena::CreateMaybeMessage<::Protocol::S_WaterBomb>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -1619,10 +1623,20 @@ class C_WaterBomb final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTileposxFieldNumber = 1,
-    kTileposyFieldNumber = 2,
+    kOwneridFieldNumber = 1,
+    kTileposxFieldNumber = 2,
+    kTileposyFieldNumber = 3,
   };
-  // int32 tileposx = 1;
+  // uint64 ownerid = 1;
+  void clear_ownerid();
+  uint64_t ownerid() const;
+  void set_ownerid(uint64_t value);
+  private:
+  uint64_t _internal_ownerid() const;
+  void _internal_set_ownerid(uint64_t value);
+  public:
+
+  // int32 tileposx = 2;
   void clear_tileposx();
   int32_t tileposx() const;
   void set_tileposx(int32_t value);
@@ -1631,7 +1645,7 @@ class C_WaterBomb final :
   void _internal_set_tileposx(int32_t value);
   public:
 
-  // int32 tileposy = 2;
+  // int32 tileposy = 3;
   void clear_tileposy();
   int32_t tileposy() const;
   void set_tileposy(int32_t value);
@@ -1648,6 +1662,188 @@ class C_WaterBomb final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    uint64_t ownerid_;
+    int32_t tileposx_;
+    int32_t tileposy_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_WaterBomb final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_WaterBomb) */ {
+ public:
+  inline S_WaterBomb() : S_WaterBomb(nullptr) {}
+  ~S_WaterBomb() override;
+  explicit PROTOBUF_CONSTEXPR S_WaterBomb(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_WaterBomb(const S_WaterBomb& from);
+  S_WaterBomb(S_WaterBomb&& from) noexcept
+    : S_WaterBomb() {
+    *this = ::std::move(from);
+  }
+
+  inline S_WaterBomb& operator=(const S_WaterBomb& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_WaterBomb& operator=(S_WaterBomb&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_WaterBomb& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_WaterBomb* internal_default_instance() {
+    return reinterpret_cast<const S_WaterBomb*>(
+               &_S_WaterBomb_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(S_WaterBomb& a, S_WaterBomb& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_WaterBomb* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_WaterBomb* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_WaterBomb* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_WaterBomb>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_WaterBomb& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_WaterBomb& from) {
+    S_WaterBomb::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_WaterBomb* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_WaterBomb";
+  }
+  protected:
+  explicit S_WaterBomb(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectidFieldNumber = 1,
+    kOwneridFieldNumber = 2,
+    kTileposxFieldNumber = 3,
+    kTileposyFieldNumber = 4,
+  };
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
+  private:
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
+  public:
+
+  // uint64 ownerid = 2;
+  void clear_ownerid();
+  uint64_t ownerid() const;
+  void set_ownerid(uint64_t value);
+  private:
+  uint64_t _internal_ownerid() const;
+  void _internal_set_ownerid(uint64_t value);
+  public:
+
+  // int32 tileposx = 3;
+  void clear_tileposx();
+  int32_t tileposx() const;
+  void set_tileposx(int32_t value);
+  private:
+  int32_t _internal_tileposx() const;
+  void _internal_set_tileposx(int32_t value);
+  public:
+
+  // int32 tileposy = 4;
+  void clear_tileposy();
+  int32_t tileposy() const;
+  void set_tileposy(int32_t value);
+  private:
+  int32_t _internal_tileposy() const;
+  void _internal_set_tileposy(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_WaterBomb)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t objectid_;
+    uint64_t ownerid_;
     int32_t tileposx_;
     int32_t tileposy_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -2537,7 +2733,27 @@ S_Tilemap::mutable_values() {
 
 // C_WaterBomb
 
-// int32 tileposx = 1;
+// uint64 ownerid = 1;
+inline void C_WaterBomb::clear_ownerid() {
+  _impl_.ownerid_ = uint64_t{0u};
+}
+inline uint64_t C_WaterBomb::_internal_ownerid() const {
+  return _impl_.ownerid_;
+}
+inline uint64_t C_WaterBomb::ownerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_WaterBomb.ownerid)
+  return _internal_ownerid();
+}
+inline void C_WaterBomb::_internal_set_ownerid(uint64_t value) {
+  
+  _impl_.ownerid_ = value;
+}
+inline void C_WaterBomb::set_ownerid(uint64_t value) {
+  _internal_set_ownerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_WaterBomb.ownerid)
+}
+
+// int32 tileposx = 2;
 inline void C_WaterBomb::clear_tileposx() {
   _impl_.tileposx_ = 0;
 }
@@ -2557,7 +2773,7 @@ inline void C_WaterBomb::set_tileposx(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_WaterBomb.tileposx)
 }
 
-// int32 tileposy = 2;
+// int32 tileposy = 3;
 inline void C_WaterBomb::clear_tileposy() {
   _impl_.tileposy_ = 0;
 }
@@ -2577,9 +2793,95 @@ inline void C_WaterBomb::set_tileposy(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_WaterBomb.tileposy)
 }
 
+// -------------------------------------------------------------------
+
+// S_WaterBomb
+
+// uint64 objectid = 1;
+inline void S_WaterBomb::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
+}
+inline uint64_t S_WaterBomb::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline uint64_t S_WaterBomb::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_WaterBomb.objectid)
+  return _internal_objectid();
+}
+inline void S_WaterBomb::_internal_set_objectid(uint64_t value) {
+  
+  _impl_.objectid_ = value;
+}
+inline void S_WaterBomb::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_WaterBomb.objectid)
+}
+
+// uint64 ownerid = 2;
+inline void S_WaterBomb::clear_ownerid() {
+  _impl_.ownerid_ = uint64_t{0u};
+}
+inline uint64_t S_WaterBomb::_internal_ownerid() const {
+  return _impl_.ownerid_;
+}
+inline uint64_t S_WaterBomb::ownerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_WaterBomb.ownerid)
+  return _internal_ownerid();
+}
+inline void S_WaterBomb::_internal_set_ownerid(uint64_t value) {
+  
+  _impl_.ownerid_ = value;
+}
+inline void S_WaterBomb::set_ownerid(uint64_t value) {
+  _internal_set_ownerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_WaterBomb.ownerid)
+}
+
+// int32 tileposx = 3;
+inline void S_WaterBomb::clear_tileposx() {
+  _impl_.tileposx_ = 0;
+}
+inline int32_t S_WaterBomb::_internal_tileposx() const {
+  return _impl_.tileposx_;
+}
+inline int32_t S_WaterBomb::tileposx() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_WaterBomb.tileposx)
+  return _internal_tileposx();
+}
+inline void S_WaterBomb::_internal_set_tileposx(int32_t value) {
+  
+  _impl_.tileposx_ = value;
+}
+inline void S_WaterBomb::set_tileposx(int32_t value) {
+  _internal_set_tileposx(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_WaterBomb.tileposx)
+}
+
+// int32 tileposy = 4;
+inline void S_WaterBomb::clear_tileposy() {
+  _impl_.tileposy_ = 0;
+}
+inline int32_t S_WaterBomb::_internal_tileposy() const {
+  return _impl_.tileposy_;
+}
+inline int32_t S_WaterBomb::tileposy() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_WaterBomb.tileposy)
+  return _internal_tileposy();
+}
+inline void S_WaterBomb::_internal_set_tileposy(int32_t value) {
+  
+  _impl_.tileposy_ = value;
+}
+inline void S_WaterBomb::set_tileposy(int32_t value) {
+  _internal_set_tileposy(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_WaterBomb.tileposy)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
