@@ -1,54 +1,23 @@
 #pragma once
 
-enum
-{
-	S_EnterGame = 1,
-
-	S_MyPlayer = 4,
-	S_AddObject = 5,
-	S_RemoveObject = 6,
-
-	C_Move = 10,
-	S_Move = 11,
-
-	S_Tilemap = 15,
-
-	C_WaterBomb = 20,
-	S_WaterBomb = 21,
-};
+#include "Protocol.pb.h"
 
 class ClientPacketHandler
 {
 public:
-	static void HandlePacket(ServerSessionRef session, BYTE* buffer, int32 len);
 
-	// 받기
-	static void Handle_S_EnterGame(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_MyPlayer(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_AddObject(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len);
-	static void Handle_S_WaterBomb(ServerSessionRef session, BYTE* buffer, int32 len);
+    static void Handle_S_EnterGame(SessionRef session, Protocol::S_EnterGame& pkt);
 
-	// 보내기
-	static SendBufferRef Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy);
-	static SendBufferRef Make_C_WaterBomb(uint64 ownerid, float tileposx, float tileposy);
+    static void Handle_S_MyPlayer(SessionRef session, Protocol::S_MyPlayer& pkt);
 
-	template<typename T>
-	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
-	{
-		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
-		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+    static void Handle_S_AddObject(SessionRef session, Protocol::S_AddObject& pkt);
 
-		SendBufferRef sendBuffer = make_shared<SendBuffer>(packetSize);
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
-		header->size = packetSize;
-		header->id = pktId;
-		assert(pkt.SerializeToArray(&header[1], dataSize));
-		sendBuffer->Close(packetSize);
+    static void Handle_S_RemoveObject(SessionRef session, Protocol::S_RemoveObject& pkt);
 
-		return sendBuffer;
-	}
+    static void Handle_S_Move(SessionRef session, Protocol::S_Move& pkt);
+
+    static void Handle_S_Tilemap(SessionRef session, Protocol::S_Tilemap& pkt);
+
+    static void Handle_S_WaterBomb(SessionRef session, Protocol::S_WaterBomb& pkt);
+
 };
-

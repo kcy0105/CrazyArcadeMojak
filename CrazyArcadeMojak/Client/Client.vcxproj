@@ -152,6 +152,7 @@
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="PacketEnum.h" />
     <ClInclude Include="SyncObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Protocol.pb.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
+    <ClCompile Include="ClientPacketHandler.gen.cpp" />
     <ClCompile Include="DevScene.cpp" />
     <ClCompile Include="EditScene.cpp" />
     <ClCompile Include="Flipbook.cpp" />

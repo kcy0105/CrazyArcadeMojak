@@ -10,7 +10,7 @@ GameRoomRef GRoom = make_shared<GameRoom>();
 
 void GameRoom::Init()
 {
-	LoadTilemap(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\Server\\Client\\Resources\\Tilemap.txt");
+	LoadTilemap(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\CrazyArcadeMojak\\Resources\\Tilemap.txt");
 }
 
 void GameRoom::Update()
@@ -38,51 +38,51 @@ void GameRoom::EnterRoom(GameSessionRef session)
 
 	// 입장한 클라에게 정보를 보내주기
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MyPlayer(player->GetObjectId(), player->GetPos().x, player->GetPos().y, player->GetDir(), player->GetState(), player->GetMoveSpeed());
-		session->Send(sendBuffer);
+		Protocol::S_MyPlayer pkt;
+		pkt.set_objectid(player->GetObjectId());
+		pkt.set_posx(player->GetPos().x);
+		pkt.set_posy(player->GetPos().y);
+		pkt.set_dir(player->GetDir());
+		pkt.set_state(player->GetState());
+		pkt.set_movespeed(player->GetMoveSpeed());
+		session->SendPacket(pkt);
 	}
 	// 모든 오브젝트 정보 전송
 	{
 		Protocol::S_AddObject pkt;
 
-		vector<uint64> objectids;
-		vector<int32> objecttypes;
-		vector<float> posxs;
-		vector<float> posys;
-		vector<int32> states;
-		vector<int32> dirs;
-		vector<float> movespeeds;
-
 		for (auto& item : _players)
 		{
-			objectids.push_back(item.second->GetObjectId());
-			objecttypes.push_back(item.second->GetObjectType());
-			posxs.push_back((item.second->GetPos().x));
-			posys.push_back((item.second->GetPos().y));
-			states.push_back(item.second->GetState());
-			dirs.push_back(item.second->GetDir());
-			movespeeds.push_back((item.second->GetMoveSpeed()));
+			pkt.add_objectids(item.second->GetObjectId());
+			pkt.add_objecttypes(item.second->GetObjectType());
+			pkt.add_posxs((item.second->GetPos().x));
+			pkt.add_posys((item.second->GetPos().y));
+			pkt.add_states(item.second->GetState());
+			pkt.add_dirs(item.second->GetDir());
+			pkt.add_movespeeds((item.second->GetMoveSpeed()));
 		}
 
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject(objectids, objecttypes, posxs, posys, states, dirs, movespeeds);
-		session->Send(sendBuffer);
+		session->SendPacket(pkt);
 	}
 	// 타일맵 정보 전송
 	{
-		int32 mapsizex = _mapObjects[0].size();
-		int32 mapsizey = _mapObjects.size();
-		vector<vector<int>> values = vector<vector<int>>(mapsizey, vector<int>(mapsizex));
-		for (int y = 0; y < mapsizey; y++)
+		Protocol::S_Tilemap pkt;
+
+		pkt.set_mapsizex(_mapObjects[0].size());
+		pkt.set_mapsizey(_mapObjects.size());
+		vector<vector<int>> values = vector<vector<int>>(pkt.mapsizey(), vector<int>(pkt.mapsizex()));
+		for (int y = 0; y < pkt.mapsizey(); y++)
 		{
-			for (int x = 0; x < mapsizex; x++)
+			for (int x = 0; x < pkt.mapsizex(); x++)
 			{
 				if (_mapObjects[y][x])
-					values[y][x] = _mapObjects[y][x]->GetMapObjectType();
+					pkt.add_values(_mapObjects[y][x]->GetMapObjectType());
+				else
+					pkt.add_values(0);
 			}
 		}
 		
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Tilemap(mapsizex, mapsizey, values);
-		session->Send(sendBuffer);
+		session->SendPacket(pkt);
 	}
 
 	AddObject(player);
@@ -142,8 +142,15 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	}
 
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(player->GetObjectId(), player->GetState(), player->GetDir(), player->GetPos().x, player->GetPos().y, needsync);
-		Broadcast(sendBuffer);
+		Protocol::S_Move pkt;
+		pkt.set_objectid(player->GetObjectId());
+		pkt.set_state(player->GetState());
+		pkt.set_dir(player->GetDir());
+		pkt.set_posx(player->GetPos().x);
+		pkt.set_posy(player->GetPos().y);
+		pkt.set_needsync(needsync);
+
+		Broadcast(pkt);
 	}
 }
 
@@ -187,8 +194,13 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 	}
 
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_WaterBomb(bomb->GetObjectId(), ownerId, tilePosX, tilePosY);
-		Broadcast(sendBuffer);
+		Protocol::S_WaterBomb pkt;
+		pkt.set_objectid(bomb->GetObjectId());
+		pkt.set_ownerid(ownerId);
+		pkt.set_tileposx(tilePosX);
+		pkt.set_tileposy(tilePosY);
+
+		Broadcast(pkt);
 	}
 }
 
@@ -205,8 +217,16 @@ void GameRoom::AddObject(ObjectRef object)
 			PlayerRef player = static_pointer_cast<Player>(object);
 			_players[id] = player;
 
-			SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject({ id }, { objectType }, { player->GetPos().x }, {player->GetPos().y}, {player->GetState()}, {player->GetDir()}, {player->GetMoveSpeed()});
-			Broadcast(sendBuffer);
+			Protocol::S_AddObject pkt;
+			pkt.add_objectids(id);
+			pkt.add_objecttypes(objectType);
+			pkt.add_posxs(player->GetPos().x);
+			pkt.add_posys(player->GetPos().y);
+			pkt.add_states(player->GetState());
+			pkt.add_dirs(player->GetDir());
+			pkt.add_movespeeds(player->GetMoveSpeed());
+
+			Broadcast(pkt);
 		}
 			break;
 		default:
@@ -235,16 +255,10 @@ void GameRoom::RemoveObject(uint64 id)
 
 	// 오브젝트 삭제 전송
 	{
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_RemoveObject({id});
-		Broadcast(sendBuffer);
-	}
-}
+		Protocol::S_RemoveObject pkt;
+		pkt.add_objectids(id);
 
-void GameRoom::Broadcast(SendBufferRef& sendBuffer)
-{
-	for (auto& item : _players)
-	{
-		item.second->session->Send(sendBuffer);
+		Broadcast(pkt);
 	}
 }
 

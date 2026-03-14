@@ -1,4 +1,7 @@
 #pragma once
+#include "PacketEnum.h"
+#include "PacketUtils.h"
+#include "ServerSession.h"
 
 using ServerSessionRef = shared_ptr<class ServerSession>;
 
@@ -11,7 +14,16 @@ public:
 	void Update();
 
 	ServerSessionRef CreateSession();
-	void SendPacket(SendBufferRef sendBuffer);
+    template<typename T>
+    void SendPacket(T& pkt)
+    {
+        if (_session == nullptr)
+            return;
+
+        SendBufferRef sendBuffer = PacketUtils::MakeSendBuffer(pkt);
+
+        _session->Send(sendBuffer);
+    }
 
 private:
 	ClientServiceRef _service;

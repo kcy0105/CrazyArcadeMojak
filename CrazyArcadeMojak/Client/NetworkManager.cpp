@@ -37,9 +37,3 @@ ServerSessionRef NetworkManager::CreateSession()
 {
 	return _session = make_shared<ServerSession>();
 }
-
-void NetworkManager::SendPacket(SendBufferRef sendBuffer)
-{
-	if (_session)
-		_session->Send(sendBuffer);
-}

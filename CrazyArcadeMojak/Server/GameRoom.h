@@ -25,7 +25,15 @@ public:
 public:
 	void AddObject(ObjectRef gameObject);
 	void RemoveObject(uint64 id);
-	void Broadcast(SendBufferRef& sendBuffer);
+
+	template<typename T>
+	void Broadcast(T& pkt)
+	{
+		for (auto& item : _players)
+		{
+			item.second->session->SendPacket(pkt);
+		}
+	}
 
 	void TryMove(Player& player, Pos nextPos);
 

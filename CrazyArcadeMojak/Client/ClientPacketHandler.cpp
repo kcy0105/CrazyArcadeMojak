@@ -8,65 +8,16 @@
 #include "MapManager.h"
 #include "WaterBomb.h"
 
-void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_EnterGame(SessionRef session, Protocol::S_EnterGame& pkt)
 {
-	BufferReader br(buffer, len);
-
-	PacketHeader header;
-	br >> header;
-
-	switch (header.id)
-	{
-		case S_EnterGame:
-			Handle_S_EnterGame(session, buffer, len);
-			break;
-		case S_MyPlayer:
-			Handle_S_MyPlayer(session, buffer, len);
-			break;
-		case S_AddObject:
-			Handle_S_AddObject(session, buffer, len);
-			break;
-		case S_RemoveObject:
-			Handle_S_RemoveObject(session, buffer, len);
-			break;
-		case S_Move:
-			Handle_S_Move(session, buffer, len);
-			break;
-		case S_Tilemap:
-			Handle_S_Tilemap(session, buffer, len);
-			break;
-		case S_WaterBomb:
-			Handle_S_WaterBomb(session, buffer, len);
-			break;
-	}
-}
-
-
-void ClientPacketHandler::Handle_S_EnterGame(ServerSessionRef session, BYTE* buffer, int32 len)
-{
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_EnterGame pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	bool success = pkt.success();
 	uint64 accountId = pkt.accountid();
 
 	// TODO
-
 }
 
-void ClientPacketHandler::Handle_S_MyPlayer(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_MyPlayer(SessionRef session, Protocol::S_MyPlayer& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_MyPlayer pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
 	if (scene)
 	{
@@ -80,15 +31,8 @@ void ClientPacketHandler::Handle_S_MyPlayer(ServerSessionRef session, BYTE* buff
 	}
 }
 
-void ClientPacketHandler::Handle_S_AddObject(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_AddObject(SessionRef session, Protocol::S_AddObject& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_AddObject pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
 
 	if (scene)
@@ -111,18 +55,10 @@ void ClientPacketHandler::Handle_S_AddObject(ServerSessionRef session, BYTE* buf
 			}
 		}
 	}
-	
 }
 
-void ClientPacketHandler::Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_RemoveObject(SessionRef session, Protocol::S_RemoveObject& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_RemoveObject pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
 	if (scene)
 	{
@@ -139,15 +75,8 @@ void ClientPacketHandler::Handle_S_RemoveObject(ServerSessionRef session, BYTE* 
 	}
 }
 
-void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_Move(SessionRef session, Protocol::S_Move& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_Move pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
 	if (scene)
 	{
@@ -178,15 +107,8 @@ void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, 
 	}
 }
 
-void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_Tilemap(SessionRef session, Protocol::S_Tilemap& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_Tilemap pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	int32 mapSizeX = pkt.mapsizex();
 	int32 mapSizeY = pkt.mapsizey();
 
@@ -204,15 +126,8 @@ void ClientPacketHandler::Handle_S_Tilemap(ServerSessionRef session, BYTE* buffe
 	}
 }
 
-void ClientPacketHandler::Handle_S_WaterBomb(ServerSessionRef session, BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_S_WaterBomb(SessionRef session, Protocol::S_WaterBomb& pkt)
 {
-	PacketHeader* header = (PacketHeader*)buffer;
-	//uint16 id = header->id;
-	uint16 size = header->size;
-
-	Protocol::S_WaterBomb pkt;
-	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
-
 	uint64 objectid = pkt.objectid();
 	uint64 ownerid = pkt.ownerid();
 	int32 tileposx = pkt.tileposx();
@@ -227,7 +142,7 @@ void ClientPacketHandler::Handle_S_WaterBomb(ServerSessionRef session, BYTE* buf
 		bomb->SetObjectId(objectid);
 		return;
 	}
-		
+
 
 	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(MapManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tileposx, tileposy }));
 	Player* player = static_cast<Player*>(GET_SINGLE(SceneManager)->GetDevScene()->GetSyncObject(ownerid));
@@ -243,28 +158,4 @@ void ClientPacketHandler::Handle_S_WaterBomb(ServerSessionRef session, BYTE* buf
 		bomb->SetPassable(true);
 		myPlayer->AddOverlapBomb(bomb);
 	}
-}
-
-SendBufferRef ClientPacketHandler::Make_C_Move(uint64 objectid, int32 state, int32 dir, float posx, float posy)
-{
-	Protocol::C_Move pkt;
-
-	pkt.set_objectid(objectid);
-	pkt.set_state(state);
-	pkt.set_dir(dir);
-	pkt.set_posx(posx);
-	pkt.set_posy(posy);
-
-	return MakeSendBuffer(pkt, C_Move);
-}
-
-SendBufferRef ClientPacketHandler::Make_C_WaterBomb(uint64 ownerid, float tileposx, float tileposy)
-{
-	Protocol::C_WaterBomb pkt;
-
-	pkt.set_ownerid(ownerid);
-	pkt.set_tileposx(tileposx);
-	pkt.set_tileposy(tileposy);
-
-	return MakeSendBuffer(pkt, C_WaterBomb);
 }

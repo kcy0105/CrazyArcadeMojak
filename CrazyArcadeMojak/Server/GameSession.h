@@ -1,5 +1,7 @@
 #pragma once
 #include "Session.h"
+#include "PacketEnum.h"
+#include "PacketUtils.h"
 
 class GameSession : public PacketSession
 {
@@ -15,6 +17,13 @@ public:
 	virtual void OnSend(int32 len) override;
 
 	GameSessionRef GetSessionRef() { return static_pointer_cast<GameSession>(shared_from_this()); }
+
+	template<typename T>
+	void SendPacket(T& pkt)
+	{
+		SendBufferRef sendBuffer = PacketUtils::MakeSendBuffer(pkt);
+		Send(sendBuffer);
+	}
 
 public:
 	weak_ptr<GameRoom> gameRoom;

@@ -31,6 +31,7 @@ public:
 	bool				Connect();
 	void				Disconnect(const WCHAR* cause);
 
+
 	shared_ptr<Service>	GetService() { return _service.lock(); }
 	void				SetService(shared_ptr<Service> service) { _service = service; }
 

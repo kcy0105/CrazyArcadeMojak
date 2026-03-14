@@ -21,6 +21,9 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{9ab952b6-2d99-42c5-9797-f4b34c467316}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Packet">
+      <UniqueIdentifier>{07210c9b-6d8b-4bd6-8a63-6679d2737b5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -77,6 +80,18 @@
     <ClInclude Include="BufferReader.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandlerRegistry.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketMacro.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketUtils.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -129,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="BufferReader.cpp">
       <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>소스 파일\Packet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 #pragma once
-#include "ClientPacketHandler.h"
+#include "PacketHandler.h"
 
 class ServerSession : public PacketSession
 {
@@ -16,7 +16,7 @@ public:
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
 	{
-		ClientPacketHandler::HandlePacket(static_pointer_cast<ServerSession>(shared_from_this()), buffer, len);
+		PacketHandler::HandlePacket(static_pointer_cast<ServerSession>(shared_from_this()), buffer, len);
 	}
 
 	virtual void OnSend(int32 len) override

@@ -9,19 +9,50 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Protocol">
+    <Filter Include="소스 파일\Proto">
       <UniqueIdentifier>{2ed9d7e2-e0da-4100-89f6-789068ebe3b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PacketGen">
+      <UniqueIdentifier>{9302c1b6-b39f-4708-85bd-4a36ec1734e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{27afc7db-1aad-43b9-8426-eb03c14a4bdd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Common\protoc-21.12-win64\binaries\Protocol.proto">
-      <Filter>소스 파일\Protocol</Filter>
-    </None>
-    <None Include="..\Common\protoc-21.12-win64\binaries\Struct.proto">
-      <Filter>소스 파일\Protocol</Filter>
-    </None>
-    <None Include="..\Common\protoc-21.12-win64\binaries\GenPackets.bat">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeGen.cpp">
+      <Filter>소스 파일\PacketGen</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtoParser.cpp">
+      <Filter>소스 파일\PacketGen</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CodeGen.h">
+      <Filter>소스 파일\PacketGen</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtoParser.h">
+      <Filter>소스 파일\PacketGen</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\GenPackets.bat">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="..\Common\Protocol.proto">
+      <Filter>소스 파일\Proto</Filter>
+    </None>
+    <None Include="..\Common\Struct.proto">
+      <Filter>소스 파일\Proto</Filter>
     </None>
   </ItemGroup>
 </Project>

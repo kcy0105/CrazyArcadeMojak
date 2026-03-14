@@ -233,6 +233,9 @@
     <ClInclude Include="MapManager.h">
       <Filter>소스 파일\01. Manager\Game</Filter>
     </ClInclude>
+    <ClInclude Include="PacketEnum.h">
+      <Filter>소스 파일\07. Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -375,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>소스 파일\01. Manager\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.gen.cpp">
+      <Filter>소스 파일\07. Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

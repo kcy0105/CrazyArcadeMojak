@@ -175,6 +175,7 @@
     </ClCompile>
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerPacketHandler.cpp" />
+    <ClCompile Include="ServerPacketHandler.gen.cpp" />
     <ClCompile Include="SolidBlock.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -191,6 +192,7 @@
     <ClInclude Include="GameSessionManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="PacketEnum.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Protocol.pb.h" />

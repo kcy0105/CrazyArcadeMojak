@@ -1,14 +1,20 @@
 #include "pch.h"
 #include "GameSession.h"
 #include "GameSessionManager.h"
-#include "ServerPacketHandler.h"
 #include "GameRoom.h"
+#include "PacketUtils.h"
+#include "PacketHandler.h"
 
 void GameSession::OnConnected()
 {
 	GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
 
-	Send(ServerPacketHandler::Make_S_EnterGame());
+	Protocol::S_EnterGame pkt;
+	// TEMP
+	pkt.set_accountid(0);
+	pkt.set_success(true);
+
+	SendPacket(pkt);
 
 	// 게임 입장
 	GRoom->EnterRoom(GetSessionRef());
@@ -24,7 +30,7 @@ void GameSession::OnDisconnected()
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)
 {
-	ServerPacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), buffer, len);
+	PacketHandler::HandlePacket(static_pointer_cast<GameSession>(shared_from_this()), buffer, len);
 }
 
 void GameSession::OnSend(int32 len)

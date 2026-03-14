@@ -152,8 +152,12 @@ void MyPlayer::HandleBombInput()
 	{
 		if (SpawnWaterBomb())
 		{
-			SendBufferRef sendBuffer = ClientPacketHandler::Make_C_WaterBomb(GetObjectId(), GetTilePos().x, GetTilePos().y);
-			GET_SINGLE(NetworkManager)->SendPacket(sendBuffer);
+			Protocol::C_WaterBomb pkt;
+			pkt.set_ownerid(GetObjectId());
+			pkt.set_tileposx(GetTilePos().x);
+			pkt.set_tileposy(GetTilePos().y);
+
+			GET_SINGLE(NetworkManager)->SendPacket(pkt);
 		}
 	}
 }
@@ -246,6 +250,12 @@ bool MyPlayer::SpawnWaterBomb()
 
 void MyPlayer::SyncToServer()
 {
-	SendBufferRef sendBuffer = ClientPacketHandler::Make_C_Move(GetObjectId(), GetState(), GetDir(), GetPos().x, GetPos().y);
-	GET_SINGLE(NetworkManager)->SendPacket(sendBuffer);
+	Protocol::C_Move pkt;
+	pkt.set_objectid(GetObjectId());
+	pkt.set_state(GetState());
+	pkt.set_dir(GetDir());
+	pkt.set_posx(GetPos().x);
+	pkt.set_posy(GetPos().y);
+
+	GET_SINGLE(NetworkManager)->SendPacket(pkt);
 }
