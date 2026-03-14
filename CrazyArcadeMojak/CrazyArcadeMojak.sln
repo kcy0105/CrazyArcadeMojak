@@ -5,9 +5,11 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{F4D7F64B-8873-49B1-9AA9-915EB065D00F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerCore", "ServerCore\ServerCore.vcxproj", "{90065A5D-0322-426C-8417-C75621D96666}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.vcxproj", "{90065A5D-0322-426C-8417-C75621D96666}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameCoding", "Client\DefaultWindow\DefaultWindow.vcxproj", "{64CF4E18-3839-491D-AD66-F1617DF5BDAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{64CF4E18-3839-491D-AD66-F1617DF5BDAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Protocol", "Protocol\Protocol.vcxproj", "{30D39F0C-3D24-46ED-B865-525B9BA32490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{64CF4E18-3839-491D-AD66-F1617DF5BDAA}.Release|x64.Build.0 = Release|x64
 		{64CF4E18-3839-491D-AD66-F1617DF5BDAA}.Release|x86.ActiveCfg = Release|Win32
 		{64CF4E18-3839-491D-AD66-F1617DF5BDAA}.Release|x86.Build.0 = Release|Win32
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Debug|x64.ActiveCfg = Debug|x64
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Debug|x64.Build.0 = Debug|x64
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Debug|x86.ActiveCfg = Debug|Win32
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Debug|x86.Build.0 = Debug|Win32
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Release|x64.ActiveCfg = Release|x64
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Release|x64.Build.0 = Release|x64
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Release|x86.ActiveCfg = Release|Win32
+		{30D39F0C-3D24-46ED-B865-525B9BA32490}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,6 @@ namespace fs = std::filesystem;
 using namespace std;
 
 #include "Protocol.pb.h"
-#include "Enum.pb.h"
 #include "Struct.pb.h"
 
 #include "Types.h"
@@ -30,9 +29,9 @@ using namespace std;
 #endif
 
 #ifdef _DEBUG
-#pragma comment(lib, "ServerCore\\Debug\\ServerCore.lib")
+#pragma comment(lib, "Network\\Debug\\Network.lib")
 #pragma comment(lib, "Protobuf\\Debug\\libprotobufd.lib")
 #else
-#pragma comment(lib, "ServerCore\\Release\\ServerCore.lib")
+#pragma comment(lib, "Network\\Release\\Network.lib")
 #pragma comment(lib, "Protobuf\\Release\\libprotobuf.lib")
 #endif

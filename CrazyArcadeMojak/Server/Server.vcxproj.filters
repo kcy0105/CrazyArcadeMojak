@@ -12,12 +12,6 @@
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{56666519-1819-4e7c-97b7-a37d99e70270}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Protocol">
-      <UniqueIdentifier>{219eb0a4-5968-4942-acd9-932b634966ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Protocol\Proto">
-      <UniqueIdentifier>{ff0a2eb7-15b4-400b-8190-3b031c5228e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Game">
       <UniqueIdentifier>{e37c072b-6dc2-43ae-850c-c095f2e1aaea}</UniqueIdentifier>
     </Filter>
@@ -32,6 +26,9 @@
     </Filter>
     <Filter Include="소스 파일\Game\Object\Map">
       <UniqueIdentifier>{a0cae170-0a29-4020-944d-3c0893e50b70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Protocol">
+      <UniqueIdentifier>{3ea73042-aafd-497d-b506-cb0bbdc97a31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,15 +46,6 @@
     </ClCompile>
     <ClCompile Include="ServerPacketHandler.cpp">
       <Filter>소스 파일\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Protocol.pb.cc">
-      <Filter>소스 파일\Protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="Struct.pb.cc">
-      <Filter>소스 파일\Protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="Enum.pb.cc">
-      <Filter>소스 파일\Protocol</Filter>
     </ClCompile>
     <ClCompile Include="GameRoom.cpp">
       <Filter>소스 파일\Game\Room</Filter>
@@ -86,6 +74,12 @@
     <ClCompile Include="Utils.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
+    <ClCompile Include="Protocol.pb.cc">
+      <Filter>소스 파일\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="Struct.pb.cc">
+      <Filter>소스 파일\Protocol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -99,15 +93,6 @@
     </ClInclude>
     <ClInclude Include="ServerPacketHandler.h">
       <Filter>소스 파일\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Protocol.pb.h">
-      <Filter>소스 파일\Protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="Enum.pb.h">
-      <Filter>소스 파일\Protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="Struct.pb.h">
-      <Filter>소스 파일\Protocol</Filter>
     </ClInclude>
     <ClInclude Include="GameRoom.h">
       <Filter>소스 파일\Game\Room</Filter>
@@ -145,19 +130,11 @@
     <ClInclude Include="Utils.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Common\protoc-21.12-win64\binaries\Enum.proto">
-      <Filter>소스 파일\Protocol\Proto</Filter>
-    </None>
-    <None Include="..\Common\protoc-21.12-win64\binaries\Protocol.proto">
-      <Filter>소스 파일\Protocol\Proto</Filter>
-    </None>
-    <None Include="..\Common\protoc-21.12-win64\binaries\Struct.proto">
-      <Filter>소스 파일\Protocol\Proto</Filter>
-    </None>
-    <None Include="..\Common\protoc-21.12-win64\binaries\GenPackets.bat">
+    <ClInclude Include="Protocol.pb.h">
       <Filter>소스 파일\Protocol</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="Struct.pb.h">
+      <Filter>소스 파일\Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

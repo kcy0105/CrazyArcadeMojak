@@ -295,36 +295,35 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
-  "Struct.proto\"1\n\013S_EnterGame\022\017\n\007success\030\001"
-  " \001(\010\022\021\n\taccountId\030\002 \001(\004\"i\n\nS_MyPlayer\022\020\n"
-  "\010objectid\030\001 \001(\004\022\014\n\004posx\030\002 \001(\002\022\014\n\004posy\030\003 "
-  "\001(\002\022\013\n\003dir\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\tmoves"
-  "peed\030\006 \001(\002\"\205\001\n\013S_AddObject\022\021\n\tobjectids\030"
-  "\001 \003(\004\022\023\n\013objecttypes\030\002 \003(\005\022\r\n\005posxs\030\003 \003("
-  "\002\022\r\n\005posys\030\004 \003(\002\022\016\n\006states\030\005 \003(\005\022\014\n\004dirs"
-  "\030\006 \003(\005\022\022\n\nmovespeeds\030\007 \003(\002\"#\n\016S_RemoveOb"
-  "ject\022\021\n\tobjectids\030\001 \003(\004\"R\n\006C_Move\022\020\n\010obj"
-  "ectid\030\001 \001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 \001(\005\022"
-  "\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\"d\n\006S_Move\022\020\n"
-  "\010objectid\030\001 \001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 "
-  "\001(\005\022\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\022\020\n\010needs"
-  "ync\030\006 \001(\010\"\?\n\tS_Tilemap\022\020\n\010mapsizex\030\001 \001(\005"
-  "\022\020\n\010mapsizey\030\002 \001(\005\022\016\n\006values\030\003 \003(\005\"B\n\013C_"
-  "WaterBomb\022\017\n\007ownerid\030\001 \001(\004\022\020\n\010tileposx\030\002"
-  " \001(\005\022\020\n\010tileposy\030\003 \001(\005\"T\n\013S_WaterBomb\022\020\n"
-  "\010objectid\030\001 \001(\004\022\017\n\007ownerid\030\002 \001(\004\022\020\n\010tile"
-  "posx\030\003 \001(\005\022\020\n\010tileposy\030\004 \001(\005b\006proto3"
+  "\n\016Protocol.proto\022\010Protocol\032\014Struct.proto"
+  "\"1\n\013S_EnterGame\022\017\n\007success\030\001 \001(\010\022\021\n\tacco"
+  "untId\030\002 \001(\004\"i\n\nS_MyPlayer\022\020\n\010objectid\030\001 "
+  "\001(\004\022\014\n\004posx\030\002 \001(\002\022\014\n\004posy\030\003 \001(\002\022\013\n\003dir\030\004"
+  " \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\tmovespeed\030\006 \001(\002\"\205"
+  "\001\n\013S_AddObject\022\021\n\tobjectids\030\001 \003(\004\022\023\n\013obj"
+  "ecttypes\030\002 \003(\005\022\r\n\005posxs\030\003 \003(\002\022\r\n\005posys\030\004"
+  " \003(\002\022\016\n\006states\030\005 \003(\005\022\014\n\004dirs\030\006 \003(\005\022\022\n\nmo"
+  "vespeeds\030\007 \003(\002\"#\n\016S_RemoveObject\022\021\n\tobje"
+  "ctids\030\001 \003(\004\"R\n\006C_Move\022\020\n\010objectid\030\001 \001(\004\022"
+  "\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 \001(\005\022\014\n\004posx\030\004 \001("
+  "\002\022\014\n\004posy\030\005 \001(\002\"d\n\006S_Move\022\020\n\010objectid\030\001 "
+  "\001(\004\022\r\n\005state\030\002 \001(\r\022\013\n\003dir\030\003 \001(\005\022\014\n\004posx\030"
+  "\004 \001(\002\022\014\n\004posy\030\005 \001(\002\022\020\n\010needsync\030\006 \001(\010\"\?\n"
+  "\tS_Tilemap\022\020\n\010mapsizex\030\001 \001(\005\022\020\n\010mapsizey"
+  "\030\002 \001(\005\022\016\n\006values\030\003 \003(\005\"B\n\013C_WaterBomb\022\017\n"
+  "\007ownerid\030\001 \001(\004\022\020\n\010tileposx\030\002 \001(\005\022\020\n\010tile"
+  "posy\030\003 \001(\005\"T\n\013S_WaterBomb\022\020\n\010objectid\030\001 "
+  "\001(\004\022\017\n\007ownerid\030\002 \001(\004\022\020\n\010tileposx\030\003 \001(\005\022\020"
+  "\n\010tileposy\030\004 \001(\005b\006proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
-  &::descriptor_table_Enum_2eproto,
+static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[1] = {
   &::descriptor_table_Struct_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 796, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 784, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
-    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 9,
+    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 1, 9,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
     file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto,
     file_level_service_descriptors_Protocol_2eproto,
