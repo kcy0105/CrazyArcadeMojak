@@ -143,7 +143,7 @@ virtual bool BlocksPlayer(const Player* player) const override
 ```
 ## 느낀 점
 입력 시 일단 동작하도록 하는 방식을 사용해서 그런지, 클라의 MyPlayer와 서버의 Player 동작이 거의 흡사하다. 클라의 나머지 오브젝트는 껍데기에 불과하다. 서버 권위를 두었다면 모든 오브젝트가 껍데기에 불과할 듯 하다.
-
+<br><br><br>
 # 2026-03-14 패킷 처리 자동화 및 전송 인터페이스 개선
 
 ## 1. proto 파일 컴파일 후 생성된 파일을 서버와 클라로 복사하는 작업을 별도 프로젝트로 분리
@@ -261,7 +261,7 @@ struct PacketIdType<Protocol::S_Move>
     static const uint16 value = S_Move;
 };
 ```
-
+<br><br><br>
 # 2026-03-15 오브젝트 관리 구조 개선
 ## 1. 클라이언트 측 ObjectManager 구현
 ### 이유
@@ -359,3 +359,180 @@ void GameRoom::Update()
 ```
 ## 느낀 점
 추가적인 컨테이너로 객체를 관리할 시, 객체를 삭제할 때 해당 컨테이너들도 비워주는 것을 잊지 말자.
+<br><br><br>
+# 2026.03.16 물폭탄 터짐, 블럭 부서짐 구현
+## 1. 물폭탄 터짐 패킷 설계
+### 상세
+서버 측에서 물폭탄 터짐을 처리하고, 다음의 패킷을 클라로 보내주도록 설계함.
+```
+message S_Explode
+{
+	// 물폭탄 id
+	uint64 objectid = 1;
+	
+	// 폭발 범위
+	int32 up = 2;
+	int32 down = 3;
+	int32 left = 4;
+	int32 right = 5;
+
+	// (부서진 블럭 id, 스폰된 아이템 id)
+	repeated DestroyedBlockInfo destroyedblockinfos = 6;
+	// 맞은 플레이어 id
+	repeated uint64 trappedplayerids = 7;
+	// 부서진 아이템 id
+	repeated uint64 destroyeditemids = 8;
+}
+```
+## 2. 서버 측 물폭탄 로직 구현
+### 상세
+1. SOLID_BLOCK에 닿았을 땐 폭발이 그 전에 끊김
+2. BREAKABLE_BLOCK에 닿았을 땐 블럭을 부수고 폭발이 거기까지 끊김
+3. WATER_BOMB에 닿았을 땐 해당 물폭탄도 폭발시킴
+4. 범위 내에 플레이어가 겹치면 trapped 처리
+
+GameRoom(Server)
+```
+void GameRoom::Explode(WaterBomb& bomb)
+{
+	bomb.SetExploded(true);
+
+	Vec2Int bombPos = bomb.GetTilePos();
+
+	Protocol::S_Explode pkt;
+	pkt.set_objectid(bomb.GetObjectId());
+
+	
+	// up down left right
+	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+	vector<uint8> counts(4, bomb.GetRange());
+
+	for (int i=0; i<4; i++)
+	{
+		Vec2Int dir = dirs[i];
+		for (int j = 1; j <= bomb.GetRange(); j++)
+		{
+			Vec2Int checkPos = bombPos + dir * j;
+
+			bool end = false;
+
+			/*======================
+			    Check Map Objects
+			=======================*/
+			MapObjectRef mapObject = GetMapObjectAt(checkPos);
+			if (mapObject)
+			{
+				switch (mapObject->GetMapObjectType())
+				{
+				case MAP_OBJECT_TYPE_SOLID_BLOCK:
+				{
+					counts[i] = j - 1;
+					end = true;
+				}
+					break;
+				case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
+				{
+					Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
+					info->set_blockid(mapObject->GetObjectId());
+					info->set_itemid(0); // TODO : 아이템 스폰
+
+					mapObject->Destroy();
+
+					counts[i] = j;
+					end = true;
+				}
+					break;
+				case MAP_OBJECT_TYPE_WATER_BOMB:
+				{
+					auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
+					if (otherBomb->GetExploded() == false)
+					{
+						otherBomb->Explode();
+					}
+				}
+					break;
+				}
+			}
+
+			if (end)
+				break;
+
+			
+			/*====================
+			     Check Players
+			=====================*/
+			for (auto& item : _players)
+			{
+				uint64 playerId = item.first;
+				PlayerRef player = item.second;
+
+				RECT r1 = { checkPos.x - TILE_SIZE / 2, checkPos.y - TILE_SIZE / 2, checkPos.x + TILE_SIZE / 2, checkPos.y + TILE_SIZE / 2 };
+				RECT r2 = player->GetRect();
+				RECT r = {};
+
+				if (::IntersectRect(&r, &r1, &r2))
+				{
+					pkt.add_trappedplayerids(playerId);
+
+					player->SetTrapped(true);
+				}
+			}
+
+			// TODO : 아이템 제거
+			
+		}
+	}
+
+	pkt.set_up(counts[0]);
+	pkt.set_down(counts[1]);
+	pkt.set_left(counts[2]);
+	pkt.set_right(counts[3]);
+
+	Broadcast(pkt);
+}
+```
+## 3. 클라 측 물폭탄 터짐 처리 : 이펙트, 블럭 부수기
+### 상세
+ClientPacketHandler(Client)
+```
+void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explode& pkt)
+{
+	uint64 id = pkt.objectid();
+
+	auto bomb = dynamic_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
+
+	if (bomb)
+	{
+		bomb->Explode(pkt.up(), pkt.down(), pkt.left(), pkt.right());
+	}
+
+
+	/*===============================
+	   Destroy Blocks & Spawn Items
+	================================*/
+	for (int i = 0; i < pkt.destroyedblockinfos_size(); i++)
+	{
+		Protocol::DestroyedBlockInfo info = pkt.destroyedblockinfos(i);
+
+		Object::DestroyObject(GET_SINGLE(ObjectManager)->GetSyncObject(info.blockid()));
+		// TODO : 아이템 생성
+	}
+
+
+	/*===============
+	   Trap Players
+	=================*/
+	for (int i = 0; i < pkt.trappedplayerids_size(); i++)
+	{
+		uint64 id = pkt.trappedplayerids(i);
+		auto player = dynamic_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
+		if (player)
+		{
+			// TODO : TRAP
+		}
+	}
+
+	// TODO : 아이템 부수기
+}
+```
+bomb->Explode(~) 내에서 범위에 따른 이펙트 오브젝트가 생성되도록 함.
