@@ -83,6 +83,9 @@
     <ClCompile Include="ServerPacketHandler.gen.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\Game\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -141,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="PacketEnum.h">
       <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\Game\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

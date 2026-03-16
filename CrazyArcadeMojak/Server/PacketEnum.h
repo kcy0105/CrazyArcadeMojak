@@ -6,13 +6,14 @@ enum PacketId
 {
     S_EnterGame = 10,
     S_MyPlayer = 11,
-    S_AddObject = 12,
-    S_RemoveObject = 13,
+    S_OtherPlayers = 12,
+    S_PlayerLeave = 13,
     C_Move = 14,
     S_Move = 15,
     S_Tilemap = 16,
     C_WaterBomb = 17,
     S_WaterBomb = 18,
+    S_Explode = 19,
 };
 
 template<typename T>
@@ -33,15 +34,15 @@ struct PacketIdType<Protocol::S_MyPlayer>
 };
 
 template<>
-struct PacketIdType<Protocol::S_AddObject>
+struct PacketIdType<Protocol::S_OtherPlayers>
 {
-    static const uint16 value = S_AddObject;
+    static const uint16 value = S_OtherPlayers;
 };
 
 template<>
-struct PacketIdType<Protocol::S_RemoveObject>
+struct PacketIdType<Protocol::S_PlayerLeave>
 {
-    static const uint16 value = S_RemoveObject;
+    static const uint16 value = S_PlayerLeave;
 };
 
 template<>
@@ -72,5 +73,11 @@ template<>
 struct PacketIdType<Protocol::S_WaterBomb>
 {
     static const uint16 value = S_WaterBomb;
+};
+
+template<>
+struct PacketIdType<Protocol::S_Explode>
+{
+    static const uint16 value = S_Explode;
 };
 

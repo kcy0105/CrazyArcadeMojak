@@ -21,8 +21,9 @@ void WaterBomb::OnRender(HDC hdc)
 {
 }
 
-void WaterBomb::OnRelease()
+void WaterBomb::Explode()
 {
+	Destroy();
 }
 
 

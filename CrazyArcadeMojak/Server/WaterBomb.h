@@ -3,11 +3,13 @@
 
 class Player;
 
-class WaterBomb : public BlockingObject
+class WaterBomb : public BlockingObject, public enable_shared_from_this<WaterBomb>
 {
 public:
-	WaterBomb() {}
+	WaterBomb() : BlockingObject(MAP_OBJECT_TYPE_WATER_BOMB) {}
 	virtual ~WaterBomb() {}
+
+	virtual void Update() override;
 
 public:
 	void SetOwner(PlayerRef owner) { _owner = owner; }
@@ -33,5 +35,7 @@ private:
 	weak_ptr<Player> _owner = {};
 
 	vector<weak_ptr<Player>> _passablePlayers;
+
+	float _explodeTimer = 0.f;
 };
 

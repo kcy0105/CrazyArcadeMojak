@@ -18,7 +18,3 @@ void SolidBlock::OnUpdate()
 void SolidBlock::OnRender(HDC hdc)
 {
 }
-
-void SolidBlock::OnRelease()
-{
-}

@@ -14,6 +14,4 @@ void BlockingObject::OnRender(HDC hdc)
 {
 }
 
-void BlockingObject::OnRelease()
-{
-}
+

@@ -7,7 +7,7 @@
 #include "WaterBomb.h"
 #include "DevScene.h"
 #include "Tilemap.h"
-#include "MapManager.h"
+#include "ObjectManager.h"
 
 void MyPlayer::OnUpdate()
 {
@@ -191,7 +191,7 @@ void MyPlayer::TryMove(Pos nextPos)
 		{
 			for (int32 x = minTileX; x <= maxTileX; x++)
 			{
-				MapObject* obj = GET_SINGLE(MapManager)->GetMapObjectAt({ x, y });
+				MapObject* obj = GET_SINGLE(ObjectManager)->GetMapObjectAt({ x, y });
 
 				if (obj == nullptr)
 					continue;
@@ -234,9 +234,9 @@ void MyPlayer::TryMove(Pos nextPos)
 
 bool MyPlayer::SpawnWaterBomb()
 {
-	if (GET_SINGLE(MapManager)->GetMapObjectAt(GetTilePos()) == nullptr)
+	if (GET_SINGLE(ObjectManager)->GetMapObjectAt(GetTilePos()) == nullptr)
 	{
-		auto bomb = static_cast<WaterBomb*>(GET_SINGLE(MapManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, GetTilePos()));
+		auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, GetTilePos()));
 		bomb->SetOwner(this);
 		bomb->SetPassable(true);
 		_overlapBombs.push_back(bomb);

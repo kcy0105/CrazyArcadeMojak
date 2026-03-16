@@ -1,2 +1,12 @@
 syntax = "proto3";
 package Protocol;
+
+message PlayerInfo
+{
+	uint64 objectid = 1;
+	float posx = 2;
+	float posy = 3;
+	int32 state = 4;
+	int32 dir = 5;
+	float movespeed = 6;
+}

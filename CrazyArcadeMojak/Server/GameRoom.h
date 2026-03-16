@@ -1,7 +1,7 @@
 #pragma once
 
-class Player;
-
+#include "Player.h"
+#include "GameSession.h"
 
 class GameRoom : public enable_shared_from_this<GameRoom>
 {
@@ -14,7 +14,6 @@ public:
 
 	void EnterRoom(GameSessionRef session);
 	void LeaveRoom(GameSessionRef session);
-	ObjectRef FindObject(uint64 id);
 	GameRoomRef GetRoomRef() { return shared_from_this(); }
 
 public:
@@ -23,8 +22,13 @@ public:
 	void Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt);
 
 public:
-	void AddObject(ObjectRef gameObject);
-	void RemoveObject(uint64 id);
+	void RegisterObject(ObjectRef obj);
+	void UnregisterObject(ObjectRef obj);
+
+	void RemoveDeadObjects();
+
+	PlayerRef SpawnPlayer();
+	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
 
 	template<typename T>
 	void Broadcast(T& pkt)
@@ -37,14 +41,18 @@ public:
 
 	void TryMove(Player& player, Pos nextPos);
 
-	PlayerRef SpawnPlayer();
-	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
+	
 
 private:
 	void LoadTilemap(wstring path);
 
 private:
-	map<uint64, PlayerRef> _players;
+
+	unordered_map<uint64, ObjectRef> _objects;
+
+	unordered_map<uint64, PlayerRef> _players;
+	unordered_map<uint64, WaterBombRef> _bombs;
+
 	vector<vector<MapObjectRef>> _mapObjects;
 };
 

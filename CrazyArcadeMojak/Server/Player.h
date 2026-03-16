@@ -6,7 +6,7 @@ class WaterBomb;
 class Player : public Object, public enable_shared_from_this<Player>
 {
 public:
-	Player() {}
+	Player() : Object(OBJECT_TYPE_PLAYER) {}
 	virtual ~Player() {}
 
 	virtual void Update() override;

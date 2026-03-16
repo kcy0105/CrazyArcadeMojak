@@ -11,28 +11,17 @@ message S_EnterGame
 
 message S_MyPlayer
 {
+	PlayerInfo info = 1;
+}
+
+message S_OtherPlayers
+{
+	repeated PlayerInfo infos = 1;
+}
+
+message S_PlayerLeave
+{
 	uint64 objectid = 1;
-	float posx = 2;
-	float posy = 3;
-	int32 dir = 4;
-	int32 state = 5;
-	float movespeed = 6;
-}
-
-message S_AddObject
-{
-	repeated uint64 objectids = 1;
-	repeated int32 objecttypes = 2;
-	repeated float posxs = 3;
-	repeated float posys = 4;
-	repeated int32 states = 5;
-	repeated int32 dirs = 6;
-	repeated float movespeeds = 7;
-}
-
-message S_RemoveObject
-{
-	repeated uint64 objectids = 1;
 }
 
 message C_Move
@@ -74,4 +63,9 @@ message S_WaterBomb
 	uint64 ownerid = 2;
 	int32 tileposx = 3;
 	int32 tileposy = 4;
+}
+
+message S_Explode
+{
+	uint64 objectid = 1;
 }

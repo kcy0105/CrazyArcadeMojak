@@ -15,10 +15,12 @@ void GameRoom::Init()
 
 void GameRoom::Update()
 {
-	for (auto& item : _players)
+	for (auto& item : _objects)
 	{
 		item.second->Update();
 	}
+
+	RemoveDeadObjects();
 }
 
 void GameRoom::EnterRoom(GameSessionRef session)
@@ -36,34 +38,38 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	player->SetState(PLAYER_STATE_IDLE);
 	player->SetMoveSpeed(200);
 
-	// 입장한 클라에게 정보를 보내주기
+	Protocol::S_MyPlayer myPlayerPkt;
+	Protocol::PlayerInfo* myInfo = myPlayerPkt.mutable_info();
+	// 입장한 클라 플레이어 정보 전송
 	{
-		Protocol::S_MyPlayer pkt;
-		pkt.set_objectid(player->GetObjectId());
-		pkt.set_posx(player->GetPos().x);
-		pkt.set_posy(player->GetPos().y);
-		pkt.set_dir(player->GetDir());
-		pkt.set_state(player->GetState());
-		pkt.set_movespeed(player->GetMoveSpeed());
-		session->SendPacket(pkt);
+		myInfo->set_objectid(player->GetObjectId());
+		myInfo->set_posx(player->GetPos().x);
+		myInfo->set_posy(player->GetPos().y);
+		myInfo->set_dir(player->GetDir());
+		myInfo->set_state(player->GetState());
+		myInfo->set_movespeed(player->GetMoveSpeed());
+
+		session->SendPacket(myPlayerPkt);
 	}
-	// 모든 오브젝트 정보 전송
+	// 다른 플레이어 정보 전송
 	{
-		Protocol::S_AddObject pkt;
+		Protocol::S_OtherPlayers pkt;
 
 		for (auto& item : _players)
 		{
-			pkt.add_objectids(item.second->GetObjectId());
-			pkt.add_objecttypes(item.second->GetObjectType());
-			pkt.add_posxs((item.second->GetPos().x));
-			pkt.add_posys((item.second->GetPos().y));
-			pkt.add_states(item.second->GetState());
-			pkt.add_dirs(item.second->GetDir());
-			pkt.add_movespeeds((item.second->GetMoveSpeed()));
+			Protocol::PlayerInfo* info = pkt.add_infos();
+			info->set_objectid(item.second->GetObjectId());
+			info->set_posx((item.second->GetPos().x));
+			info->set_posy((item.second->GetPos().y));
+			info->set_state(item.second->GetState());
+			info->set_dir(item.second->GetDir());
+			info->set_movespeed((item.second->GetMoveSpeed()));
 		}
 
 		session->SendPacket(pkt);
 	}
+	_players[player->GetObjectId()] = player;
+
 	// 타일맵 정보 전송
 	{
 		Protocol::S_Tilemap pkt;
@@ -85,7 +91,14 @@ void GameRoom::EnterRoom(GameSessionRef session)
 		session->SendPacket(pkt);
 	}
 
-	AddObject(player);
+	// 들어온 플레이어를 다른 플레이어가 알도록 전송
+	{
+		
+		Protocol::S_OtherPlayers pkt;
+		Protocol::PlayerInfo* info = pkt.add_infos();
+		info->CopyFrom(*myInfo);
+		Broadcast(pkt);
+	}
 }
 
 void GameRoom::LeaveRoom(GameSessionRef session)
@@ -95,41 +108,28 @@ void GameRoom::LeaveRoom(GameSessionRef session)
 	if (session->player.lock() == nullptr)
 		return;
 
+	session->player.lock()->Destroy();
 	uint64 id = session->player.lock()->GetObjectId();
-	RemoveObject(id);
-}
 
-ObjectRef GameRoom::FindObject(uint64 id)
-{
 	{
-		auto findIt = _players.find(id);
-		if (findIt != _players.end())
-			return findIt->second;
+		Protocol::S_PlayerLeave pkt;
+		pkt.set_objectid(id);
+		Broadcast(pkt);
 	}
-
-	return nullptr;
 }
 
 void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 {
 	uint64 id = pkt.objectid();
-	ObjectRef object = FindObject(id);
-	if (object == nullptr)
-		return;
  
-	PlayerRef player = static_pointer_cast<Player>(object);
+	PlayerRef player = _players[id];
 	player->SetState((PLAYER_STATE)pkt.state());
 	player->SetDir((DIR)pkt.dir());
 
-
-	// TODO: 데이터 검증. 지금은 너무 빈약하다.
 	Pos serverPos = player->GetPos();
 	Pos clientPos = { pkt.posx(), pkt.posy() };
 
 	bool needsync = false;
-
-	/*cout << "Server Pos : { " << serverPos.x << ", " << serverPos.y << " }, Client Pos : { " << clientPos.x << ", " << clientPos.y << " }" << endl;
-	cout << "Distance : " << (serverPos - clientPos).Length() << endl;*/
 
 	if ((serverPos - clientPos).Length() < MAX_POSITION_ERROR)
 	{
@@ -137,7 +137,6 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	}
 	else
 	{
-		//cout << "오차 심함" << endl;
 		needsync = true;
 	}
 
@@ -166,7 +165,7 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 		return;
 	}
 
-	PlayerRef owner = dynamic_pointer_cast<Player>(FindObject(ownerId));
+	PlayerRef owner = _players[ownerId];
 
 	if (!owner)
 	{
@@ -204,61 +203,58 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 	}
 }
 
-void GameRoom::AddObject(ObjectRef object)
+void GameRoom::RegisterObject(ObjectRef obj)
 {
-	uint64 id = object->GetObjectId();
-
-	OBJECT_TYPE objectType = object->GetObjectType();
-
-	switch (objectType)
-	{
-		case OBJECT_TYPE_PLAYER:
-		{
-			PlayerRef player = static_pointer_cast<Player>(object);
-			_players[id] = player;
-
-			Protocol::S_AddObject pkt;
-			pkt.add_objectids(id);
-			pkt.add_objecttypes(objectType);
-			pkt.add_posxs(player->GetPos().x);
-			pkt.add_posys(player->GetPos().y);
-			pkt.add_states(player->GetState());
-			pkt.add_dirs(player->GetDir());
-			pkt.add_movespeeds(player->GetMoveSpeed());
-
-			Broadcast(pkt);
-		}
-			break;
-		default:
-			return;
-	}
-
-	object->room = GetRoomRef();
+	_objects[obj->GetObjectId()] = obj;
+	if (!obj->room)
+		obj->room = shared_from_this();
 }
 
-void GameRoom::RemoveObject(uint64 id)
+void GameRoom::UnregisterObject(ObjectRef obj)
 {
-	ObjectRef object = FindObject(id);
-	if (object == nullptr)
+	if (!obj)
 		return;
 
-	switch (object->GetObjectType())
+	uint64 id = obj->GetObjectId();
+	_objects.erase(id);
+
+	switch (obj->GetObjectType())
 	{
 	case OBJECT_TYPE_PLAYER:
 		_players.erase(id);
 		break;
-	default:
-		return;
+	case OBJECT_TYPE_MAP_OBJECT:
+	{
+		MapObjectRef mapObj = static_pointer_cast<MapObject>(obj);
+
+		switch (mapObj->GetMapObjectType())
+		{
+		case MAP_OBJECT_TYPE_WATER_BOMB:
+			_bombs.erase(id);
+			break;
+		}
+
+		Vec2Int tilePos = mapObj->GetTilePos();
+		_mapObjects[tilePos.y][tilePos.x] = nullptr;
 	}
 
-	object->room = nullptr;
+		break;
+	}
 
-	// 오브젝트 삭제 전송
+	obj->room = nullptr;
+}
+
+void GameRoom::RemoveDeadObjects()
+{
+	const auto objects = _objects;
+	for (auto& item : objects)
 	{
-		Protocol::S_RemoveObject pkt;
-		pkt.add_objectids(id);
+		uint64 id = item.first;
 
-		Broadcast(pkt);
+		if (item.second->IsDead())
+		{
+			UnregisterObject(item.second);
+		}
 	}
 }
 
@@ -364,8 +360,8 @@ void GameRoom::LoadTilemap(wstring path)
 PlayerRef GameRoom::SpawnPlayer()
 {
 	PlayerRef player = make_shared<Player>();
-	player->SetObjectId(Object::s_idGenerator++);
-	player->SetObjectType(OBJECT_TYPE_PLAYER);
+
+	RegisterObject(player);
 
 	return player;
 }
@@ -373,6 +369,7 @@ PlayerRef GameRoom::SpawnPlayer()
 MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 {
 	MapObjectRef obj = nullptr;
+
 	switch (type)
 	{
 	case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
@@ -388,11 +385,10 @@ MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 
 	if (obj)
 	{
-		obj->SetMapObjectType(type);
+		RegisterObject(obj);
+
 		obj->SetPos(Utils::TileToWorld(tilePos));
 		_mapObjects[tilePos.y][tilePos.x] = obj;
-
-		obj->SetObjectId(Object::s_idGenerator++);
 	}
 
 

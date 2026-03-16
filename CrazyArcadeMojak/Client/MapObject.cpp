@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "MapObject.h"
-#include "BreakableBlock.h"
-#include "SolidBlock.h"
-#include "WaterBomb.h"
+#include "ObjectManager.h"
+
 
 void MapObject::OnInit()
 {
@@ -34,4 +33,6 @@ void MapObject::OnDebugRender(HDC hdc)
 
 void MapObject::OnRelease()
 {
+	__super::OnRelease();
+	GET_SINGLE(ObjectManager)->CleartMapObjectAt(GetTilePos());
 }

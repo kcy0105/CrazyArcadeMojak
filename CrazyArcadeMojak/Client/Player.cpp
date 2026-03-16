@@ -8,7 +8,7 @@
 #include "BlockingObject.h"
 #include "CollisionManager.h"
 #include "WaterBomb.h"
-#include "MapManager.h"
+#include "ObjectManager.h"
 
 
 void Player::OnInit()
@@ -66,11 +66,6 @@ void Player::OnDebugRender(HDC hdc)
 	DeleteObject(pen);
 
 	//Utils::DrawTextInWorld(hdc, GetPos(), ::format(L"{0},{1}", GetPos().x, GetPos().y));
-}
-
-void Player::OnRelease()
-{
-
 }
 
 

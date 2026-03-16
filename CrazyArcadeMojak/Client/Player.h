@@ -16,7 +16,6 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnRender(HDC hdc) override;
 	virtual void OnDebugRender(HDC hdc) override;
-	virtual void OnRelease() override;
 
 protected:
 	void UpdateAnimation();

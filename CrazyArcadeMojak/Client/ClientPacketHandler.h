@@ -10,14 +10,16 @@ public:
 
     static void Handle_S_MyPlayer(SessionRef session, Protocol::S_MyPlayer& pkt);
 
-    static void Handle_S_AddObject(SessionRef session, Protocol::S_AddObject& pkt);
+    static void Handle_S_OtherPlayers(SessionRef session, Protocol::S_OtherPlayers& pkt);
 
-    static void Handle_S_RemoveObject(SessionRef session, Protocol::S_RemoveObject& pkt);
+    static void Handle_S_PlayerLeave(SessionRef session, Protocol::S_PlayerLeave& pkt);
 
     static void Handle_S_Move(SessionRef session, Protocol::S_Move& pkt);
 
     static void Handle_S_Tilemap(SessionRef session, Protocol::S_Tilemap& pkt);
 
     static void Handle_S_WaterBomb(SessionRef session, Protocol::S_WaterBomb& pkt);
+
+    static void Handle_S_Explode(SessionRef session, Protocol::S_Explode& pkt);
 
 };

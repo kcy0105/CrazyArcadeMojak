@@ -230,7 +230,7 @@
     <ClInclude Include="MapObject.h">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
-    <ClInclude Include="MapManager.h">
+    <ClInclude Include="ObjectManager.h">
       <Filter>소스 파일\01. Manager\Game</Filter>
     </ClInclude>
     <ClInclude Include="PacketEnum.h">
@@ -376,7 +376,7 @@
     <ClCompile Include="MapObject.cpp">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClCompile>
-    <ClCompile Include="MapManager.cpp">
+    <ClCompile Include="ObjectManager.cpp">
       <Filter>소스 파일\01. Manager\Game</Filter>
     </ClCompile>
     <ClCompile Include="ClientPacketHandler.gen.cpp">

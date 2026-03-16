@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "MyPlayer.h"
 #include "MapObject.h"
-#include "MapManager.h"
+#include "ObjectManager.h"
 
 void DevScene::OnInit()
 {
@@ -52,21 +52,4 @@ void DevScene::OnUpdate()
 
 void DevScene::OnRelease()
 {
-}
-
-uint64 DevScene::GetMyPlayerId()
-{
-	return _myPlayer->GetObjectId();
-}
-
-// TODO : ObjectManager∑Œ ¿Ãµø & id map
-SyncObject* DevScene::GetSyncObject(uint64 id)
-{
-	for (Object* object : _objects)
-	{
-		SyncObject* syncObj = dynamic_cast<SyncObject*>(object);
-		if (syncObj && syncObj->GetObjectId() == id)
-			return syncObj;
-	}
-	return nullptr;
 }

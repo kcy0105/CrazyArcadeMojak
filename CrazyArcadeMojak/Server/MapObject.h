@@ -3,7 +3,10 @@
 class MapObject : public Object
 {
 public:
-	void SetMapObjectType(MAP_OBJECT_TYPE type) { _mapObjectType = type; }
+	MapObject(MAP_OBJECT_TYPE type) : Object(OBJECT_TYPE_MAP_OBJECT), _mapObjectType(type) {}
+	virtual ~MapObject() {}
+
+public:
 	MAP_OBJECT_TYPE GetMapObjectType()	const { return _mapObjectType; }
 	RECT GetRect()						const
 	{

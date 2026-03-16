@@ -79,7 +79,7 @@ protected:
 	void Destroy() { _isDead = true; }
 
 public:
-	bool IsDead() { return _isDead; }
+	bool IsDead() const { return _isDead; }
 
 private:
 	bool _isDead = false;
