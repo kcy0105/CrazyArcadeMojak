@@ -10,3 +10,15 @@ message PlayerInfo
 	int32 dir = 5;
 	float movespeed = 6;
 }
+
+message TileInfo
+{
+	uint64 objectid = 1;
+	int32 type = 2;
+}
+
+message DestroyedBlockInfo
+{
+	uint64 blockid = 1;
+	uint64 itemid = 2;
+}

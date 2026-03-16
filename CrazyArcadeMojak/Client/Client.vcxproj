@@ -140,13 +140,13 @@
     <ClInclude Include="BreakableBlock.h" />
     <ClInclude Include="BlockingObject.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="DevScene.h" />
     <ClInclude Include="EditScene.h" />
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="FlipbookRenderer.h" />
+    <ClInclude Include="FlowEffect.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MyPlayer.h" />
@@ -197,7 +197,6 @@
     <ClCompile Include="BreakableBlock.cpp" />
     <ClCompile Include="BlockingObject.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="ClientPacketHandler.gen.cpp" />
@@ -205,6 +204,7 @@
     <ClCompile Include="EditScene.cpp" />
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="FlipbookRenderer.cpp" />
+    <ClCompile Include="FlowEffect.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MyPlayer.cpp" />

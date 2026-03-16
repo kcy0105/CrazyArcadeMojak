@@ -47,7 +47,7 @@ message S_Tilemap
 {
 	int32 mapsizex = 1;
 	int32 mapsizey = 2;
-	repeated int32 values = 3;
+	repeated TileInfo infos = 3;
 }
 
 message C_WaterBomb
@@ -68,4 +68,12 @@ message S_WaterBomb
 message S_Explode
 {
 	uint64 objectid = 1;
+	int32 up = 2;
+	int32 down = 3;
+	int32 left = 4;
+	int32 right = 5;
+
+	repeated DestroyedBlockInfo destroyedblockinfos = 6;
+	repeated uint64 trappedplayerids = 7;
+	repeated uint64 destroyeditemids = 8;
 }

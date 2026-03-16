@@ -12,8 +12,15 @@ public:
 	virtual void Update() override;
 
 public:
+	void Explode();
+
+public:
 	void SetOwner(PlayerRef owner) { _owner = owner; }
-	PlayerRef	GetOwner()			const { return _owner.lock(); }
+	void SetExploded(bool exploded) { _exploded = exploded; }
+
+	PlayerRef	GetOwner()		const { return _owner.lock(); }
+	uint8		GetRange()		const { return _range; }
+	bool		GetExploded()	const { return _exploded; }
 
 public:
 	virtual bool BlocksPlayer(const Player* player) const override
@@ -37,5 +44,9 @@ private:
 	vector<weak_ptr<Player>> _passablePlayers;
 
 	float _explodeTimer = 0.f;
+
+	uint8 _range = 2;
+
+	bool _exploded = false;
 };
 

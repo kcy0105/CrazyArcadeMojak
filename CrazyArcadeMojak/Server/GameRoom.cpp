@@ -38,9 +38,12 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	player->SetState(PLAYER_STATE_IDLE);
 	player->SetMoveSpeed(200);
 
+
+	/*================
+	   Send MyPlayer
+	=================*/
 	Protocol::S_MyPlayer myPlayerPkt;
 	Protocol::PlayerInfo* myInfo = myPlayerPkt.mutable_info();
-	// 입장한 클라 플레이어 정보 전송
 	{
 		myInfo->set_objectid(player->GetObjectId());
 		myInfo->set_posx(player->GetPos().x);
@@ -51,7 +54,11 @@ void GameRoom::EnterRoom(GameSessionRef session)
 
 		session->SendPacket(myPlayerPkt);
 	}
-	// 다른 플레이어 정보 전송
+
+
+	/*=====================
+	   Send Other Players
+	======================*/
 	{
 		Protocol::S_OtherPlayers pkt;
 
@@ -70,30 +77,43 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	}
 	_players[player->GetObjectId()] = player;
 
-	// 타일맵 정보 전송
+
+
+	/*===============
+	   Send Tilemap
+	================*/
 	{
 		Protocol::S_Tilemap pkt;
 
 		pkt.set_mapsizex(_mapObjects[0].size());
 		pkt.set_mapsizey(_mapObjects.size());
-		vector<vector<int>> values = vector<vector<int>>(pkt.mapsizey(), vector<int>(pkt.mapsizex()));
 		for (int y = 0; y < pkt.mapsizey(); y++)
 		{
 			for (int x = 0; x < pkt.mapsizex(); x++)
 			{
-				if (_mapObjects[y][x])
-					pkt.add_values(_mapObjects[y][x]->GetMapObjectType());
+				auto obj = GetMapObjectAt({ x, y });
+				Protocol::TileInfo* info = pkt.add_infos();
+				if (obj)
+				{
+					info->set_objectid(obj->GetObjectId());
+					info->set_type(obj->GetMapObjectType());
+				}
 				else
-					pkt.add_values(0);
+				{
+					info->set_objectid(0);
+					info->set_type(MAP_OBJECT_TYPE_NONE);
+				}
 			}
 		}
 		
 		session->SendPacket(pkt);
 	}
 
-	// 들어온 플레이어를 다른 플레이어가 알도록 전송
+
+	/*=====================
+	   Broadcast MyPlayer 
+	======================*/
 	{
-		
 		Protocol::S_OtherPlayers pkt;
 		Protocol::PlayerInfo* info = pkt.add_infos();
 		info->CopyFrom(*myInfo);
@@ -328,6 +348,105 @@ void GameRoom::TryMove(Player& player, Pos nextPos)
 	player.SetPos(pos);
 }
 
+void GameRoom::Explode(WaterBomb& bomb)
+{
+	bomb.SetExploded(true);
+
+	Vec2Int bombPos = bomb.GetTilePos();
+
+	Protocol::S_Explode pkt;
+	pkt.set_objectid(bomb.GetObjectId());
+
+	
+	// up down left right
+	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+	vector<uint8> counts(4, bomb.GetRange());
+
+	for (int i=0; i<4; i++)
+	{
+		Vec2Int dir = dirs[i];
+		for (int j = 1; j <= bomb.GetRange(); j++)
+		{
+			Vec2Int checkPos = bombPos + dir * j;
+
+			bool end = false;
+
+			/*======================
+			    Check Map Objects
+			=======================*/
+			MapObjectRef mapObject = GetMapObjectAt(checkPos);
+			if (mapObject)
+			{
+				switch (mapObject->GetMapObjectType())
+				{
+				case MAP_OBJECT_TYPE_SOLID_BLOCK:
+				{
+					counts[i] = j - 1;
+					end = true;
+				}
+					break;
+				case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
+				{
+					Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
+					info->set_blockid(mapObject->GetObjectId());
+					info->set_itemid(0); // TODO : 아이템 스폰
+
+					mapObject->Destroy();
+
+					counts[i] = j;
+					end = true;
+				}
+					break;
+				case MAP_OBJECT_TYPE_WATER_BOMB:
+				{
+					auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
+					if (otherBomb->GetExploded() == false)
+					{
+						otherBomb->Explode();
+					}
+				}
+					break;
+				}
+			}
+
+			if (end)
+				break;
+
+			
+			/*====================
+			     Check Players
+			=====================*/
+
+			for (auto& item : _players)
+			{
+				uint64 playerId = item.first;
+				PlayerRef player = item.second;
+
+				RECT r1 = { checkPos.x - TILE_SIZE / 2, checkPos.y - TILE_SIZE / 2, checkPos.x + TILE_SIZE / 2, checkPos.y + TILE_SIZE / 2 };
+				RECT r2 = player->GetRect();
+				RECT r = {};
+
+				if (::IntersectRect(&r, &r1, &r2))
+				{
+					pkt.add_trappedplayerids(playerId);
+
+					player->SetTrapped(true);
+				}
+			}
+
+			// TODO : 아이템 제거
+			
+		}
+	}
+
+	pkt.set_up(counts[0]);
+	pkt.set_down(counts[1]);
+	pkt.set_left(counts[2]);
+	pkt.set_right(counts[3]);
+
+	Broadcast(pkt);
+}
+
 void GameRoom::LoadTilemap(wstring path)
 {
 	FILE* file = nullptr;
@@ -393,5 +512,16 @@ MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 
 
 	return obj;
+}
+
+MapObjectRef GameRoom::GetMapObjectAt(Vec2Int tilePos)
+{
+	int32 mapSizeX = _mapObjects[0].size();
+	int32 mapSizeY = _mapObjects.size();
+
+	if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
+		return nullptr;
+
+	return _mapObjects[tilePos.y][tilePos.x];
 }
 

@@ -4,19 +4,21 @@
 
 void WaterBomb::Update()
 {
+    if (_exploded) return;
+
     _explodeTimer += TICK;
 
     if (_explodeTimer >= EXPLOSION_TIME)
     {
-        // TODO : 반경 체크. Player. WaterBomb.
-        
-        // TEMP : 터진다.
-        Protocol::S_Explode pkt;
-        pkt.set_objectid(GetObjectId());
-
-        room->Broadcast(pkt);
-        Destroy();
+        Explode();
     }
+}
+
+void WaterBomb::Explode()
+{
+    SetExploded(true);
+    room->Explode(*this);
+    Destroy();
 }
 
 void WaterBomb::AddPassablePlayer(PlayerRef player)

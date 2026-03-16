@@ -143,9 +143,6 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>소스 파일\05. Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>소스 파일\03. Obj\Game</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>소스 파일\06. UI</Filter>
     </ClInclude>
@@ -236,6 +233,9 @@
     <ClInclude Include="PacketEnum.h">
       <Filter>소스 파일\07. Network</Filter>
     </ClInclude>
+    <ClInclude Include="FlowEffect.h">
+      <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -288,9 +288,6 @@
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>소스 파일\05. Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일\06. UI</Filter>
@@ -381,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="ClientPacketHandler.gen.cpp">
       <Filter>소스 파일\07. Network</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowEffect.cpp">
+      <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

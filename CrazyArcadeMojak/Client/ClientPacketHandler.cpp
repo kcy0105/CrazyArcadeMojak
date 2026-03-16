@@ -102,9 +102,14 @@ void ClientPacketHandler::Handle_S_Tilemap(SessionRef session, Protocol::S_Tilem
 		for (int x = 0; x < mapSizeX; x++)
 		{
 			int i = y * mapSizeX + x;
-			int32 value = pkt.values(i);
 
-			GET_SINGLE(ObjectManager)->SpawnMapObject((MAP_OBJECT_TYPE)value, { x, y });
+			const Protocol::TileInfo& info = pkt.infos(i);
+
+			if (info.type() != MAP_OBJECT_TYPE_NONE)
+			{
+				auto obj = GET_SINGLE(ObjectManager)->SpawnMapObject((MAP_OBJECT_TYPE)info.type(), { x, y });
+				obj->SetObjectId(info.objectid());
+			}	
 		}
 	}
 }
@@ -130,7 +135,7 @@ void ClientPacketHandler::Handle_S_WaterBomb(SessionRef session, Protocol::S_Wat
 	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tileposx, tileposy }));
 	Player* player = static_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(ownerid));
 	bomb->SetOwner(player);
-
+	bomb->SetObjectId(objectid);
 
 	RECT r1 = myPlayer->GetRect();
 	RECT r2 = bomb->GetRect();
@@ -151,6 +156,34 @@ void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explo
 
 	if (bomb)
 	{
-		bomb->Explode();
+		bomb->Explode(pkt.up(), pkt.down(), pkt.left(), pkt.right());
 	}
+
+
+	/*===============================
+	   Destroy Blocks & Spawn Items
+	================================*/
+	for (int i = 0; i < pkt.destroyedblockinfos_size(); i++)
+	{
+		Protocol::DestroyedBlockInfo info = pkt.destroyedblockinfos(i);
+
+		Object::DestroyObject(GET_SINGLE(ObjectManager)->GetSyncObject(info.blockid()));
+		// TODO : 아이템 생성
+	}
+
+
+	/*===============
+	   Trap Players
+	=================*/
+	for (int i = 0; i < pkt.trappedplayerids_size(); i++)
+	{
+		uint64 id = pkt.trappedplayerids(i);
+		auto player = dynamic_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
+		if (player)
+		{
+			// TODO : TRAP
+		}
+	}
+
+	// TODO : 아이템 부수기
 }

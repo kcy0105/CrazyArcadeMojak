@@ -20,6 +20,3 @@ void BreakableBlock::OnRender(HDC hdc)
 {
 }
 
-void BreakableBlock::OnRelease()
-{
-}

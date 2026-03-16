@@ -11,14 +11,14 @@ public:
 	virtual ~Flipbook() {}
 
 public:
-	Texture*	GetTexture()	{ return _texture; }
-	Vec2Int		GetSize()		{ return _size; }
-	int32		GetStart()		{ return _start; }
-	Vec2Int		GetPivot()		{ return _pivot; }
-	int32		GetEnd()		{ return _end; }
-	int32		GetLine()		{ return _line; }
-	float		GetDuration()	{ return _duration; }
-	bool		GetLoop()		{ return _loop; }
+	Texture*	GetTexture()	const { return _texture; }
+	Vec2Int		GetSize()		const { return _size; }
+	int32		GetStart()		const { return _start; }
+	Vec2Int		GetPivot()		const { return _pivot; }
+	int32		GetEnd()		const { return _end; }
+	int32		GetLine()		const { return _line; }
+	float		GetDuration()	const { return _duration; }
+	bool		GetLoop()		const { return _loop; }
 
 private:
 	Texture*	_texture	= nullptr;

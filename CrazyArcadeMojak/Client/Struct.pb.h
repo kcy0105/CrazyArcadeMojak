@@ -45,12 +45,20 @@ struct TableStruct_Struct_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Struct_2eproto;
 namespace Protocol {
+class DestroyedBlockInfo;
+struct DestroyedBlockInfoDefaultTypeInternal;
+extern DestroyedBlockInfoDefaultTypeInternal _DestroyedBlockInfo_default_instance_;
 class PlayerInfo;
 struct PlayerInfoDefaultTypeInternal;
 extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
+class TileInfo;
+struct TileInfoDefaultTypeInternal;
+extern TileInfoDefaultTypeInternal _TileInfo_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::DestroyedBlockInfo* Arena::CreateMaybeMessage<::Protocol::DestroyedBlockInfo>(Arena*);
 template<> ::Protocol::PlayerInfo* Arena::CreateMaybeMessage<::Protocol::PlayerInfo>(Arena*);
+template<> ::Protocol::TileInfo* Arena::CreateMaybeMessage<::Protocol::TileInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -257,6 +265,324 @@ class PlayerInfo final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_Struct_2eproto;
 };
+// -------------------------------------------------------------------
+
+class TileInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.TileInfo) */ {
+ public:
+  inline TileInfo() : TileInfo(nullptr) {}
+  ~TileInfo() override;
+  explicit PROTOBUF_CONSTEXPR TileInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TileInfo(const TileInfo& from);
+  TileInfo(TileInfo&& from) noexcept
+    : TileInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline TileInfo& operator=(const TileInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TileInfo& operator=(TileInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TileInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TileInfo* internal_default_instance() {
+    return reinterpret_cast<const TileInfo*>(
+               &_TileInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(TileInfo& a, TileInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TileInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TileInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TileInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TileInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TileInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TileInfo& from) {
+    TileInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TileInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.TileInfo";
+  }
+  protected:
+  explicit TileInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectidFieldNumber = 1,
+    kTypeFieldNumber = 2,
+  };
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
+  private:
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
+  public:
+
+  // int32 type = 2;
+  void clear_type();
+  int32_t type() const;
+  void set_type(int32_t value);
+  private:
+  int32_t _internal_type() const;
+  void _internal_set_type(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.TileInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t objectid_;
+    int32_t type_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DestroyedBlockInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.DestroyedBlockInfo) */ {
+ public:
+  inline DestroyedBlockInfo() : DestroyedBlockInfo(nullptr) {}
+  ~DestroyedBlockInfo() override;
+  explicit PROTOBUF_CONSTEXPR DestroyedBlockInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  DestroyedBlockInfo(const DestroyedBlockInfo& from);
+  DestroyedBlockInfo(DestroyedBlockInfo&& from) noexcept
+    : DestroyedBlockInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline DestroyedBlockInfo& operator=(const DestroyedBlockInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DestroyedBlockInfo& operator=(DestroyedBlockInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DestroyedBlockInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DestroyedBlockInfo* internal_default_instance() {
+    return reinterpret_cast<const DestroyedBlockInfo*>(
+               &_DestroyedBlockInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(DestroyedBlockInfo& a, DestroyedBlockInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(DestroyedBlockInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DestroyedBlockInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DestroyedBlockInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DestroyedBlockInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const DestroyedBlockInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const DestroyedBlockInfo& from) {
+    DestroyedBlockInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DestroyedBlockInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.DestroyedBlockInfo";
+  }
+  protected:
+  explicit DestroyedBlockInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kBlockidFieldNumber = 1,
+    kItemidFieldNumber = 2,
+  };
+  // uint64 blockid = 1;
+  void clear_blockid();
+  uint64_t blockid() const;
+  void set_blockid(uint64_t value);
+  private:
+  uint64_t _internal_blockid() const;
+  void _internal_set_blockid(uint64_t value);
+  public:
+
+  // uint64 itemid = 2;
+  void clear_itemid();
+  uint64_t itemid() const;
+  void set_itemid(uint64_t value);
+  private:
+  uint64_t _internal_itemid() const;
+  void _internal_set_itemid(uint64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.DestroyedBlockInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t blockid_;
+    uint64_t itemid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
 // ===================================================================
 
 
@@ -388,9 +714,101 @@ inline void PlayerInfo::set_movespeed(float value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.movespeed)
 }
 
+// -------------------------------------------------------------------
+
+// TileInfo
+
+// uint64 objectid = 1;
+inline void TileInfo::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
+}
+inline uint64_t TileInfo::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline uint64_t TileInfo::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.TileInfo.objectid)
+  return _internal_objectid();
+}
+inline void TileInfo::_internal_set_objectid(uint64_t value) {
+  
+  _impl_.objectid_ = value;
+}
+inline void TileInfo::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.TileInfo.objectid)
+}
+
+// int32 type = 2;
+inline void TileInfo::clear_type() {
+  _impl_.type_ = 0;
+}
+inline int32_t TileInfo::_internal_type() const {
+  return _impl_.type_;
+}
+inline int32_t TileInfo::type() const {
+  // @@protoc_insertion_point(field_get:Protocol.TileInfo.type)
+  return _internal_type();
+}
+inline void TileInfo::_internal_set_type(int32_t value) {
+  
+  _impl_.type_ = value;
+}
+inline void TileInfo::set_type(int32_t value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:Protocol.TileInfo.type)
+}
+
+// -------------------------------------------------------------------
+
+// DestroyedBlockInfo
+
+// uint64 blockid = 1;
+inline void DestroyedBlockInfo::clear_blockid() {
+  _impl_.blockid_ = uint64_t{0u};
+}
+inline uint64_t DestroyedBlockInfo::_internal_blockid() const {
+  return _impl_.blockid_;
+}
+inline uint64_t DestroyedBlockInfo::blockid() const {
+  // @@protoc_insertion_point(field_get:Protocol.DestroyedBlockInfo.blockid)
+  return _internal_blockid();
+}
+inline void DestroyedBlockInfo::_internal_set_blockid(uint64_t value) {
+  
+  _impl_.blockid_ = value;
+}
+inline void DestroyedBlockInfo::set_blockid(uint64_t value) {
+  _internal_set_blockid(value);
+  // @@protoc_insertion_point(field_set:Protocol.DestroyedBlockInfo.blockid)
+}
+
+// uint64 itemid = 2;
+inline void DestroyedBlockInfo::clear_itemid() {
+  _impl_.itemid_ = uint64_t{0u};
+}
+inline uint64_t DestroyedBlockInfo::_internal_itemid() const {
+  return _impl_.itemid_;
+}
+inline uint64_t DestroyedBlockInfo::itemid() const {
+  // @@protoc_insertion_point(field_get:Protocol.DestroyedBlockInfo.itemid)
+  return _internal_itemid();
+}
+inline void DestroyedBlockInfo::_internal_set_itemid(uint64_t value) {
+  
+  _impl_.itemid_ = value;
+}
+inline void DestroyedBlockInfo::set_itemid(uint64_t value) {
+  _internal_set_itemid(value);
+  // @@protoc_insertion_point(field_set:Protocol.DestroyedBlockInfo.itemid)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

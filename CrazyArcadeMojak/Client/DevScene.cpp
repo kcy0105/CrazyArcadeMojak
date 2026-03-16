@@ -43,6 +43,42 @@ void DevScene::OnInit()
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"WaterBomb", L"WaterBomb.bmp", RGB(0, 0, 0));
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_WaterBomb_Idle", texture, { 46, 46 }, 0, 3, 0, 0.5f, true);
 	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomCenter", L"BoomCenter.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomCenter", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomUp", L"BoomUp.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomUp", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomUpEnd", L"BoomUpEnd.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomUpEnd", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomDown", L"BoomDown.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomDown", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomDownEnd", L"BoomDownEnd.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomDownEnd", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomLeft", L"BoomLeft.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomLeft", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomLeftEnd", L"BoomLeftEnd.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomLeftEnd", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomRight", L"BoomRight.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomRight", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomRightEnd", L"BoomRightEnd.bmp", RGB(0, 0, 0));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomRightEnd", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
 
 }
 

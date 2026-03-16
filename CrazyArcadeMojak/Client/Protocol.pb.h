@@ -1230,31 +1230,27 @@ class S_Tilemap final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kValuesFieldNumber = 3,
+    kInfosFieldNumber = 3,
     kMapsizexFieldNumber = 1,
     kMapsizeyFieldNumber = 2,
   };
-  // repeated int32 values = 3;
-  int values_size() const;
+  // repeated .Protocol.TileInfo infos = 3;
+  int infos_size() const;
   private:
-  int _internal_values_size() const;
+  int _internal_infos_size() const;
   public:
-  void clear_values();
+  void clear_infos();
+  ::Protocol::TileInfo* mutable_infos(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::TileInfo >*
+      mutable_infos();
   private:
-  int32_t _internal_values(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      _internal_values() const;
-  void _internal_add_values(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      _internal_mutable_values();
+  const ::Protocol::TileInfo& _internal_infos(int index) const;
+  ::Protocol::TileInfo* _internal_add_infos();
   public:
-  int32_t values(int index) const;
-  void set_values(int index, int32_t value);
-  void add_values(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      values() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      mutable_values();
+  const ::Protocol::TileInfo& infos(int index) const;
+  ::Protocol::TileInfo* add_infos();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::TileInfo >&
+      infos() const;
 
   // int32 mapsizex = 1;
   void clear_mapsizex();
@@ -1282,8 +1278,7 @@ class S_Tilemap final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > values_;
-    mutable std::atomic<int> _values_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::TileInfo > infos_;
     int32_t mapsizex_;
     int32_t mapsizey_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1765,8 +1760,77 @@ class S_Explode final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kDestroyedblockinfosFieldNumber = 6,
+    kTrappedplayeridsFieldNumber = 7,
+    kDestroyeditemidsFieldNumber = 8,
     kObjectidFieldNumber = 1,
+    kUpFieldNumber = 2,
+    kDownFieldNumber = 3,
+    kLeftFieldNumber = 4,
+    kRightFieldNumber = 5,
   };
+  // repeated .Protocol.DestroyedBlockInfo destroyedblockinfos = 6;
+  int destroyedblockinfos_size() const;
+  private:
+  int _internal_destroyedblockinfos_size() const;
+  public:
+  void clear_destroyedblockinfos();
+  ::Protocol::DestroyedBlockInfo* mutable_destroyedblockinfos(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::DestroyedBlockInfo >*
+      mutable_destroyedblockinfos();
+  private:
+  const ::Protocol::DestroyedBlockInfo& _internal_destroyedblockinfos(int index) const;
+  ::Protocol::DestroyedBlockInfo* _internal_add_destroyedblockinfos();
+  public:
+  const ::Protocol::DestroyedBlockInfo& destroyedblockinfos(int index) const;
+  ::Protocol::DestroyedBlockInfo* add_destroyedblockinfos();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::DestroyedBlockInfo >&
+      destroyedblockinfos() const;
+
+  // repeated uint64 trappedplayerids = 7;
+  int trappedplayerids_size() const;
+  private:
+  int _internal_trappedplayerids_size() const;
+  public:
+  void clear_trappedplayerids();
+  private:
+  uint64_t _internal_trappedplayerids(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      _internal_trappedplayerids() const;
+  void _internal_add_trappedplayerids(uint64_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      _internal_mutable_trappedplayerids();
+  public:
+  uint64_t trappedplayerids(int index) const;
+  void set_trappedplayerids(int index, uint64_t value);
+  void add_trappedplayerids(uint64_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      trappedplayerids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      mutable_trappedplayerids();
+
+  // repeated uint64 destroyeditemids = 8;
+  int destroyeditemids_size() const;
+  private:
+  int _internal_destroyeditemids_size() const;
+  public:
+  void clear_destroyeditemids();
+  private:
+  uint64_t _internal_destroyeditemids(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      _internal_destroyeditemids() const;
+  void _internal_add_destroyeditemids(uint64_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      _internal_mutable_destroyeditemids();
+  public:
+  uint64_t destroyeditemids(int index) const;
+  void set_destroyeditemids(int index, uint64_t value);
+  void add_destroyeditemids(uint64_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+      destroyeditemids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+      mutable_destroyeditemids();
+
   // uint64 objectid = 1;
   void clear_objectid();
   uint64_t objectid() const;
@@ -1774,6 +1838,42 @@ class S_Explode final :
   private:
   uint64_t _internal_objectid() const;
   void _internal_set_objectid(uint64_t value);
+  public:
+
+  // int32 up = 2;
+  void clear_up();
+  int32_t up() const;
+  void set_up(int32_t value);
+  private:
+  int32_t _internal_up() const;
+  void _internal_set_up(int32_t value);
+  public:
+
+  // int32 down = 3;
+  void clear_down();
+  int32_t down() const;
+  void set_down(int32_t value);
+  private:
+  int32_t _internal_down() const;
+  void _internal_set_down(int32_t value);
+  public:
+
+  // int32 left = 4;
+  void clear_left();
+  int32_t left() const;
+  void set_left(int32_t value);
+  private:
+  int32_t _internal_left() const;
+  void _internal_set_left(int32_t value);
+  public:
+
+  // int32 right = 5;
+  void clear_right();
+  int32_t right() const;
+  void set_right(int32_t value);
+  private:
+  int32_t _internal_right() const;
+  void _internal_set_right(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_Explode)
@@ -1784,7 +1884,16 @@ class S_Explode final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::DestroyedBlockInfo > destroyedblockinfos_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t > trappedplayerids_;
+    mutable std::atomic<int> _trappedplayerids_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t > destroyeditemids_;
+    mutable std::atomic<int> _destroyeditemids_cached_byte_size_;
     uint64_t objectid_;
+    int32_t up_;
+    int32_t down_;
+    int32_t left_;
+    int32_t right_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2267,51 +2376,41 @@ inline void S_Tilemap::set_mapsizey(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.mapsizey)
 }
 
-// repeated int32 values = 3;
-inline int S_Tilemap::_internal_values_size() const {
-  return _impl_.values_.size();
+// repeated .Protocol.TileInfo infos = 3;
+inline int S_Tilemap::_internal_infos_size() const {
+  return _impl_.infos_.size();
 }
-inline int S_Tilemap::values_size() const {
-  return _internal_values_size();
+inline int S_Tilemap::infos_size() const {
+  return _internal_infos_size();
 }
-inline void S_Tilemap::clear_values() {
-  _impl_.values_.Clear();
+inline ::Protocol::TileInfo* S_Tilemap::mutable_infos(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_Tilemap.infos)
+  return _impl_.infos_.Mutable(index);
 }
-inline int32_t S_Tilemap::_internal_values(int index) const {
-  return _impl_.values_.Get(index);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::TileInfo >*
+S_Tilemap::mutable_infos() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Tilemap.infos)
+  return &_impl_.infos_;
 }
-inline int32_t S_Tilemap::values(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.values)
-  return _internal_values(index);
+inline const ::Protocol::TileInfo& S_Tilemap::_internal_infos(int index) const {
+  return _impl_.infos_.Get(index);
 }
-inline void S_Tilemap::set_values(int index, int32_t value) {
-  _impl_.values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S_Tilemap.values)
+inline const ::Protocol::TileInfo& S_Tilemap::infos(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Tilemap.infos)
+  return _internal_infos(index);
 }
-inline void S_Tilemap::_internal_add_values(int32_t value) {
-  _impl_.values_.Add(value);
+inline ::Protocol::TileInfo* S_Tilemap::_internal_add_infos() {
+  return _impl_.infos_.Add();
 }
-inline void S_Tilemap::add_values(int32_t value) {
-  _internal_add_values(value);
-  // @@protoc_insertion_point(field_add:Protocol.S_Tilemap.values)
+inline ::Protocol::TileInfo* S_Tilemap::add_infos() {
+  ::Protocol::TileInfo* _add = _internal_add_infos();
+  // @@protoc_insertion_point(field_add:Protocol.S_Tilemap.infos)
+  return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S_Tilemap::_internal_values() const {
-  return _impl_.values_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S_Tilemap::values() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_Tilemap.values)
-  return _internal_values();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S_Tilemap::_internal_mutable_values() {
-  return &_impl_.values_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S_Tilemap::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Tilemap.values)
-  return _internal_mutable_values();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::TileInfo >&
+S_Tilemap::infos() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_Tilemap.infos)
+  return _impl_.infos_;
 }
 
 // -------------------------------------------------------------------
@@ -2484,6 +2583,217 @@ inline void S_Explode::_internal_set_objectid(uint64_t value) {
 inline void S_Explode::set_objectid(uint64_t value) {
   _internal_set_objectid(value);
   // @@protoc_insertion_point(field_set:Protocol.S_Explode.objectid)
+}
+
+// int32 up = 2;
+inline void S_Explode::clear_up() {
+  _impl_.up_ = 0;
+}
+inline int32_t S_Explode::_internal_up() const {
+  return _impl_.up_;
+}
+inline int32_t S_Explode::up() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.up)
+  return _internal_up();
+}
+inline void S_Explode::_internal_set_up(int32_t value) {
+  
+  _impl_.up_ = value;
+}
+inline void S_Explode::set_up(int32_t value) {
+  _internal_set_up(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.up)
+}
+
+// int32 down = 3;
+inline void S_Explode::clear_down() {
+  _impl_.down_ = 0;
+}
+inline int32_t S_Explode::_internal_down() const {
+  return _impl_.down_;
+}
+inline int32_t S_Explode::down() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.down)
+  return _internal_down();
+}
+inline void S_Explode::_internal_set_down(int32_t value) {
+  
+  _impl_.down_ = value;
+}
+inline void S_Explode::set_down(int32_t value) {
+  _internal_set_down(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.down)
+}
+
+// int32 left = 4;
+inline void S_Explode::clear_left() {
+  _impl_.left_ = 0;
+}
+inline int32_t S_Explode::_internal_left() const {
+  return _impl_.left_;
+}
+inline int32_t S_Explode::left() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.left)
+  return _internal_left();
+}
+inline void S_Explode::_internal_set_left(int32_t value) {
+  
+  _impl_.left_ = value;
+}
+inline void S_Explode::set_left(int32_t value) {
+  _internal_set_left(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.left)
+}
+
+// int32 right = 5;
+inline void S_Explode::clear_right() {
+  _impl_.right_ = 0;
+}
+inline int32_t S_Explode::_internal_right() const {
+  return _impl_.right_;
+}
+inline int32_t S_Explode::right() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.right)
+  return _internal_right();
+}
+inline void S_Explode::_internal_set_right(int32_t value) {
+  
+  _impl_.right_ = value;
+}
+inline void S_Explode::set_right(int32_t value) {
+  _internal_set_right(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.right)
+}
+
+// repeated .Protocol.DestroyedBlockInfo destroyedblockinfos = 6;
+inline int S_Explode::_internal_destroyedblockinfos_size() const {
+  return _impl_.destroyedblockinfos_.size();
+}
+inline int S_Explode::destroyedblockinfos_size() const {
+  return _internal_destroyedblockinfos_size();
+}
+inline ::Protocol::DestroyedBlockInfo* S_Explode::mutable_destroyedblockinfos(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_Explode.destroyedblockinfos)
+  return _impl_.destroyedblockinfos_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::DestroyedBlockInfo >*
+S_Explode::mutable_destroyedblockinfos() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Explode.destroyedblockinfos)
+  return &_impl_.destroyedblockinfos_;
+}
+inline const ::Protocol::DestroyedBlockInfo& S_Explode::_internal_destroyedblockinfos(int index) const {
+  return _impl_.destroyedblockinfos_.Get(index);
+}
+inline const ::Protocol::DestroyedBlockInfo& S_Explode::destroyedblockinfos(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.destroyedblockinfos)
+  return _internal_destroyedblockinfos(index);
+}
+inline ::Protocol::DestroyedBlockInfo* S_Explode::_internal_add_destroyedblockinfos() {
+  return _impl_.destroyedblockinfos_.Add();
+}
+inline ::Protocol::DestroyedBlockInfo* S_Explode::add_destroyedblockinfos() {
+  ::Protocol::DestroyedBlockInfo* _add = _internal_add_destroyedblockinfos();
+  // @@protoc_insertion_point(field_add:Protocol.S_Explode.destroyedblockinfos)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::DestroyedBlockInfo >&
+S_Explode::destroyedblockinfos() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_Explode.destroyedblockinfos)
+  return _impl_.destroyedblockinfos_;
+}
+
+// repeated uint64 trappedplayerids = 7;
+inline int S_Explode::_internal_trappedplayerids_size() const {
+  return _impl_.trappedplayerids_.size();
+}
+inline int S_Explode::trappedplayerids_size() const {
+  return _internal_trappedplayerids_size();
+}
+inline void S_Explode::clear_trappedplayerids() {
+  _impl_.trappedplayerids_.Clear();
+}
+inline uint64_t S_Explode::_internal_trappedplayerids(int index) const {
+  return _impl_.trappedplayerids_.Get(index);
+}
+inline uint64_t S_Explode::trappedplayerids(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.trappedplayerids)
+  return _internal_trappedplayerids(index);
+}
+inline void S_Explode::set_trappedplayerids(int index, uint64_t value) {
+  _impl_.trappedplayerids_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.trappedplayerids)
+}
+inline void S_Explode::_internal_add_trappedplayerids(uint64_t value) {
+  _impl_.trappedplayerids_.Add(value);
+}
+inline void S_Explode::add_trappedplayerids(uint64_t value) {
+  _internal_add_trappedplayerids(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_Explode.trappedplayerids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_Explode::_internal_trappedplayerids() const {
+  return _impl_.trappedplayerids_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_Explode::trappedplayerids() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_Explode.trappedplayerids)
+  return _internal_trappedplayerids();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_Explode::_internal_mutable_trappedplayerids() {
+  return &_impl_.trappedplayerids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_Explode::mutable_trappedplayerids() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Explode.trappedplayerids)
+  return _internal_mutable_trappedplayerids();
+}
+
+// repeated uint64 destroyeditemids = 8;
+inline int S_Explode::_internal_destroyeditemids_size() const {
+  return _impl_.destroyeditemids_.size();
+}
+inline int S_Explode::destroyeditemids_size() const {
+  return _internal_destroyeditemids_size();
+}
+inline void S_Explode::clear_destroyeditemids() {
+  _impl_.destroyeditemids_.Clear();
+}
+inline uint64_t S_Explode::_internal_destroyeditemids(int index) const {
+  return _impl_.destroyeditemids_.Get(index);
+}
+inline uint64_t S_Explode::destroyeditemids(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Explode.destroyeditemids)
+  return _internal_destroyeditemids(index);
+}
+inline void S_Explode::set_destroyeditemids(int index, uint64_t value) {
+  _impl_.destroyeditemids_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Explode.destroyeditemids)
+}
+inline void S_Explode::_internal_add_destroyeditemids(uint64_t value) {
+  _impl_.destroyeditemids_.Add(value);
+}
+inline void S_Explode::add_destroyeditemids(uint64_t value) {
+  _internal_add_destroyeditemids(value);
+  // @@protoc_insertion_point(field_add:Protocol.S_Explode.destroyeditemids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_Explode::_internal_destroyeditemids() const {
+  return _impl_.destroyeditemids_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >&
+S_Explode::destroyeditemids() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_Explode.destroyeditemids)
+  return _internal_destroyeditemids();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_Explode::_internal_mutable_destroyeditemids() {
+  return &_impl_.destroyeditemids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint64_t >*
+S_Explode::mutable_destroyeditemids() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_Explode.destroyeditemids)
+  return _internal_mutable_destroyeditemids();
 }
 
 #ifdef __GNUC__
