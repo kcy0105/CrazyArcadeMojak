@@ -498,151 +498,11 @@ message S_Explode
 3. WATER_BOMB에 닿았을 땐 해당 물폭탄도 폭발시킴
 4. 범위 내에 플레이어가 겹치면 trapped 처리
 
-GameRoom(Server)
-```
-void GameRoom::Explode(WaterBomb& bomb)
-{
-	bomb.SetExploded(true);
 
-	Vec2Int bombPos = bomb.GetTilePos();
-
-	Protocol::S_Explode pkt;
-	pkt.set_objectid(bomb.GetObjectId());
-
-	
-	// up down left right
-	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
-	vector<uint8> counts(4, bomb.GetRange());
-
-	for (int i=0; i<4; i++)
-	{
-		Vec2Int dir = dirs[i];
-		for (int j = 1; j <= bomb.GetRange(); j++)
-		{
-			Vec2Int checkPos = bombPos + dir * j;
-
-			bool end = false;
-
-			/*======================
-			    Check Map Objects
-			=======================*/
-			MapObjectRef mapObject = GetMapObjectAt(checkPos);
-			if (mapObject)
-			{
-				switch (mapObject->GetMapObjectType())
-				{
-				case MAP_OBJECT_TYPE_SOLID_BLOCK:
-				{
-					counts[i] = j - 1;
-					end = true;
-				}
-					break;
-				case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
-				{
-					Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
-					info->set_blockid(mapObject->GetObjectId());
-					info->set_itemid(0); // TODO : 아이템 스폰
-
-					mapObject->Destroy();
-
-					counts[i] = j;
-					end = true;
-				}
-					break;
-				case MAP_OBJECT_TYPE_WATER_BOMB:
-				{
-					auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
-					if (otherBomb->GetExploded() == false)
-					{
-						otherBomb->Explode();
-					}
-				}
-					break;
-				}
-			}
-
-			if (end)
-				break;
-
-			
-			/*====================
-			     Check Players
-			=====================*/
-			for (auto& item : _players)
-			{
-				uint64 playerId = item.first;
-				PlayerRef player = item.second;
-
-				RECT r1 = { checkPos.x - TILE_SIZE / 2, checkPos.y - TILE_SIZE / 2, checkPos.x + TILE_SIZE / 2, checkPos.y + TILE_SIZE / 2 };
-				RECT r2 = player->GetRect();
-				RECT r = {};
-
-				if (::IntersectRect(&r, &r1, &r2))
-				{
-					pkt.add_trappedplayerids(playerId);
-
-					player->SetTrapped(true);
-				}
-			}
-
-			// TODO : 아이템 제거
-			
-		}
-	}
-
-	pkt.set_up(counts[0]);
-	pkt.set_down(counts[1]);
-	pkt.set_left(counts[2]);
-	pkt.set_right(counts[3]);
-
-	Broadcast(pkt);
-}
-```
 ## 3. 클라 측 물폭탄 터짐 처리 : 이펙트, 블럭 부수기
 ### 상세
-ClientPacketHandler(Client)
-```
-void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explode& pkt)
-{
-	uint64 id = pkt.objectid();
+패킷 정보에 따라 이펙트 오브젝트를 생성하고, 블럭을 파괴함.
 
-	auto bomb = dynamic_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
-
-	if (bomb)
-	{
-		bomb->Explode(pkt.up(), pkt.down(), pkt.left(), pkt.right());
-	}
-
-
-	/*===============================
-	   Destroy Blocks & Spawn Items
-	================================*/
-	for (int i = 0; i < pkt.destroyedblockinfos_size(); i++)
-	{
-		Protocol::DestroyedBlockInfo info = pkt.destroyedblockinfos(i);
-
-		Object::DestroyObject(GET_SINGLE(ObjectManager)->GetSyncObject(info.blockid()));
-		// TODO : 아이템 생성
-	}
-
-
-	/*===============
-	   Trap Players
-	=================*/
-	for (int i = 0; i < pkt.trappedplayerids_size(); i++)
-	{
-		uint64 id = pkt.trappedplayerids(i);
-		auto player = dynamic_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
-		if (player)
-		{
-			// TODO : TRAP
-		}
-	}
-
-	// TODO : 아이템 부수기
-}
-```
-bomb->Explode(~) 내에서 범위에 따른 이펙트 오브젝트가 생성되도록 함.
 <br><br>
 # 2026.03.17
 ## 1. 서버 측 오브젝트 보조 관리 개선
@@ -688,141 +548,12 @@ void GameRoom::CleanupExpired()
 물풍선에 갇힐 때, 물풍선이 생기는 애니메이션이 재생된 후 물풍선이 떠다니는 애니메이션이 반복 재생되도록 하기 위해 FlipbookRenderer 컴포넌트에 기능을 추가함.
 ### 상세
 기존에 SetFlipbook에 Flipbook 하나만 넣어줬는데, vector<Flipbook>을 넣는 함수를 오버로드함. vector에 담긴 순서대로 Flipbook이 재생됨.
-## 3. 물폭탄 터짐 로직 개선
+## 3. 물폭탄 폭발 로직 개선
 ### 이유
 기존에 폭발 범위에 물폭탄이 있던 자리는 포함을 안 시켜서, 어떻게 넣을 지 고민하다 전체적으로 리팩토링함.
 ### 상세
 폭발 범위를 계산하는 부분과, 폭발 범위 내의 오브젝트를 처리하는 부분을 분리함.
-```
-void GameRoom::Explode(WaterBomb& bomb)
-{
-	bomb.SetExploded(true);
 
-	Vec2Int bombPos = bomb.GetTilePos();
-
-	Protocol::S_Explode pkt;
-	pkt.set_objectid(bomb.GetObjectId());
-
-	
-	/*===================
-	   Calculate Range
-	====================*/
-	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} }; // up down left right
-	vector<uint8> counts(4, bomb.GetRange());
-
-	for (int i=0; i<4; i++)
-	{
-		Vec2Int dir = dirs[i];
-		for (int j = 1; j <= bomb.GetRange(); j++)
-		{
-			Vec2Int checkPos = bombPos + dir * j;
-
-			bool end = false;
-
-			MapObjectRef mapObject = GetMapObjectAt(checkPos);
-			if (mapObject)
-			{
-				switch (mapObject->GetMapObjectType())
-				{
-				case MAP_OBJECT_TYPE_SOLID_BLOCK:
-				{
-					counts[i] = j - 1;
-					end = true;
-				}
-					break;
-				case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
-				{
-					counts[i] = j;
-					end = true;
-				}
-					break;
-				}
-			}
-
-			if (end)
-				break;
-		}
-	}
-
-	/*==========================
-   	   Handle Objects In Range
-	===========================*/
-	vector<Vec2Int> explodePoses = {bombPos};
-	for (int i = 0; i < 4; i++)
-	{
-		Vec2Int dir = dirs[i];
-		for (int j = 1; j <= counts[i]; j++)
-		{
-			explodePoses.push_back(bombPos + dir * j);
-		}
-	}
-
-
-	for (Vec2Int explodePos : explodePoses)
-	{
-		/*===============
-		   Trap Players
-		================*/
-		for (auto& p : _players)
-		{
-			PlayerRef player = p.lock();
-
-			if (!player) continue;
-
-			Vec2 explodeWorldPos = Utils::TileToWorld(explodePos);
-
-			RECT r1 = { explodeWorldPos.x - TILE_SIZE / 2, explodeWorldPos.y - TILE_SIZE / 2, explodeWorldPos.x + TILE_SIZE / 2, explodeWorldPos.y + TILE_SIZE / 2 };
-			RECT r2 = player->GetRect();
-			RECT r = {};
-
-			if (::IntersectRect(&r, &r1, &r2))
-			{
-				pkt.add_trappedplayerids(player->GetObjectId());
-
-				player->SetState(PLAYER_STATE_TRAPPED_IDLE);
-			}
-		}
-
-
-		auto mapObject = GetMapObjectAt(explodePos);
-		if (!mapObject) continue;
-
-		/*================
-		   Destroy Items
-		=================*/
-		// TODO
-
-
-		/*===============================
-		   Destroy Blocks & Spawn Items
-		=================================*/
-		if (mapObject->GetMapObjectType() == MAP_OBJECT_TYPE_BREAKABLE_BLOCK)
-		{
-			Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
-			info->set_blockid(mapObject->GetObjectId());
-			info->set_itemid(0); // TODO : 아이템 스폰
-			mapObject->Destroy();
-		}
-
-
-		/*================
-		   Explode Bombs
-		=================*/
-		auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
-		if (otherBomb->GetExploded() == false)
-		{
-			otherBomb->Explode();
-		}
-	}
-
-	pkt.set_up(counts[0]);
-	pkt.set_down(counts[1]);
-	pkt.set_left(counts[2]);
-	pkt.set_right(counts[3]);
-
-	Broadcast(pkt);
-}
-```
 ## 4. 플레이어 갇힘 구현
 ### 상세
 애니메이션을 세팅하고, TRAPPED_IDLE, TRAPPED_MOVE 상태를 추가하여 클라, 서버 측의 갇힘 상태를 구현함.
@@ -830,6 +561,5 @@ void GameRoom::Explode(WaterBomb& bomb)
 상태 처리가 복잡해져 코드가 꼬임. 특히 애니메이션이나 이동.
 ### 해결
 메인 상태를 NORMAL, TRAPPED, DEAD로 두고, 이동 상태를 IDLE, MOVE로 두어 상태를 분리함. 상당 부분 고쳐야 하여 진행 중.
-## 
 ## 느낀 점
 코딩을 할 때 MyPlayer -> 서버 -> 클라 순서로 생각을 하면 흐름이 잘 잡힌다.
