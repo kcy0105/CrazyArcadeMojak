@@ -27,7 +27,7 @@ message S_PlayerLeave
 message C_Move
 {
 	uint64 objectid = 1;
-	uint32 state = 2;
+	uint32 movestate = 2;
 	int32 dir = 3;
 	float posx = 4;
 	float posy = 5;
@@ -36,7 +36,7 @@ message C_Move
 message S_Move
 {
 	uint64 objectid = 1;
-	uint32 state = 2;
+	uint32 movestate = 2;
 	int32 dir = 3;
 	float posx = 4;
 	float posy = 5;
@@ -76,4 +76,9 @@ message S_Explode
 	repeated DestroyedBlockInfo destroyedblockinfos = 6;
 	repeated uint64 trappedplayerids = 7;
 	repeated uint64 destroyeditemids = 8;
+}
+
+message S_Dead
+{
+	uint64 objectid = 1;
 }

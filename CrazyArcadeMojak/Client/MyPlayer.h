@@ -8,12 +8,21 @@ public:
 
 private:
 	virtual void OnUpdate() override;
-	virtual void OnUpdateIdle() override;
-	virtual void OnUpdateMove() override;
+	virtual void OnUpdateNormal() override;
+	virtual void OnUpdateTrapped() override;
+	virtual void OnUpdateDead() override;
 
 	void HandleMoveInput_Idle();
 	void HandleMoveInput_Move();
 	void HandleBombInput();
+
+	void Move();
+	void CheckOverlapBombs();
+
+public:
+	virtual void SetMainState(PLAYER_STATE mainState) override;
+
+	
 
 public:
 	bool SpawnWaterBomb();
@@ -32,5 +41,6 @@ private:
 	void SyncToServer();
 	
 	bool _moveDirtyFlag = false;
+	float _moveSpeed = {};
 };
 

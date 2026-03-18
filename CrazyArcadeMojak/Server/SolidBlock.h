@@ -1,9 +1,9 @@
 #pragma once
-#include "BlockingObject.h"
-class SolidBlock : public BlockingObject
+#include "MapObject.h"
+class SolidBlock : public MapObject
 {
 public:
-	SolidBlock() : BlockingObject(MAP_OBJECT_TYPE_SOLID_BLOCK) {}
+	SolidBlock() : MapObject(MAP_OBJECT_TYPE_SOLID_BLOCK) {}
 	virtual ~SolidBlock() {}
 };
 

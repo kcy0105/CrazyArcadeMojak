@@ -9,7 +9,8 @@ const float DEG2RAD = PI / 180;
 #pragma region COMMON
 const int32 TILE_SIZE = 40;
 const int32 PLAYER_SIZE = 32;
-const float EXPLOSION_TIME = 3.f;
+const float MOVE_SPEED_NORMAL = 200;
+const float MOVE_SPEED_TRAPPED = 50;
 #pragma endregion
 
-const float FLOW_EFFECT_DURATION = 0.3f;
+const float FLOW_EFFECT_DURATION = 0.4f;

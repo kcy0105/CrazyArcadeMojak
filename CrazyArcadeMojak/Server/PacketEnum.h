@@ -14,6 +14,7 @@ enum PacketId
     C_WaterBomb = 17,
     S_WaterBomb = 18,
     S_Explode = 19,
+    S_Dead = 20,
 };
 
 template<typename T>
@@ -79,5 +80,11 @@ template<>
 struct PacketIdType<Protocol::S_Explode>
 {
     static const uint16 value = S_Explode;
+};
+
+template<>
+struct PacketIdType<Protocol::S_Dead>
+{
+    static const uint16 value = S_Dead;
 };
 

@@ -215,9 +215,6 @@
     <ClInclude Include="BreakableBlock.h">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
-    <ClInclude Include="BlockingObject.h">
-      <Filter>소스 파일\03. Obj\Game\Map</Filter>
-    </ClInclude>
     <ClInclude Include="SolidBlock.h">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClInclude>
@@ -359,9 +356,6 @@
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClCompile>
     <ClCompile Include="BreakableBlock.cpp">
-      <Filter>소스 파일\03. Obj\Game\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockingObject.cpp">
       <Filter>소스 파일\03. Obj\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="SolidBlock.cpp">

@@ -15,11 +15,19 @@ public:
 	virtual void Render(HDC hdc) override;
 	virtual void Release() override;
 
-	void SetFlipbook(Flipbook* flipbook) { _flipbook = flipbook; }
+	// 단일 Flipbook
+	void SetFlipbook(Flipbook* flipbook);
+
+	// 여러 Flipbook (체인 재생)
+	void SetFlipbook(const vector<Flipbook*>& flipbooks);
 
 private:
-	Flipbook* _flipbook = nullptr;
+	Flipbook* GetCurrentFlipbook();
+
+private:
+	vector<Flipbook*> _flipbooks;
+	int32 _fbIndex = 0;
+
 	float _sumTime = 0.f;
 	int32 _idx = 0;
 };
-

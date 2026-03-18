@@ -1,9 +1,9 @@
 #pragma once
-#include "BlockingObject.h"
+#include "MapObject.h"
 
 class Player;
 
-class WaterBomb : public BlockingObject
+class WaterBomb : public MapObject
 {
 public:
 	WaterBomb() {}

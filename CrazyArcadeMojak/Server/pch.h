@@ -10,6 +10,8 @@
 #include "Protocol.pb.h"
 #include "Struct.pb.h"
 
+#include "format"
+
 #ifdef _DEBUG
 #pragma comment(lib, "Network\\Debug\\Network.lib")
 #pragma comment(lib, "Protobuf\\Debug\\libprotobufd.lib")

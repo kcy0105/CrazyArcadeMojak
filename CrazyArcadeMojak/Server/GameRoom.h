@@ -55,13 +55,19 @@ private:
 private:
 	PlayerRef SpawnPlayer();
 	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
+
+public:
+	vector<weak_ptr<Player>> GetPlayers() { return _players; }
 private:
-	unordered_map<uint64, PlayerRef> _players;
-	unordered_map<uint64, WaterBombRef> _bombs;
-	vector<vector<MapObjectRef>> _mapObjects;
+	vector<weak_ptr<Player>> _players = {};
+	vector<weak_ptr<WaterBomb>> _bombs = {};
+	vector<vector<weak_ptr<MapObject>>> _mapObjects = {};
 
 private:
 	MapObjectRef GetMapObjectAt(Vec2Int tilePos);
+
+private:
+	void CleanupExpired();
 
 
 	/*==========
@@ -71,9 +77,11 @@ public:
 	template<typename T>
 	void Broadcast(T& pkt)
 	{
-		for (auto& item : _players)
+		for (auto& p : _players)
 		{
-			item.second->session->SendPacket(pkt);
+			auto player = p.lock();
+			if (player)
+				player->session->SendPacket(pkt);
 		}
 	}
 

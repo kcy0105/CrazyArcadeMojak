@@ -26,9 +26,8 @@ PROTOBUF_CONSTEXPR PlayerInfo::PlayerInfo(
     /*decltype(_impl_.objectid_)*/uint64_t{0u}
   , /*decltype(_impl_.posx_)*/0
   , /*decltype(_impl_.posy_)*/0
-  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.mainstate_)*/0
   , /*decltype(_impl_.dir_)*/0
-  , /*decltype(_impl_.movespeed_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PlayerInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PlayerInfoDefaultTypeInternal()
@@ -82,9 +81,8 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.objectid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.posx_),
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.posy_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.mainstate_),
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.dir_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _impl_.movespeed_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::TileInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -104,8 +102,8 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::PlayerInfo)},
-  { 12, -1, -1, sizeof(::Protocol::TileInfo)},
-  { 20, -1, -1, sizeof(::Protocol::DestroyedBlockInfo)},
+  { 11, -1, -1, sizeof(::Protocol::TileInfo)},
+  { 19, -1, -1, sizeof(::Protocol::DestroyedBlockInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -115,16 +113,16 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\014Struct.proto\022\010Protocol\"i\n\nPlayerInfo\022\020"
+  "\n\014Struct.proto\022\010Protocol\"Z\n\nPlayerInfo\022\020"
   "\n\010objectid\030\001 \001(\004\022\014\n\004posx\030\002 \001(\002\022\014\n\004posy\030\003"
-  " \001(\002\022\r\n\005state\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\022\021\n\tmove"
-  "speed\030\006 \001(\002\"*\n\010TileInfo\022\020\n\010objectid\030\001 \001("
-  "\004\022\014\n\004type\030\002 \001(\005\"5\n\022DestroyedBlockInfo\022\017\n"
-  "\007blockid\030\001 \001(\004\022\016\n\006itemid\030\002 \001(\004b\006proto3"
+  " \001(\002\022\021\n\tmainstate\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\"*\n\010"
+  "TileInfo\022\020\n\010objectid\030\001 \001(\004\022\014\n\004type\030\002 \001(\005"
+  "\"5\n\022DestroyedBlockInfo\022\017\n\007blockid\030\001 \001(\004\022"
+  "\016\n\006itemid\030\002 \001(\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 238, descriptor_table_protodef_Struct_2eproto,
+    false, false, 223, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -158,15 +156,14 @@ PlayerInfo::PlayerInfo(const PlayerInfo& from)
       decltype(_impl_.objectid_){}
     , decltype(_impl_.posx_){}
     , decltype(_impl_.posy_){}
-    , decltype(_impl_.state_){}
+    , decltype(_impl_.mainstate_){}
     , decltype(_impl_.dir_){}
-    , decltype(_impl_.movespeed_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.movespeed_) -
-    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.movespeed_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.dir_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.dir_));
   // @@protoc_insertion_point(copy_constructor:Protocol.PlayerInfo)
 }
 
@@ -178,9 +175,8 @@ inline void PlayerInfo::SharedCtor(
       decltype(_impl_.objectid_){uint64_t{0u}}
     , decltype(_impl_.posx_){0}
     , decltype(_impl_.posy_){0}
-    , decltype(_impl_.state_){0}
+    , decltype(_impl_.mainstate_){0}
     , decltype(_impl_.dir_){0}
-    , decltype(_impl_.movespeed_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -209,8 +205,8 @@ void PlayerInfo::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.movespeed_) -
-      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.movespeed_));
+      reinterpret_cast<char*>(&_impl_.dir_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.dir_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -244,10 +240,10 @@ const char* PlayerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 state = 4;
+      // int32 mainstate = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.mainstate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -257,14 +253,6 @@ const char* PlayerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.dir_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // float movespeed = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
-          _impl_.movespeed_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -323,26 +311,16 @@ uint8_t* PlayerInfo::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_posy(), target);
   }
 
-  // int32 state = 4;
-  if (this->_internal_state() != 0) {
+  // int32 mainstate = 4;
+  if (this->_internal_mainstate() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_state(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_mainstate(), target);
   }
 
   // int32 dir = 5;
   if (this->_internal_dir() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_dir(), target);
-  }
-
-  // float movespeed = 6;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_movespeed = this->_internal_movespeed();
-  uint32_t raw_movespeed;
-  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
-  if (raw_movespeed != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_movespeed(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -384,23 +362,14 @@ size_t PlayerInfo::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
-  // int32 state = 4;
-  if (this->_internal_state() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+  // int32 mainstate = 4;
+  if (this->_internal_mainstate() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_mainstate());
   }
 
   // int32 dir = 5;
   if (this->_internal_dir() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dir());
-  }
-
-  // float movespeed = 6;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_movespeed = this->_internal_movespeed();
-  uint32_t raw_movespeed;
-  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
-  if (raw_movespeed != 0) {
-    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -438,18 +407,11 @@ void PlayerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   if (raw_posy != 0) {
     _this->_internal_set_posy(from._internal_posy());
   }
-  if (from._internal_state() != 0) {
-    _this->_internal_set_state(from._internal_state());
+  if (from._internal_mainstate() != 0) {
+    _this->_internal_set_mainstate(from._internal_mainstate());
   }
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_movespeed = from._internal_movespeed();
-  uint32_t raw_movespeed;
-  memcpy(&raw_movespeed, &tmp_movespeed, sizeof(tmp_movespeed));
-  if (raw_movespeed != 0) {
-    _this->_internal_set_movespeed(from._internal_movespeed());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -469,8 +431,8 @@ void PlayerInfo::InternalSwap(PlayerInfo* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.movespeed_)
-      + sizeof(PlayerInfo::_impl_.movespeed_)
+      PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.dir_)
+      + sizeof(PlayerInfo::_impl_.dir_)
       - PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.objectid_)>(
           reinterpret_cast<char*>(&_impl_.objectid_),
           reinterpret_cast<char*>(&other->_impl_.objectid_));

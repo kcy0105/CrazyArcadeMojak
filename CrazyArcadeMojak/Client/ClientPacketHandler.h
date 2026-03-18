@@ -22,4 +22,6 @@ public:
 
     static void Handle_S_Explode(SessionRef session, Protocol::S_Explode& pkt);
 
+    static void Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt);
+
 };

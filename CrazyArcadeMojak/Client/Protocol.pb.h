@@ -52,6 +52,9 @@ extern C_MoveDefaultTypeInternal _C_Move_default_instance_;
 class C_WaterBomb;
 struct C_WaterBombDefaultTypeInternal;
 extern C_WaterBombDefaultTypeInternal _C_WaterBomb_default_instance_;
+class S_Dead;
+struct S_DeadDefaultTypeInternal;
+extern S_DeadDefaultTypeInternal _S_Dead_default_instance_;
 class S_EnterGame;
 struct S_EnterGameDefaultTypeInternal;
 extern S_EnterGameDefaultTypeInternal _S_EnterGame_default_instance_;
@@ -80,6 +83,7 @@ extern S_WaterBombDefaultTypeInternal _S_WaterBomb_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C_Move* Arena::CreateMaybeMessage<::Protocol::C_Move>(Arena*);
 template<> ::Protocol::C_WaterBomb* Arena::CreateMaybeMessage<::Protocol::C_WaterBomb>(Arena*);
+template<> ::Protocol::S_Dead* Arena::CreateMaybeMessage<::Protocol::S_Dead>(Arena*);
 template<> ::Protocol::S_EnterGame* Arena::CreateMaybeMessage<::Protocol::S_EnterGame>(Arena*);
 template<> ::Protocol::S_Explode* Arena::CreateMaybeMessage<::Protocol::S_Explode>(Arena*);
 template<> ::Protocol::S_Move* Arena::CreateMaybeMessage<::Protocol::S_Move>(Arena*);
@@ -836,7 +840,7 @@ class C_Move final :
 
   enum : int {
     kObjectidFieldNumber = 1,
-    kStateFieldNumber = 2,
+    kMovestateFieldNumber = 2,
     kDirFieldNumber = 3,
     kPosxFieldNumber = 4,
     kPosyFieldNumber = 5,
@@ -850,13 +854,13 @@ class C_Move final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // uint32 state = 2;
-  void clear_state();
-  uint32_t state() const;
-  void set_state(uint32_t value);
+  // uint32 movestate = 2;
+  void clear_movestate();
+  uint32_t movestate() const;
+  void set_movestate(uint32_t value);
   private:
-  uint32_t _internal_state() const;
-  void _internal_set_state(uint32_t value);
+  uint32_t _internal_movestate() const;
+  void _internal_set_movestate(uint32_t value);
   public:
 
   // int32 dir = 3;
@@ -895,7 +899,7 @@ class C_Move final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    uint32_t state_;
+    uint32_t movestate_;
     int32_t dir_;
     float posx_;
     float posy_;
@@ -1028,7 +1032,7 @@ class S_Move final :
 
   enum : int {
     kObjectidFieldNumber = 1,
-    kStateFieldNumber = 2,
+    kMovestateFieldNumber = 2,
     kDirFieldNumber = 3,
     kPosxFieldNumber = 4,
     kPosyFieldNumber = 5,
@@ -1043,13 +1047,13 @@ class S_Move final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // uint32 state = 2;
-  void clear_state();
-  uint32_t state() const;
-  void set_state(uint32_t value);
+  // uint32 movestate = 2;
+  void clear_movestate();
+  uint32_t movestate() const;
+  void set_movestate(uint32_t value);
   private:
-  uint32_t _internal_state() const;
-  void _internal_set_state(uint32_t value);
+  uint32_t _internal_movestate() const;
+  void _internal_set_movestate(uint32_t value);
   public:
 
   // int32 dir = 3;
@@ -1097,7 +1101,7 @@ class S_Move final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    uint32_t state_;
+    uint32_t movestate_;
     int32_t dir_;
     float posx_;
     float posy_;
@@ -1899,6 +1903,154 @@ class S_Explode final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S_Dead final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_Dead) */ {
+ public:
+  inline S_Dead() : S_Dead(nullptr) {}
+  ~S_Dead() override;
+  explicit PROTOBUF_CONSTEXPR S_Dead(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_Dead(const S_Dead& from);
+  S_Dead(S_Dead&& from) noexcept
+    : S_Dead() {
+    *this = ::std::move(from);
+  }
+
+  inline S_Dead& operator=(const S_Dead& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_Dead& operator=(S_Dead&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_Dead& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_Dead* internal_default_instance() {
+    return reinterpret_cast<const S_Dead*>(
+               &_S_Dead_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(S_Dead& a, S_Dead& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_Dead* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_Dead* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_Dead* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_Dead>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_Dead& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_Dead& from) {
+    S_Dead::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_Dead* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_Dead";
+  }
+  protected:
+  explicit S_Dead(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectidFieldNumber = 1,
+  };
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
+  private:
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_Dead)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t objectid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -2128,24 +2280,24 @@ inline void C_Move::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_Move.objectid)
 }
 
-// uint32 state = 2;
-inline void C_Move::clear_state() {
-  _impl_.state_ = 0u;
+// uint32 movestate = 2;
+inline void C_Move::clear_movestate() {
+  _impl_.movestate_ = 0u;
 }
-inline uint32_t C_Move::_internal_state() const {
-  return _impl_.state_;
+inline uint32_t C_Move::_internal_movestate() const {
+  return _impl_.movestate_;
 }
-inline uint32_t C_Move::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_Move.state)
-  return _internal_state();
+inline uint32_t C_Move::movestate() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_Move.movestate)
+  return _internal_movestate();
 }
-inline void C_Move::_internal_set_state(uint32_t value) {
+inline void C_Move::_internal_set_movestate(uint32_t value) {
   
-  _impl_.state_ = value;
+  _impl_.movestate_ = value;
 }
-inline void C_Move::set_state(uint32_t value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_Move.state)
+inline void C_Move::set_movestate(uint32_t value) {
+  _internal_set_movestate(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_Move.movestate)
 }
 
 // int32 dir = 3;
@@ -2232,24 +2384,24 @@ inline void S_Move::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_Move.objectid)
 }
 
-// uint32 state = 2;
-inline void S_Move::clear_state() {
-  _impl_.state_ = 0u;
+// uint32 movestate = 2;
+inline void S_Move::clear_movestate() {
+  _impl_.movestate_ = 0u;
 }
-inline uint32_t S_Move::_internal_state() const {
-  return _impl_.state_;
+inline uint32_t S_Move::_internal_movestate() const {
+  return _impl_.movestate_;
 }
-inline uint32_t S_Move::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_Move.state)
-  return _internal_state();
+inline uint32_t S_Move::movestate() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Move.movestate)
+  return _internal_movestate();
 }
-inline void S_Move::_internal_set_state(uint32_t value) {
+inline void S_Move::_internal_set_movestate(uint32_t value) {
   
-  _impl_.state_ = value;
+  _impl_.movestate_ = value;
 }
-inline void S_Move::set_state(uint32_t value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_Move.state)
+inline void S_Move::set_movestate(uint32_t value) {
+  _internal_set_movestate(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Move.movestate)
 }
 
 // int32 dir = 3;
@@ -2796,9 +2948,35 @@ S_Explode::mutable_destroyeditemids() {
   return _internal_mutable_destroyeditemids();
 }
 
+// -------------------------------------------------------------------
+
+// S_Dead
+
+// uint64 objectid = 1;
+inline void S_Dead::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
+}
+inline uint64_t S_Dead::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline uint64_t S_Dead::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_Dead.objectid)
+  return _internal_objectid();
+}
+inline void S_Dead::_internal_set_objectid(uint64_t value) {
+  
+  _impl_.objectid_ = value;
+}
+inline void S_Dead::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_Dead.objectid)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

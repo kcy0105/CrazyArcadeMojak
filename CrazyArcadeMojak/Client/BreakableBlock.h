@@ -1,6 +1,6 @@
 #pragma once
-#include "BlockingObject.h"
-class BreakableBlock : public BlockingObject
+#include "MapObject.h"
+class BreakableBlock : public MapObject
 {
 public:
 	BreakableBlock() {}

@@ -24,8 +24,7 @@ void ClientPacketHandler::Handle_S_MyPlayer(SessionRef session, Protocol::S_MyPl
 	myPlayer->SetObjectId(info.objectid());
 	myPlayer->SetPos({ info.posx(), info.posy() });
 	myPlayer->SetDir((DIR)info.dir());
-	myPlayer->SetState((PLAYER_STATE)info.state());
-	myPlayer->SetMoveSpeed((float)info.movespeed());
+	myPlayer->SetMainState((PLAYER_STATE)info.mainstate());
 
 	GET_SINGLE(ObjectManager)->SetMyPlayer(myPlayer);
 }
@@ -43,9 +42,9 @@ void ClientPacketHandler::Handle_S_OtherPlayers(SessionRef session, Protocol::S_
 		Player* player = Object::CreateObject<Player>();
 		player->SetObjectId(info.objectid());
 		player->SetPos({ info.posx(), info.posy() });
+		player->SetTargetPos({ info.posx(), info.posy() });
 		player->SetDir((DIR)info.dir());
-		player->SetState((PLAYER_STATE)info.state());
-		player->SetMoveSpeed((float)info.movespeed());
+		player->SetMainState((PLAYER_STATE)info.mainstate());
 	}
 }
 
@@ -76,16 +75,8 @@ void ClientPacketHandler::Handle_S_Move(SessionRef session, Protocol::S_Move& pk
 			return;
 		}
 
-		if (player->GetState() == PLAYER_STATE_IDLE)
-		{
-			player->SetState((PLAYER_STATE)pkt.state());
-		}
-		else
-		{
-			player->SetServerState((PLAYER_STATE)pkt.state());
-		}
-
-		player->SetServerPos({ pkt.posx(), pkt.posy() });
+		player->SetMoveState((MOVE_STATE)pkt.movestate());
+		player->SetTargetPos({ pkt.posx(), pkt.posy() });
 		player->SetDir((DIR)pkt.dir());
 	}
 }
@@ -181,9 +172,23 @@ void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explo
 		auto player = dynamic_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
 		if (player)
 		{
-			// TODO : TRAP
+			player->SetMainState(PLAYER_STATE_TRAPPED);
 		}
 	}
 
 	// TODO : 아이템 부수기
+}
+
+void ClientPacketHandler::Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt)
+{
+	auto object = GET_SINGLE(ObjectManager)->GetSyncObject(pkt.objectid());
+	
+	if (!object)
+		return;
+
+	auto player = dynamic_cast<Player*>(object);
+	if (!player)
+		return;
+
+	player->SetMainState(PLAYER_STATE_DEAD);
 }

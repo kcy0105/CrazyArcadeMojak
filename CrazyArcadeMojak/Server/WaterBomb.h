@@ -1,12 +1,12 @@
 #pragma once
-#include "BlockingObject.h"
+#include "MapObject.h"
 
 class Player;
 
-class WaterBomb : public BlockingObject, public enable_shared_from_this<WaterBomb>
+class WaterBomb : public MapObject, public enable_shared_from_this<WaterBomb>
 {
 public:
-	WaterBomb() : BlockingObject(MAP_OBJECT_TYPE_WATER_BOMB) {}
+	WaterBomb() : MapObject(MAP_OBJECT_TYPE_WATER_BOMB) {}
 	virtual ~WaterBomb() {}
 
 	virtual void Update() override;

@@ -188,9 +188,8 @@ class PlayerInfo final :
     kObjectidFieldNumber = 1,
     kPosxFieldNumber = 2,
     kPosyFieldNumber = 3,
-    kStateFieldNumber = 4,
+    kMainstateFieldNumber = 4,
     kDirFieldNumber = 5,
-    kMovespeedFieldNumber = 6,
   };
   // uint64 objectid = 1;
   void clear_objectid();
@@ -219,13 +218,13 @@ class PlayerInfo final :
   void _internal_set_posy(float value);
   public:
 
-  // int32 state = 4;
-  void clear_state();
-  int32_t state() const;
-  void set_state(int32_t value);
+  // int32 mainstate = 4;
+  void clear_mainstate();
+  int32_t mainstate() const;
+  void set_mainstate(int32_t value);
   private:
-  int32_t _internal_state() const;
-  void _internal_set_state(int32_t value);
+  int32_t _internal_mainstate() const;
+  void _internal_set_mainstate(int32_t value);
   public:
 
   // int32 dir = 5;
@@ -235,15 +234,6 @@ class PlayerInfo final :
   private:
   int32_t _internal_dir() const;
   void _internal_set_dir(int32_t value);
-  public:
-
-  // float movespeed = 6;
-  void clear_movespeed();
-  float movespeed() const;
-  void set_movespeed(float value);
-  private:
-  float _internal_movespeed() const;
-  void _internal_set_movespeed(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.PlayerInfo)
@@ -257,9 +247,8 @@ class PlayerInfo final :
     uint64_t objectid_;
     float posx_;
     float posy_;
-    int32_t state_;
+    int32_t mainstate_;
     int32_t dir_;
-    float movespeed_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -654,24 +643,24 @@ inline void PlayerInfo::set_posy(float value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.posy)
 }
 
-// int32 state = 4;
-inline void PlayerInfo::clear_state() {
-  _impl_.state_ = 0;
+// int32 mainstate = 4;
+inline void PlayerInfo::clear_mainstate() {
+  _impl_.mainstate_ = 0;
 }
-inline int32_t PlayerInfo::_internal_state() const {
-  return _impl_.state_;
+inline int32_t PlayerInfo::_internal_mainstate() const {
+  return _impl_.mainstate_;
 }
-inline int32_t PlayerInfo::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.state)
-  return _internal_state();
+inline int32_t PlayerInfo::mainstate() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.mainstate)
+  return _internal_mainstate();
 }
-inline void PlayerInfo::_internal_set_state(int32_t value) {
+inline void PlayerInfo::_internal_set_mainstate(int32_t value) {
   
-  _impl_.state_ = value;
+  _impl_.mainstate_ = value;
 }
-inline void PlayerInfo::set_state(int32_t value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.state)
+inline void PlayerInfo::set_mainstate(int32_t value) {
+  _internal_set_mainstate(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.mainstate)
 }
 
 // int32 dir = 5;
@@ -692,26 +681,6 @@ inline void PlayerInfo::_internal_set_dir(int32_t value) {
 inline void PlayerInfo::set_dir(int32_t value) {
   _internal_set_dir(value);
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.dir)
-}
-
-// float movespeed = 6;
-inline void PlayerInfo::clear_movespeed() {
-  _impl_.movespeed_ = 0;
-}
-inline float PlayerInfo::_internal_movespeed() const {
-  return _impl_.movespeed_;
-}
-inline float PlayerInfo::movespeed() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.movespeed)
-  return _internal_movespeed();
-}
-inline void PlayerInfo::_internal_set_movespeed(float value) {
-  
-  _impl_.movespeed_ = value;
-}
-inline void PlayerInfo::set_movespeed(float value) {
-  _internal_set_movespeed(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.movespeed)
 }
 
 // -------------------------------------------------------------------

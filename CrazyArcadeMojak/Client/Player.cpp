@@ -5,7 +5,7 @@
 #include "FlipbookRenderer.h"
 #include "ResourceManager.h"
 #include "BoxCollider.h"
-#include "BlockingObject.h"
+#include "MapObject.h"
 #include "CollisionManager.h"
 #include "WaterBomb.h"
 #include "ObjectManager.h"
@@ -26,28 +26,27 @@ void Player::OnInit()
 	_flipbookMove[DIR_RIGHT]	= GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_MoveRight");
 
 	_fb = AddComponent<FlipbookRenderer>();
-
-	SetDir(DIR_DOWN);
-	SetState(PLAYER_STATE_IDLE);
 }
 
 void Player::OnUpdate()
 {
-	switch (_state)
+	switch (_mainState)
 	{
-	case PLAYER_STATE_IDLE:
-		OnUpdateIdle();
+	case PLAYER_STATE_NORMAL:
+		OnUpdateNormal();
 		break;
-	case PLAYER_STATE_MOVE:
-		OnUpdateMove();
+	case PLAYER_STATE_TRAPPED:
+		OnUpdateTrapped();
+		break;
+	case PLAYER_STATE_DEAD:
+		OnUpdateDead();
 		break;
 	}
 }
 
 void Player::OnRender(HDC hdc)
 {
-	
-
+	//Utils::DrawTextInWorld(hdc, _pos, std::format(L"main: {} move: {}", (int32)_mainState, (int32)_moveState));
 }
 
 void Player::OnDebugRender(HDC hdc)
@@ -64,62 +63,104 @@ void Player::OnDebugRender(HDC hdc)
 	SelectObject(hdc, oldPen);
 
 	DeleteObject(pen);
-
-	//Utils::DrawTextInWorld(hdc, GetPos(), ::format(L"{0},{1}", GetPos().x, GetPos().y));
 }
 
 
-
-
-void Player::UpdateAnimation()
+void Player::UpdateAnimation_Main()
 {
-	switch (_state)
+	switch (_mainState)
 	{
-	case PLAYER_STATE_IDLE:
-		_fb->SetFlipbook(_flipbookIdle[_dir]);
+	case PLAYER_STATE_NORMAL:
 		break;
-	case PLAYER_STATE_MOVE:
-		_fb->SetFlipbook(_flipbookMove[_dir]);
+	case PLAYER_STATE_TRAPPED:
+		_fb->SetFlipbook({ GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_PlayerTrap"), GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_PlayerBubble") });
 		break;
+	case PLAYER_STATE_DEAD:
+		_fb->SetFlipbook(GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_PlayerDead"));
+		break;
+	}
+
+}
+
+void Player::UpdateAnimation_Move()
+{
+	switch (_mainState)
+	{
+	case PLAYER_STATE_NORMAL:
+		switch (_moveState)
+		{
+		case MOVE_STATE_IDLE:
+			_fb->SetFlipbook(_flipbookIdle[_dir]);
+			break;
+		case MOVE_STATE_MOVE:
+			_fb->SetFlipbook(_flipbookMove[_dir]);
+			break;
+		}
 	}
 }
 
-void Player::SetState(PLAYER_STATE state)
+void Player::OnUpdateNormal()
 {
-	if (_state == state)
+	SyncFromServer();
+}
+
+void Player::OnUpdateTrapped()
+{
+	SyncFromServer();
+}
+
+void Player::OnUpdateDead()
+{
+}
+
+
+
+void Player::SetMainState(PLAYER_STATE mainState)
+{
+	if (_mainState == mainState)
 		return;
 
-	_state = state;
+	_mainState = mainState;
+	UpdateAnimation_Main();
+}
 
-	UpdateAnimation();
+void Player::SetMoveState(MOVE_STATE moveState)
+{
+	if (_moveState == moveState)
+		return;
+
+	_moveState = moveState;
+
+	UpdateAnimation_Move();
 }
 
 void Player::SetDir(DIR dir)
 {
+	if (_dir == dir)
+		return;
+
 	_dir = dir;
-	UpdateAnimation();
+
+	UpdateAnimation_Move();
 }
 
-void Player::OnUpdateIdle()
-{
-}
-
-void Player::OnUpdateMove()
+void Player::SyncFromServer()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	Vec2 pos = GetPos();
-	Vec2 diff = _serverPos - pos;
+	Vec2 diff = _targetPos - pos;
 	float dist = diff.Length();
 
-	if (diff.Length() < 1.f || diff.Length() > 200.f) // 도착하면 상태 변경. 너무 멀어도 바로 싱크.
+	if (diff.Length() < 1.f || diff.Length() > 200.f) // 너무 멀어도 바로 싱크.
 	{
-		SetPos(_serverPos);
-		SetState(_serverState);
+		SetPos(_targetPos);
 		return;
 	}
 
-	pos += diff * 20.f * deltaTime;
+	float t = 20.f * deltaTime;
+	t = min(t, 1.f);
+	pos += diff * t;
 
 	SetPos(pos);
 }

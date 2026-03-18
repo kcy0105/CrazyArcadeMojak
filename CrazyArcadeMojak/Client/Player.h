@@ -18,19 +18,24 @@ public:
 	virtual void OnDebugRender(HDC hdc) override;
 
 protected:
-	void UpdateAnimation();
+	void UpdateAnimation_Main();
+	void UpdateAnimation_Move();
 
-	virtual void OnUpdateIdle();
-	virtual void OnUpdateMove();
+	virtual void OnUpdateNormal();
+	virtual void OnUpdateTrapped();
+	virtual void OnUpdateDead();
+
+	void SyncFromServer();
 
 public:
-	void SetState(PLAYER_STATE state);
+	virtual void SetMainState(PLAYER_STATE mainState);
+	void SetMoveState(MOVE_STATE moveState);
 	void SetDir(DIR dir);
-	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
-	void SetServerPos(Pos serverPos) { _serverPos = serverPos; }
-	void SetServerState(PLAYER_STATE serverState) { _serverState = serverState; }
+	
+	void SetTargetPos(Pos targetPos) { _targetPos = targetPos; }
 
-	PLAYER_STATE GetState()			const { return _state; }
+	PLAYER_STATE GetMainState()		const { return _mainState; }
+	MOVE_STATE GetMoveState()		const { return _moveState; }
 	DIR GetDir()					const { return _dir; }
 	Vec2Int GetTilePos()			const { return Utils::WorldToTile(_pos); }
 	RECT GetRect()					const 
@@ -42,16 +47,16 @@ public:
 	}
 
 protected:
-	PLAYER_STATE _state = {};
+	PLAYER_STATE _mainState = {};
+	MOVE_STATE _moveState = {};
 	DIR _dir = {};
-	float _moveSpeed = {};
+	
 
 	Flipbook* _flipbookIdle[4] = {};
 	Flipbook* _flipbookMove[4] = {};
 
 	FlipbookRenderer* _fb = {};
 
-	Pos _serverPos = {};
-	PLAYER_STATE _serverState = {};
+	Pos _targetPos = {};
 };
 

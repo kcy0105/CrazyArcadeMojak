@@ -21,6 +21,8 @@ void GameRoom::Update()
 	}
 
 	RemoveDeadObjects();
+
+	// TODO : vector 청소
 }
 
 void GameRoom::EnterRoom(GameSessionRef session)
@@ -32,11 +34,12 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	session->player = player;
 	player->session = session;
 
-	// Initialize
+	/*====================
+	   Initialize Player
+	=====================*/
 	player->SetPos({ 100, 100 });
 	player->SetDir(DIR_DOWN);
-	player->SetState(PLAYER_STATE_IDLE);
-	player->SetMoveSpeed(200);
+	player->SetMainState(PLAYER_STATE_NORMAL);
 
 
 	/*================
@@ -49,8 +52,7 @@ void GameRoom::EnterRoom(GameSessionRef session)
 		myInfo->set_posx(player->GetPos().x);
 		myInfo->set_posy(player->GetPos().y);
 		myInfo->set_dir(player->GetDir());
-		myInfo->set_state(player->GetState());
-		myInfo->set_movespeed(player->GetMoveSpeed());
+		myInfo->set_mainstate(player->GetMainState());
 
 		session->SendPacket(myPlayerPkt);
 	}
@@ -62,21 +64,21 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	{
 		Protocol::S_OtherPlayers pkt;
 
-		for (auto& item : _players)
+		for (auto& p : _players)
 		{
+			PlayerRef player = p.lock();
+			if (!player) continue;
+			
 			Protocol::PlayerInfo* info = pkt.add_infos();
-			info->set_objectid(item.second->GetObjectId());
-			info->set_posx((item.second->GetPos().x));
-			info->set_posy((item.second->GetPos().y));
-			info->set_state(item.second->GetState());
-			info->set_dir(item.second->GetDir());
-			info->set_movespeed((item.second->GetMoveSpeed()));
+			info->set_objectid(player->GetObjectId());
+			info->set_posx((player->GetPos().x));
+			info->set_posy((player->GetPos().y));
+			info->set_mainstate(player->GetMainState());
+			info->set_dir(player->GetDir());
 		}
 
 		session->SendPacket(pkt);
 	}
-	_players[player->GetObjectId()] = player;
-
 
 
 	/*===============
@@ -141,9 +143,15 @@ void GameRoom::LeaveRoom(GameSessionRef session)
 void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 {
 	uint64 id = pkt.objectid();
- 
-	PlayerRef player = _players[id];
-	player->SetState((PLAYER_STATE)pkt.state());
+	
+	auto obj = _objects[id];
+	if (!obj) return;
+	auto player = dynamic_pointer_cast<Player>(obj);
+	if (!player) return;
+
+	if (player->GetMainState() == PLAYER_STATE_DEAD) return;
+
+	player->SetMoveState((MOVE_STATE)pkt.movestate());
 	player->SetDir((DIR)pkt.dir());
 
 	Pos serverPos = player->GetPos();
@@ -163,7 +171,7 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	{
 		Protocol::S_Move pkt;
 		pkt.set_objectid(player->GetObjectId());
-		pkt.set_state(player->GetState());
+		pkt.set_movestate(player->GetMoveState());
 		pkt.set_dir(player->GetDir());
 		pkt.set_posx(player->GetPos().x);
 		pkt.set_posy(player->GetPos().y);
@@ -179,19 +187,21 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 	int32 tilePosX = pkt.tileposx();
 	int32 tilePosY = pkt.tileposy();
 
+
 	// 일단 검증
-	if (_mapObjects[tilePosY][tilePosX] != nullptr)
+	if (GetMapObjectAt({tilePosX, tilePosY}))
 	{
 		return;
 	}
 
-	PlayerRef owner = _players[ownerId];
+	auto ownerObj = _objects[ownerId];
 
+	if (!ownerObj)
+		return;
+
+	auto owner = dynamic_pointer_cast<Player>(ownerObj);
 	if (!owner)
-	{
 		return;
-	}
-
 
 	auto bomb = static_pointer_cast<WaterBomb>(SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tilePosX, tilePosY }));
 	bomb->SetOwner(owner);
@@ -199,7 +209,8 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 
 	for (auto& p : _players)
 	{
-		PlayerRef player = p.second;
+		auto player = p.lock();
+		if (!player) continue;
 
 		RECT r1 = player->GetRect();
 		RECT r2 = bomb->GetRect();
@@ -238,29 +249,6 @@ void GameRoom::UnregisterObject(ObjectRef obj)
 	uint64 id = obj->GetObjectId();
 	_objects.erase(id);
 
-	switch (obj->GetObjectType())
-	{
-	case OBJECT_TYPE_PLAYER:
-		_players.erase(id);
-		break;
-	case OBJECT_TYPE_MAP_OBJECT:
-	{
-		MapObjectRef mapObj = static_pointer_cast<MapObject>(obj);
-
-		switch (mapObj->GetMapObjectType())
-		{
-		case MAP_OBJECT_TYPE_WATER_BOMB:
-			_bombs.erase(id);
-			break;
-		}
-
-		Vec2Int tilePos = mapObj->GetTilePos();
-		_mapObjects[tilePos.y][tilePos.x] = nullptr;
-	}
-
-		break;
-	}
-
 	obj->room = nullptr;
 }
 
@@ -280,69 +268,66 @@ void GameRoom::RemoveDeadObjects()
 
 void GameRoom::TryMove(Player& player, Pos nextPos)
 {
-	Pos pos = player.GetPos();
+	Pos pos = nextPos;
 	float half = PLAYER_SIZE / 2;
 
-	for (int i = 0; i < 2; i++)
+	RECT playerRect =
 	{
-		if (i == 0)
-			pos.x = nextPos.x;
-		else
-			pos.y = nextPos.y;
+		(LONG)(nextPos.x - half),
+		(LONG)(nextPos.y - half),
+		(LONG)(nextPos.x + half),
+		(LONG)(nextPos.y + half)
+	};
 
-		RECT playerRect =
+	int32 minTileX = playerRect.left / TILE_SIZE;
+	int32 maxTileX = (playerRect.right - 1) / TILE_SIZE;
+	int32 minTileY = playerRect.top / TILE_SIZE;
+	int32 maxTileY = (playerRect.bottom - 1) / TILE_SIZE;
+
+	bool found = false;
+
+	for (int32 y = minTileY; y <= maxTileY; y++)
+	{
+		for (int32 x = minTileX; x <= maxTileX; x++)
 		{
-			(LONG)(pos.x - half),
-			(LONG)(pos.y - half),
-			(LONG)(pos.x + half),
-			(LONG)(pos.y + half)
-		};
+			MapObjectRef obj = GetMapObjectAt({ x, y });
 
-		int32 minTileX = playerRect.left / TILE_SIZE;
-		int32 maxTileX = (playerRect.right - 1) / TILE_SIZE;
-		int32 minTileY = playerRect.top / TILE_SIZE;
-		int32 maxTileY = (playerRect.bottom - 1) / TILE_SIZE;
+			if (!obj)
+				continue;
 
-		for (int32 y = minTileY; y <= maxTileY; y++)
-		{
-			for (int32 x = minTileX; x <= maxTileX; x++)
+			if (!obj->BlocksPlayer(&player))
+				continue;
+
+			RECT tileRect =
 			{
-				MapObjectRef obj = _mapObjects[y][x];
+				x * TILE_SIZE,
+				y * TILE_SIZE,
+				x * TILE_SIZE + TILE_SIZE,
+				y * TILE_SIZE + TILE_SIZE
+			};
 
-				if (obj == nullptr)
-					continue;
-
-				if (!obj->BlocksPlayer(&player))
-					continue;
-
-				RECT tileRect =
+			RECT intersect;
+			if (::IntersectRect(&intersect, &playerRect, &tileRect))
+			{
+				if (player.GetPos().x == nextPos.x)
 				{
-					x * TILE_SIZE,
-					y * TILE_SIZE,
-					x * TILE_SIZE + TILE_SIZE,
-					y * TILE_SIZE + TILE_SIZE
-				};
-
-				RECT intersect;
-				if (::IntersectRect(&intersect, &playerRect, &tileRect))
-				{
-					if (i == 0)
-					{
-						if (nextPos.x > player.GetPos().x)
-							pos.x = tileRect.left - half;
-						else
-							pos.x = tileRect.right + half;
-					}
+					if (nextPos.y > player.GetPos().y)
+						pos.y = tileRect.top - half;
 					else
-					{
-						if (nextPos.y > player.GetPos().y)
-							pos.y = tileRect.top - half;
-						else
-							pos.y = tileRect.bottom + half;
-					}
+						pos.y = tileRect.bottom + half;
 				}
+				else
+				{
+					if (nextPos.x > player.GetPos().x)
+						pos.x = tileRect.left - half;
+					else
+						pos.x = tileRect.right + half;
+				}
+				found = true;
+				break;
 			}
 		}
+		if (found) break;
 	}
 
 	player.SetPos(pos);
@@ -358,8 +343,10 @@ void GameRoom::Explode(WaterBomb& bomb)
 	pkt.set_objectid(bomb.GetObjectId());
 
 	
-	// up down left right
-	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+	/*===================
+	   Calculate Range
+	====================*/
+	vector<Vec2Int> dirs = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} }; // up down left right
 	vector<uint8> counts(4, bomb.GetRange());
 
 	for (int i=0; i<4; i++)
@@ -371,9 +358,6 @@ void GameRoom::Explode(WaterBomb& bomb)
 
 			bool end = false;
 
-			/*======================
-			    Check Map Objects
-			=======================*/
 			MapObjectRef mapObject = GetMapObjectAt(checkPos);
 			if (mapObject)
 			{
@@ -387,23 +371,8 @@ void GameRoom::Explode(WaterBomb& bomb)
 					break;
 				case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
 				{
-					Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
-					info->set_blockid(mapObject->GetObjectId());
-					info->set_itemid(0); // TODO : 아이템 스폰
-
-					mapObject->Destroy();
-
 					counts[i] = j;
 					end = true;
-				}
-					break;
-				case MAP_OBJECT_TYPE_WATER_BOMB:
-				{
-					auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
-					if (otherBomb->GetExploded() == false)
-					{
-						otherBomb->Explode();
-					}
 				}
 					break;
 				}
@@ -411,31 +380,77 @@ void GameRoom::Explode(WaterBomb& bomb)
 
 			if (end)
 				break;
+		}
+	}
 
-			
-			/*====================
-			     Check Players
-			=====================*/
+	/*==========================
+	   Handle Objects In Range
+	===========================*/
+	vector<Vec2Int> explodePoses = {bombPos};
+	for (int i = 0; i < 4; i++)
+	{
+		Vec2Int dir = dirs[i];
+		for (int j = 1; j <= counts[i]; j++)
+		{
+			explodePoses.push_back(bombPos + dir * j);
+		}
+	}
 
-			for (auto& item : _players)
+
+	for (Vec2Int explodePos : explodePoses)
+	{
+		/*===============
+		   Trap Players
+		================*/
+		for (auto& p : _players)
+		{
+			PlayerRef player = p.lock();
+
+			if (!player) continue;
+
+			Vec2 explodeWorldPos = Utils::TileToWorld(explodePos);
+
+			RECT r1 = { explodeWorldPos.x - TILE_SIZE / 2, explodeWorldPos.y - TILE_SIZE / 2, explodeWorldPos.x + TILE_SIZE / 2, explodeWorldPos.y + TILE_SIZE / 2 };
+			RECT r2 = player->GetRect();
+			RECT r = {};
+
+			if (::IntersectRect(&r, &r1, &r2))
 			{
-				uint64 playerId = item.first;
-				PlayerRef player = item.second;
+				pkt.add_trappedplayerids(player->GetObjectId());
 
-				RECT r1 = { checkPos.x - TILE_SIZE / 2, checkPos.y - TILE_SIZE / 2, checkPos.x + TILE_SIZE / 2, checkPos.y + TILE_SIZE / 2 };
-				RECT r2 = player->GetRect();
-				RECT r = {};
-
-				if (::IntersectRect(&r, &r1, &r2))
-				{
-					pkt.add_trappedplayerids(playerId);
-
-					player->SetTrapped(true);
-				}
+				player->SetMainState(PLAYER_STATE_TRAPPED);
 			}
+		}
 
-			// TODO : 아이템 제거
-			
+
+		auto mapObject = GetMapObjectAt(explodePos);
+		if (!mapObject) continue;
+
+		/*================
+		   Destroy Items
+		=================*/
+		// TODO
+
+
+		/*===============================
+		   Destroy Blocks & Spawn Items
+		=================================*/
+		if (mapObject->GetMapObjectType() == MAP_OBJECT_TYPE_BREAKABLE_BLOCK)
+		{
+			Protocol::DestroyedBlockInfo* info = pkt.add_destroyedblockinfos();
+			info->set_blockid(mapObject->GetObjectId());
+			info->set_itemid(0); // TODO : 아이템 스폰
+			mapObject->Destroy();
+		}
+
+
+		/*================
+		   Explode Bombs
+		=================*/
+		auto otherBomb = static_pointer_cast<WaterBomb>(mapObject);
+		if (otherBomb->GetExploded() == false)
+		{
+			otherBomb->Explode();
 		}
 	}
 
@@ -460,7 +475,7 @@ void GameRoom::LoadTilemap(wstring path)
 	::fread(&mapSizeX, sizeof(mapSizeX), 1, file);
 	::fread(&mapSizeY, sizeof(mapSizeY), 1, file);
 
-	_mapObjects = vector<vector<MapObjectRef>>(mapSizeY, vector<MapObjectRef>(mapSizeX));
+	_mapObjects = vector<vector<weak_ptr<MapObject>>>(mapSizeY, vector<weak_ptr<MapObject>>(mapSizeX));
 
 	for (int32 y = 0; y < mapSizeY; y++)
 	{
@@ -481,6 +496,7 @@ PlayerRef GameRoom::SpawnPlayer()
 	PlayerRef player = make_shared<Player>();
 
 	RegisterObject(player);
+	_players.push_back(player);
 
 	return player;
 }
@@ -498,7 +514,9 @@ MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 		obj = make_shared<SolidBlock>();
 		break;
 	case MAP_OBJECT_TYPE_WATER_BOMB:
-		obj = make_shared<WaterBomb>();
+		auto bomb = make_shared<WaterBomb>();
+		_bombs.push_back(bomb);
+		obj = bomb;
 		break;
 	}
 
@@ -522,6 +540,19 @@ MapObjectRef GameRoom::GetMapObjectAt(Vec2Int tilePos)
 	if (tilePos.x < 0 || tilePos.x >= mapSizeX || tilePos.y < 0 || tilePos.y >= mapSizeY)
 		return nullptr;
 
-	return _mapObjects[tilePos.y][tilePos.x];
+	return _mapObjects[tilePos.y][tilePos.x].lock();
+}
+
+void GameRoom::CleanupExpired()
+{
+	_players.erase(
+		remove_if(_players.begin(), _players.end(),
+			[](auto& w) { return w.expired(); }),
+		_players.end());
+
+	_bombs.erase(
+		remove_if(_bombs.begin(), _bombs.end(),
+			[](auto& w) { return w.expired(); }),
+		_bombs.end());
 }
 

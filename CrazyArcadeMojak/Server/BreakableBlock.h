@@ -1,9 +1,9 @@
 #pragma once
-#include "BlockingObject.h"
-class BreakableBlock : public BlockingObject
+#include "MapObject.h"
+class BreakableBlock : public MapObject
 {
 public:
-    BreakableBlock() : BlockingObject(MAP_OBJECT_TYPE_BREAKABLE_BLOCK) {}
+    BreakableBlock() : MapObject(MAP_OBJECT_TYPE_BREAKABLE_BLOCK) {}
     virtual ~BreakableBlock() {}
 };
 

@@ -32,6 +32,24 @@ void DevScene::OnInit()
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_MoveRight", texture, { 47, 56 }, { 23, 36 }, 0, 5, 0, 0.8f, true);
 	}
 	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerTrap", L"PlayerTrap.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerTrap", texture, { 88, 144 }, { 44, 80 }, 0, 12, 0, 0.3f, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerBubble", L"PlayerBubble.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerBubble", texture, { 88, 144 }, { 44, 80 }, 0, 6, 0, 0.5f, true);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDead", L"PlayerDead.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerDead", texture, { 88, 144 }, { 44, 80 }, 0, 12, 0, 1.f, false);
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerEscape", L"PlayerEscape.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerEscape", texture, { 88, 144 }, { 44, 80 }, 0, 4, 0, 0.3f, false);
+	}
+
+
+	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"Block", L"Block.bmp", RGB(255, 0, 255));
 		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_Block", texture, { 0, 0 }, { 40, 47 }, { 20, 27 });
 	}
