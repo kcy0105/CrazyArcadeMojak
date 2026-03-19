@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GameRoom.h"
 #include "WaterBomb.h"
+#include "Item.h"
 
 void Player::SetMainState(PLAYER_STATE mainState)
 {
@@ -13,10 +14,8 @@ void Player::SetMainState(PLAYER_STATE mainState)
 	switch (mainState)
 	{
 	case PLAYER_STATE_NORMAL:
-		_moveSpeed = MOVE_SPEED_NORMAL;
 		break;
 	case PLAYER_STATE_TRAPPED:
-		_moveSpeed = MOVE_SPEED_TRAPPED;
 		_trapTimer = 0.f;
 		break;
 	}
@@ -60,6 +59,7 @@ void Player::UpdateNormal()
 	}
 
 	CheckKillOtherPlayer();
+	CheckGetItem();
 }
 
 void Player::UpdateTrapped()
@@ -96,16 +96,16 @@ void Player::Move()
 	switch (_dir)
 	{
 	case DIR_LEFT:
-		pos.x -= _moveSpeed * TICK;
+		pos.x -= GetMoveSpeed() * TICK;
 		break;
 	case DIR_RIGHT:
-		pos.x += _moveSpeed * TICK;
+		pos.x += GetMoveSpeed() * TICK;
 		break;
 	case DIR_UP:
-		pos.y -= _moveSpeed * TICK;
+		pos.y -= GetMoveSpeed() * TICK;
 		break;
 	case DIR_DOWN:
-		pos.y += _moveSpeed * TICK;
+		pos.y += GetMoveSpeed() * TICK;
 		break;
 	}
 
@@ -144,9 +144,9 @@ void Player::CheckKillOtherPlayer()
 {
 	auto players = room->GetPlayers();
 
-	for (auto& p : players)
+	for (auto& weak : players)
 	{
-		auto otherPlayer = p.lock();
+		auto otherPlayer = weak.lock();
 		if (!otherPlayer)
 			continue;
 
@@ -166,6 +166,33 @@ void Player::CheckKillOtherPlayer()
 			Protocol::S_Dead pkt;
 			pkt.set_objectid(otherPlayer->GetObjectId());
 			room->Broadcast(pkt);
+		}
+	}
+}
+
+void Player::CheckGetItem()
+{
+	auto items = room->GetItems();
+
+	for (auto& weak : items)
+	{
+		auto item = weak.lock();
+		if (!item)
+			continue;
+
+		RECT r1 = GetRect();
+		RECT r2 = item->GetRect();
+		RECT r = {};
+
+		if (::IntersectRect(&r, &r1, &r2))
+		{
+			item->OnGet(*this);
+
+			Protocol::S_RemoveItem pkt;
+			pkt.set_objectid(item->GetObjectId());
+			room->Broadcast(pkt);
+
+			item->Destroy();
 		}
 	}
 }

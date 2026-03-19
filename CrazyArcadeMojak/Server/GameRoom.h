@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "GameSession.h"
 
+class Item;
+class BreakableBlock;
+
 class GameRoom : public enable_shared_from_this<GameRoom>
 {
 public:
@@ -21,10 +24,10 @@ public:
 	=================*/
 	void EnterRoom(GameSessionRef session);
 	void LeaveRoom(GameSessionRef session);
-	
+
 
 	/*==========
-	    Utils
+		Utils
 	===========*/
 	GameRoomRef GetRoomRef() { return shared_from_this(); }
 
@@ -54,14 +57,19 @@ private:
 	=======================*/
 private:
 	PlayerRef SpawnPlayer();
-	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
+	MapObjectRef SpawnMapObject(MAP_OBJECT_TYPE mapObjectType, int32 detailedType, Vec2Int tilePos);
 
 public:
 	vector<weak_ptr<Player>> GetPlayers() { return _players; }
+	vector<weak_ptr<Item>> GetItems() { return _items; }
 private:
 	vector<weak_ptr<Player>> _players = {};
 	vector<weak_ptr<WaterBomb>> _bombs = {};
+	vector<weak_ptr<Item>> _items = {};
+	vector<weak_ptr<BreakableBlock>> _breakableBlocks = {};
+
 	vector<vector<weak_ptr<MapObject>>> _mapObjects = {};
+
 
 private:
 	MapObjectRef GetMapObjectAt(Vec2Int tilePos);

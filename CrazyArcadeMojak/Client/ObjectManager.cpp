@@ -6,6 +6,11 @@
 #include "WaterBomb.h"
 #include "Player.h"
 #include "MyPlayer.h"
+#include "Item.h"
+#include "BubbleItem.h"
+#include "FluidItem.h"
+#include "RollerItem.h"
+#include "NeedleItem.h"
 
 void ObjectManager::RegisterSyncObject(SyncObject* obj)
 {
@@ -58,10 +63,10 @@ void ObjectManager::InitMap(int mapSizeX, int mapSizeY)
 	_mapObjects = vector<vector<MapObject*>>(mapSizeY, vector<MapObject*>(mapSizeX));
 }
 
-MapObject* ObjectManager::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
+MapObject* ObjectManager::SpawnMapObject(MAP_OBJECT_TYPE mapObjectype, int32 detailedType, Vec2Int tilePos)
 {
 	MapObject* obj = nullptr;
-	switch (type)
+	switch (mapObjectype)
 	{
 	case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
 		obj = Object::CreateObject<BreakableBlock>();
@@ -71,6 +76,28 @@ MapObject* ObjectManager::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 		break;
 	case MAP_OBJECT_TYPE_WATER_BOMB:
 		obj = Object::CreateObject<WaterBomb>();
+		break;
+	case MAP_OBJECT_TYPE_ITEM:
+		Item* item = nullptr;
+
+		switch (detailedType)
+		{
+		case ITEM_TYPE_BUBBLE:
+			item = Object::CreateObject<BubbleItem>();
+			break;
+		case ITEM_TYPE_FLUID:
+			item = Object::CreateObject<FluidItem>();
+			break;
+		case ITEM_TYPE_ROLLER:
+			item = Object::CreateObject<RollerItem>();
+			break;
+		case ITEM_TYPE_NEEDLE:
+			item = Object::CreateObject<NeedleItem>();
+			break;
+		}
+
+		obj = item;
+
 		break;
 	}
 

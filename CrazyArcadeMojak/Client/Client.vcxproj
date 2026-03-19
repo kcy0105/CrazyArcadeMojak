@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BreakableBlock.h" />
+    <ClInclude Include="BubbleItem.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ClientPacketHandler.h" />
@@ -146,12 +147,16 @@
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="FlipbookRenderer.h" />
     <ClInclude Include="FlowEffect.h" />
+    <ClInclude Include="FluidItem.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MyPlayer.h" />
+    <ClInclude Include="NeedleItem.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="PacketEnum.h" />
+    <ClInclude Include="RollerItem.h" />
     <ClInclude Include="SyncObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Protocol.pb.h" />
@@ -194,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BreakableBlock.cpp" />
+    <ClCompile Include="BubbleItem.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
@@ -203,11 +209,15 @@
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="FlipbookRenderer.cpp" />
     <ClCompile Include="FlowEffect.cpp" />
+    <ClCompile Include="FluidItem.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
+    <ClCompile Include="NeedleItem.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="RollerItem.cpp" />
     <ClCompile Include="SyncObject.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Protocol.pb.cc">

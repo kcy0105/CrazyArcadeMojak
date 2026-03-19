@@ -19,7 +19,7 @@ public:
 	void SetExploded(bool exploded) { _exploded = exploded; }
 
 	PlayerRef	GetOwner()		const { return _owner.lock(); }
-	uint8		GetRange()		const { return _range; }
+	uint8		GetRange()		const;
 	bool		GetExploded()	const { return _exploded; }
 
 public:
@@ -44,8 +44,6 @@ private:
 	vector<weak_ptr<Player>> _passablePlayers;
 
 	float _explodeTimer = 0.f;
-
-	uint8 _range = 2;
 
 	bool _exploded = false;
 };

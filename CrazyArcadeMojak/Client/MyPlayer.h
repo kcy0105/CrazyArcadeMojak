@@ -25,14 +25,27 @@ public:
 	
 
 public:
-	bool SpawnWaterBomb();
+	void SpawnWaterBomb();
 	void AddOverlapBomb(WaterBomb* bomb) { _overlapBombs.push_back(bomb); }
 
-public:
-	queue<WaterBomb*> pendingBombs;
+	float GetMoveSpeed()
+	{
+		switch (_mainState)
+		{
+		case PLAYER_STATE_NORMAL:
+			return _normalSpeed;
+		case PLAYER_STATE_TRAPPED:
+			return MOVE_SPEED_TRAPPED;
+		}
+
+		return 0.f;
+	}
+
+	void SetNormalSpeed(float normalSpeed) { _normalSpeed = normalSpeed; }
 
 private:
 	vector<WaterBomb*> _overlapBombs;
+	float _normalSpeed = MOVE_SPEED_NORMAL;
 
 private:
 	void TryMove(Pos nextPos);
@@ -41,6 +54,5 @@ private:
 	void SyncToServer();
 	
 	bool _moveDirtyFlag = false;
-	float _moveSpeed = {};
 };
 

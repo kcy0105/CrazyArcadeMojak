@@ -24,4 +24,8 @@ public:
 
     static void Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt);
 
+    static void Handle_S_RemoveItem(SessionRef session, Protocol::S_RemoveItem& pkt);
+
+    static void Handle_S_PlayerNormalSpeed(SessionRef session, Protocol::S_PlayerNormalSpeed& pkt);
+
 };

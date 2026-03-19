@@ -41,7 +41,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR TileInfo::TileInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.objectid_)*/uint64_t{0u}
-  , /*decltype(_impl_.type_)*/0
+  , /*decltype(_impl_.mapobjecttype_)*/0
+  , /*decltype(_impl_.detailedtype_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct TileInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR TileInfoDefaultTypeInternal()
@@ -90,7 +91,8 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::TileInfo, _impl_.objectid_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::TileInfo, _impl_.type_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::TileInfo, _impl_.mapobjecttype_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::TileInfo, _impl_.detailedtype_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::DestroyedBlockInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -103,7 +105,7 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::PlayerInfo)},
   { 11, -1, -1, sizeof(::Protocol::TileInfo)},
-  { 19, -1, -1, sizeof(::Protocol::DestroyedBlockInfo)},
+  { 20, -1, -1, sizeof(::Protocol::DestroyedBlockInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -115,14 +117,15 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014Struct.proto\022\010Protocol\"Z\n\nPlayerInfo\022\020"
   "\n\010objectid\030\001 \001(\004\022\014\n\004posx\030\002 \001(\002\022\014\n\004posy\030\003"
-  " \001(\002\022\021\n\tmainstate\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\"*\n\010"
-  "TileInfo\022\020\n\010objectid\030\001 \001(\004\022\014\n\004type\030\002 \001(\005"
-  "\"5\n\022DestroyedBlockInfo\022\017\n\007blockid\030\001 \001(\004\022"
-  "\016\n\006itemid\030\002 \001(\004b\006proto3"
+  " \001(\002\022\021\n\tmainstate\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\"I\n\010"
+  "TileInfo\022\020\n\010objectid\030\001 \001(\004\022\025\n\rmapobjectt"
+  "ype\030\002 \001(\005\022\024\n\014detailedtype\030\003 \001(\005\"5\n\022Destr"
+  "oyedBlockInfo\022\017\n\007blockid\030\001 \001(\004\022\016\n\006itemid"
+  "\030\002 \001(\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 223, descriptor_table_protodef_Struct_2eproto,
+    false, false, 254, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -461,13 +464,14 @@ TileInfo::TileInfo(const TileInfo& from)
   TileInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.objectid_){}
-    , decltype(_impl_.type_){}
+    , decltype(_impl_.mapobjecttype_){}
+    , decltype(_impl_.detailedtype_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.type_) -
-    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.type_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.detailedtype_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.detailedtype_));
   // @@protoc_insertion_point(copy_constructor:Protocol.TileInfo)
 }
 
@@ -477,7 +481,8 @@ inline void TileInfo::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.objectid_){uint64_t{0u}}
-    , decltype(_impl_.type_){0}
+    , decltype(_impl_.mapobjecttype_){0}
+    , decltype(_impl_.detailedtype_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -506,8 +511,8 @@ void TileInfo::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.type_) -
-      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.type_));
+      reinterpret_cast<char*>(&_impl_.detailedtype_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.detailedtype_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -525,10 +530,18 @@ const char* TileInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
         } else
           goto handle_unusual;
         continue;
-      // int32 type = 2;
+      // int32 mapobjecttype = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.mapobjecttype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 detailedtype = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.detailedtype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -568,10 +581,16 @@ uint8_t* TileInfo::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
   }
 
-  // int32 type = 2;
-  if (this->_internal_type() != 0) {
+  // int32 mapobjecttype = 2;
+  if (this->_internal_mapobjecttype() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_type(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_mapobjecttype(), target);
+  }
+
+  // int32 detailedtype = 3;
+  if (this->_internal_detailedtype() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_detailedtype(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -595,9 +614,14 @@ size_t TileInfo::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
   }
 
-  // int32 type = 2;
-  if (this->_internal_type() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_type());
+  // int32 mapobjecttype = 2;
+  if (this->_internal_mapobjecttype() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_mapobjecttype());
+  }
+
+  // int32 detailedtype = 3;
+  if (this->_internal_detailedtype() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_detailedtype());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -621,8 +645,11 @@ void TileInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   if (from._internal_objectid() != 0) {
     _this->_internal_set_objectid(from._internal_objectid());
   }
-  if (from._internal_type() != 0) {
-    _this->_internal_set_type(from._internal_type());
+  if (from._internal_mapobjecttype() != 0) {
+    _this->_internal_set_mapobjecttype(from._internal_mapobjecttype());
+  }
+  if (from._internal_detailedtype() != 0) {
+    _this->_internal_set_detailedtype(from._internal_detailedtype());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -642,8 +669,8 @@ void TileInfo::InternalSwap(TileInfo* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TileInfo, _impl_.type_)
-      + sizeof(TileInfo::_impl_.type_)
+      PROTOBUF_FIELD_OFFSET(TileInfo, _impl_.detailedtype_)
+      + sizeof(TileInfo::_impl_.detailedtype_)
       - PROTOBUF_FIELD_OFFSET(TileInfo, _impl_.objectid_)>(
           reinterpret_cast<char*>(&_impl_.objectid_),
           reinterpret_cast<char*>(&other->_impl_.objectid_));

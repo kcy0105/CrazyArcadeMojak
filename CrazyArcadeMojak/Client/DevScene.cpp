@@ -61,6 +61,7 @@ void DevScene::OnInit()
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"WaterBomb", L"WaterBomb.bmp", RGB(0, 0, 0));
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_WaterBomb_Idle", texture, { 46, 46 }, 0, 3, 0, 0.5f, true);
 	}
+
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomCenter", L"BoomCenter.bmp", RGB(0, 0, 0));
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomCenter", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
@@ -96,6 +97,23 @@ void DevScene::OnInit()
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BoomRightEnd", L"BoomRightEnd.bmp", RGB(0, 0, 0));
 		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_BoomRightEnd", texture, { 40, 40 }, 0, 7, 0, FLOW_EFFECT_DURATION, false);
+	}
+
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"BubbleItem", L"BubbleItem.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_BubbleItem", texture, { 0, 0 }, {38, 38});
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"FluidItem", L"FluidItem.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_FluidItem", texture, { 0, 0 }, { 38, 38 });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"RollerItem", L"RollerItem.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_RollerItem", texture, { 0, 0 }, { 38, 38 });
+	}
+	{
+		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"NeedleItem", L"NeedleItem.bmp", RGB(255, 0, 255));
+		GET_SINGLE(ResourceManager)->CreateSprite(L"SP_NeedleItem", texture, { 0, 0 }, { 38, 38 });
 	}
 
 }

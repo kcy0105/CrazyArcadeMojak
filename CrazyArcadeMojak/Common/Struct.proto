@@ -13,7 +13,8 @@ message PlayerInfo
 message TileInfo
 {
 	uint64 objectid = 1;
-	int32 type = 2;
+	int32 mapobjecttype = 2;
+	int32 detailedtype = 3;
 }
 
 message DestroyedBlockInfo

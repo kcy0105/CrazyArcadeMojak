@@ -15,6 +15,8 @@ enum PacketId
     S_WaterBomb = 18,
     S_Explode = 19,
     S_Dead = 20,
+    S_RemoveItem = 21,
+    S_PlayerNormalSpeed = 22,
 };
 
 template<typename T>
@@ -86,5 +88,17 @@ template<>
 struct PacketIdType<Protocol::S_Dead>
 {
     static const uint16 value = S_Dead;
+};
+
+template<>
+struct PacketIdType<Protocol::S_RemoveItem>
+{
+    static const uint16 value = S_RemoveItem;
+};
+
+template<>
+struct PacketIdType<Protocol::S_PlayerNormalSpeed>
+{
+    static const uint16 value = S_PlayerNormalSpeed;
 };
 

@@ -21,6 +21,11 @@ void WaterBomb::Explode()
     Destroy();
 }
 
+uint8 WaterBomb::GetRange() const
+{
+    return _owner.lock()->GetFluidCount();
+}
+
 void WaterBomb::AddPassablePlayer(PlayerRef player)
 {
     _passablePlayers.push_back(player);

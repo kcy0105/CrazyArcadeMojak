@@ -8,7 +8,7 @@ public:
 
 public:
 	MAP_OBJECT_TYPE GetMapObjectType()	const { return _mapObjectType; }
-	RECT GetRect()						const
+	virtual RECT GetRect()				
 	{
 		return {	(LONG)_pos.x - TILE_SIZE / 2,
 					(LONG)_pos.y - TILE_SIZE / 2,

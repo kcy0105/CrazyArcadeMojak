@@ -73,6 +73,12 @@ extern S_OtherPlayersDefaultTypeInternal _S_OtherPlayers_default_instance_;
 class S_PlayerLeave;
 struct S_PlayerLeaveDefaultTypeInternal;
 extern S_PlayerLeaveDefaultTypeInternal _S_PlayerLeave_default_instance_;
+class S_PlayerNormalSpeed;
+struct S_PlayerNormalSpeedDefaultTypeInternal;
+extern S_PlayerNormalSpeedDefaultTypeInternal _S_PlayerNormalSpeed_default_instance_;
+class S_RemoveItem;
+struct S_RemoveItemDefaultTypeInternal;
+extern S_RemoveItemDefaultTypeInternal _S_RemoveItem_default_instance_;
 class S_Tilemap;
 struct S_TilemapDefaultTypeInternal;
 extern S_TilemapDefaultTypeInternal _S_Tilemap_default_instance_;
@@ -90,6 +96,8 @@ template<> ::Protocol::S_Move* Arena::CreateMaybeMessage<::Protocol::S_Move>(Are
 template<> ::Protocol::S_MyPlayer* Arena::CreateMaybeMessage<::Protocol::S_MyPlayer>(Arena*);
 template<> ::Protocol::S_OtherPlayers* Arena::CreateMaybeMessage<::Protocol::S_OtherPlayers>(Arena*);
 template<> ::Protocol::S_PlayerLeave* Arena::CreateMaybeMessage<::Protocol::S_PlayerLeave>(Arena*);
+template<> ::Protocol::S_PlayerNormalSpeed* Arena::CreateMaybeMessage<::Protocol::S_PlayerNormalSpeed>(Arena*);
+template<> ::Protocol::S_RemoveItem* Arena::CreateMaybeMessage<::Protocol::S_RemoveItem>(Arena*);
 template<> ::Protocol::S_Tilemap* Arena::CreateMaybeMessage<::Protocol::S_Tilemap>(Arena*);
 template<> ::Protocol::S_WaterBomb* Arena::CreateMaybeMessage<::Protocol::S_WaterBomb>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -2051,6 +2059,313 @@ class S_Dead final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S_RemoveItem final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_RemoveItem) */ {
+ public:
+  inline S_RemoveItem() : S_RemoveItem(nullptr) {}
+  ~S_RemoveItem() override;
+  explicit PROTOBUF_CONSTEXPR S_RemoveItem(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_RemoveItem(const S_RemoveItem& from);
+  S_RemoveItem(S_RemoveItem&& from) noexcept
+    : S_RemoveItem() {
+    *this = ::std::move(from);
+  }
+
+  inline S_RemoveItem& operator=(const S_RemoveItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_RemoveItem& operator=(S_RemoveItem&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_RemoveItem& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_RemoveItem* internal_default_instance() {
+    return reinterpret_cast<const S_RemoveItem*>(
+               &_S_RemoveItem_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(S_RemoveItem& a, S_RemoveItem& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_RemoveItem* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_RemoveItem* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_RemoveItem* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_RemoveItem>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_RemoveItem& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_RemoveItem& from) {
+    S_RemoveItem::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_RemoveItem* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_RemoveItem";
+  }
+  protected:
+  explicit S_RemoveItem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectidFieldNumber = 1,
+  };
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
+  private:
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_RemoveItem)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t objectid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_PlayerNormalSpeed final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_PlayerNormalSpeed) */ {
+ public:
+  inline S_PlayerNormalSpeed() : S_PlayerNormalSpeed(nullptr) {}
+  ~S_PlayerNormalSpeed() override;
+  explicit PROTOBUF_CONSTEXPR S_PlayerNormalSpeed(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_PlayerNormalSpeed(const S_PlayerNormalSpeed& from);
+  S_PlayerNormalSpeed(S_PlayerNormalSpeed&& from) noexcept
+    : S_PlayerNormalSpeed() {
+    *this = ::std::move(from);
+  }
+
+  inline S_PlayerNormalSpeed& operator=(const S_PlayerNormalSpeed& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_PlayerNormalSpeed& operator=(S_PlayerNormalSpeed&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_PlayerNormalSpeed& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_PlayerNormalSpeed* internal_default_instance() {
+    return reinterpret_cast<const S_PlayerNormalSpeed*>(
+               &_S_PlayerNormalSpeed_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(S_PlayerNormalSpeed& a, S_PlayerNormalSpeed& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_PlayerNormalSpeed* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_PlayerNormalSpeed* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_PlayerNormalSpeed* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_PlayerNormalSpeed>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_PlayerNormalSpeed& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_PlayerNormalSpeed& from) {
+    S_PlayerNormalSpeed::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_PlayerNormalSpeed* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_PlayerNormalSpeed";
+  }
+  protected:
+  explicit S_PlayerNormalSpeed(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectidFieldNumber = 1,
+    kNormalspeedFieldNumber = 2,
+  };
+  // uint64 objectid = 1;
+  void clear_objectid();
+  uint64_t objectid() const;
+  void set_objectid(uint64_t value);
+  private:
+  uint64_t _internal_objectid() const;
+  void _internal_set_objectid(uint64_t value);
+  public:
+
+  // float normalspeed = 2;
+  void clear_normalspeed();
+  float normalspeed() const;
+  void set_normalspeed(float value);
+  private:
+  float _internal_normalspeed() const;
+  void _internal_set_normalspeed(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_PlayerNormalSpeed)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t objectid_;
+    float normalspeed_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -2972,9 +3287,81 @@ inline void S_Dead::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_Dead.objectid)
 }
 
+// -------------------------------------------------------------------
+
+// S_RemoveItem
+
+// uint64 objectid = 1;
+inline void S_RemoveItem::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
+}
+inline uint64_t S_RemoveItem::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline uint64_t S_RemoveItem::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_RemoveItem.objectid)
+  return _internal_objectid();
+}
+inline void S_RemoveItem::_internal_set_objectid(uint64_t value) {
+  
+  _impl_.objectid_ = value;
+}
+inline void S_RemoveItem::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_RemoveItem.objectid)
+}
+
+// -------------------------------------------------------------------
+
+// S_PlayerNormalSpeed
+
+// uint64 objectid = 1;
+inline void S_PlayerNormalSpeed::clear_objectid() {
+  _impl_.objectid_ = uint64_t{0u};
+}
+inline uint64_t S_PlayerNormalSpeed::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline uint64_t S_PlayerNormalSpeed::objectid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PlayerNormalSpeed.objectid)
+  return _internal_objectid();
+}
+inline void S_PlayerNormalSpeed::_internal_set_objectid(uint64_t value) {
+  
+  _impl_.objectid_ = value;
+}
+inline void S_PlayerNormalSpeed::set_objectid(uint64_t value) {
+  _internal_set_objectid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PlayerNormalSpeed.objectid)
+}
+
+// float normalspeed = 2;
+inline void S_PlayerNormalSpeed::clear_normalspeed() {
+  _impl_.normalspeed_ = 0;
+}
+inline float S_PlayerNormalSpeed::_internal_normalspeed() const {
+  return _impl_.normalspeed_;
+}
+inline float S_PlayerNormalSpeed::normalspeed() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_PlayerNormalSpeed.normalspeed)
+  return _internal_normalspeed();
+}
+inline void S_PlayerNormalSpeed::_internal_set_normalspeed(float value) {
+  
+  _impl_.normalspeed_ = value;
+}
+inline void S_PlayerNormalSpeed::set_normalspeed(float value) {
+  _internal_set_normalspeed(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_PlayerNormalSpeed.normalspeed)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

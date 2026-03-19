@@ -26,7 +26,7 @@ public:
 public:
 	void InitMap(int mapSizeX, int mapSizeY);
 
-	MapObject* SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos);
+	MapObject* SpawnMapObject(MAP_OBJECT_TYPE mapObjectype, int32 detailedType, Vec2Int tilePos);
 	MapObject* GetMapObjectAt(Vec2Int tilePos) { return _mapObjects[tilePos.y][tilePos.x]; }
 	void CleartMapObjectAt(Vec2Int tilePos) 
 	{

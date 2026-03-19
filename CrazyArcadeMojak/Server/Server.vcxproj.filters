@@ -30,6 +30,9 @@
     <Filter Include="소스 파일\Protocol">
       <UniqueIdentifier>{3ea73042-aafd-497d-b506-cb0bbdc97a31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Object\Map\Item">
+      <UniqueIdentifier>{adbecfdf-553a-4e65-b2fe-a21c4992a64b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -82,6 +85,21 @@
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>소스 파일\Game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="BubbleItem.cpp">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidItem.cpp">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NeedleItem.cpp">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="RollerItem.cpp">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +159,21 @@
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>소스 파일\Game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="RollerItem.h">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleItem.h">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidItem.h">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NeedleItem.h">
+      <Filter>소스 파일\Game\Object\Map\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

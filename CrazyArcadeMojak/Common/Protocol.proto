@@ -82,3 +82,14 @@ message S_Dead
 {
 	uint64 objectid = 1;
 }
+
+message S_RemoveItem
+{
+	uint64 objectid = 1;
+}
+
+message S_PlayerNormalSpeed
+{
+	uint64 objectid = 1;
+	float normalspeed = 2;
+}

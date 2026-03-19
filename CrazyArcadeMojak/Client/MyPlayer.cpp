@@ -110,15 +110,22 @@ void MyPlayer::HandleBombInput()
 {
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
-		if (SpawnWaterBomb())
-		{
-			Protocol::C_WaterBomb pkt;
-			pkt.set_ownerid(GetObjectId());
-			pkt.set_tileposx(GetTilePos().x);
-			pkt.set_tileposy(GetTilePos().y);
+		//if (SpawnWaterBomb())
+		//{
+		//	Protocol::C_WaterBomb pkt;
+		//	pkt.set_ownerid(GetObjectId());
+		//	pkt.set_tileposx(GetTilePos().x);
+		//	pkt.set_tileposy(GetTilePos().y);
 
-			GET_SINGLE(NetworkManager)->SendPacket(pkt);
-		}
+		//	GET_SINGLE(NetworkManager)->SendPacket(pkt);
+		//}
+
+		Protocol::C_WaterBomb pkt;
+		pkt.set_ownerid(GetObjectId());
+		pkt.set_tileposx(GetTilePos().x);
+		pkt.set_tileposy(GetTilePos().y);
+
+		GET_SINGLE(NetworkManager)->SendPacket(pkt);
 	}
 }
 
@@ -129,10 +136,8 @@ void MyPlayer::SetMainState(PLAYER_STATE mainState)
 	switch (mainState)
 	{
 	case PLAYER_STATE_NORMAL:
-		_moveSpeed = MOVE_SPEED_NORMAL;
 		break;
 	case PLAYER_STATE_TRAPPED:
-		_moveSpeed = MOVE_SPEED_TRAPPED;
 		break;
 	}
 }
@@ -146,16 +151,16 @@ void MyPlayer::Move()
 	switch (_dir)
 	{
 	case DIR_LEFT:
-		pos.x -= _moveSpeed * deltaTime;
+		pos.x -= GetMoveSpeed() *deltaTime;
 		break;
 	case DIR_RIGHT:
-		pos.x += _moveSpeed * deltaTime;
+		pos.x += GetMoveSpeed() * deltaTime;
 		break;
 	case DIR_UP:
-		pos.y -= _moveSpeed * deltaTime;
+		pos.y -= GetMoveSpeed() * deltaTime;
 		break;
 	case DIR_DOWN:
-		pos.y += _moveSpeed * deltaTime;
+		pos.y += GetMoveSpeed() * deltaTime;
 		break;
 	}
 
@@ -262,20 +267,12 @@ void MyPlayer::TryMove(Pos nextPos)
 	SetPos(pos);
 }
 
-bool MyPlayer::SpawnWaterBomb()
+void MyPlayer::SpawnWaterBomb()
 {
-	if (GET_SINGLE(ObjectManager)->GetMapObjectAt(GetTilePos()) == nullptr)
-	{
-		auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, GetTilePos()));
-		bomb->SetOwner(this);
-		bomb->SetPassable(true);
-		_overlapBombs.push_back(bomb);
-
-		pendingBombs.push(bomb);
-
-		return true;
-	}
-	return false;
+	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, 0, GetTilePos()));
+	bomb->SetOwner(this);
+	bomb->SetPassable(true);
+	_overlapBombs.push_back(bomb);
 }
 
 void MyPlayer::SyncToServer()

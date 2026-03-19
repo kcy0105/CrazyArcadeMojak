@@ -69,6 +69,9 @@
     <Filter Include="소스 파일\01. Manager\Game">
       <UniqueIdentifier>{f49011f1-0947-43e1-9059-422bd8d9515b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\03. Obj\Game\Item">
+      <UniqueIdentifier>{ad36e6cf-e58b-4b1d-bdd5-ba21a606eb0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -233,6 +236,21 @@
     <ClInclude Include="FlowEffect.h">
       <Filter>소스 파일\03. Obj\Game</Filter>
     </ClInclude>
+    <ClInclude Include="RollerItem.h">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleItem.h">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="FluidItem.h">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NeedleItem.h">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -375,6 +393,21 @@
     </ClCompile>
     <ClCompile Include="FlowEffect.cpp">
       <Filter>소스 파일\03. Obj\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BubbleItem.cpp">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="FluidItem.cpp">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NeedleItem.cpp">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="RollerItem.cpp">
+      <Filter>소스 파일\03. Obj\Game\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

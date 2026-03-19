@@ -378,7 +378,8 @@ class TileInfo final :
 
   enum : int {
     kObjectidFieldNumber = 1,
-    kTypeFieldNumber = 2,
+    kMapobjecttypeFieldNumber = 2,
+    kDetailedtypeFieldNumber = 3,
   };
   // uint64 objectid = 1;
   void clear_objectid();
@@ -389,13 +390,22 @@ class TileInfo final :
   void _internal_set_objectid(uint64_t value);
   public:
 
-  // int32 type = 2;
-  void clear_type();
-  int32_t type() const;
-  void set_type(int32_t value);
+  // int32 mapobjecttype = 2;
+  void clear_mapobjecttype();
+  int32_t mapobjecttype() const;
+  void set_mapobjecttype(int32_t value);
   private:
-  int32_t _internal_type() const;
-  void _internal_set_type(int32_t value);
+  int32_t _internal_mapobjecttype() const;
+  void _internal_set_mapobjecttype(int32_t value);
+  public:
+
+  // int32 detailedtype = 3;
+  void clear_detailedtype();
+  int32_t detailedtype() const;
+  void set_detailedtype(int32_t value);
+  private:
+  int32_t _internal_detailedtype() const;
+  void _internal_set_detailedtype(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.TileInfo)
@@ -407,7 +417,8 @@ class TileInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t objectid_;
-    int32_t type_;
+    int32_t mapobjecttype_;
+    int32_t detailedtype_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -707,24 +718,44 @@ inline void TileInfo::set_objectid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.TileInfo.objectid)
 }
 
-// int32 type = 2;
-inline void TileInfo::clear_type() {
-  _impl_.type_ = 0;
+// int32 mapobjecttype = 2;
+inline void TileInfo::clear_mapobjecttype() {
+  _impl_.mapobjecttype_ = 0;
 }
-inline int32_t TileInfo::_internal_type() const {
-  return _impl_.type_;
+inline int32_t TileInfo::_internal_mapobjecttype() const {
+  return _impl_.mapobjecttype_;
 }
-inline int32_t TileInfo::type() const {
-  // @@protoc_insertion_point(field_get:Protocol.TileInfo.type)
-  return _internal_type();
+inline int32_t TileInfo::mapobjecttype() const {
+  // @@protoc_insertion_point(field_get:Protocol.TileInfo.mapobjecttype)
+  return _internal_mapobjecttype();
 }
-inline void TileInfo::_internal_set_type(int32_t value) {
+inline void TileInfo::_internal_set_mapobjecttype(int32_t value) {
   
-  _impl_.type_ = value;
+  _impl_.mapobjecttype_ = value;
 }
-inline void TileInfo::set_type(int32_t value) {
-  _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:Protocol.TileInfo.type)
+inline void TileInfo::set_mapobjecttype(int32_t value) {
+  _internal_set_mapobjecttype(value);
+  // @@protoc_insertion_point(field_set:Protocol.TileInfo.mapobjecttype)
+}
+
+// int32 detailedtype = 3;
+inline void TileInfo::clear_detailedtype() {
+  _impl_.detailedtype_ = 0;
+}
+inline int32_t TileInfo::_internal_detailedtype() const {
+  return _impl_.detailedtype_;
+}
+inline int32_t TileInfo::detailedtype() const {
+  // @@protoc_insertion_point(field_get:Protocol.TileInfo.detailedtype)
+  return _internal_detailedtype();
+}
+inline void TileInfo::_internal_set_detailedtype(int32_t value) {
+  
+  _impl_.detailedtype_ = value;
+}
+inline void TileInfo::set_detailedtype(int32_t value) {
+  _internal_set_detailedtype(value);
+  // @@protoc_insertion_point(field_set:Protocol.TileInfo.detailedtype)
 }
 
 // -------------------------------------------------------------------

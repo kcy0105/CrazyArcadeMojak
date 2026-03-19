@@ -5,12 +5,23 @@
 #include "BreakableBlock.h"
 #include "SolidBlock.h"
 #include "WaterBomb.h"
+#include "Item.h"
+#include "BubbleItem.h"
+#include "FluidItem.h"
+#include "RollerItem.h"
+#include "NeedleItem.h"
 
 GameRoomRef GRoom = make_shared<GameRoom>();
 
 void GameRoom::Init()
 {
 	LoadTilemap(L"C:\\Users\\user\\바탕 화면\\CrazyArcadeMojak\\CrazyArcadeMojak\\Resources\\Tilemap.txt");
+
+	// TEMP
+	SpawnMapObject(MAP_OBJECT_TYPE_ITEM, ITEM_TYPE_BUBBLE, { 10, 10 });
+	SpawnMapObject(MAP_OBJECT_TYPE_ITEM, ITEM_TYPE_FLUID,	{ 11, 10 });
+	SpawnMapObject(MAP_OBJECT_TYPE_ITEM, ITEM_TYPE_ROLLER, { 12, 10 });
+	SpawnMapObject(MAP_OBJECT_TYPE_ITEM, ITEM_TYPE_NEEDLE, { 13, 10 });
 }
 
 void GameRoom::Update()
@@ -98,12 +109,23 @@ void GameRoom::EnterRoom(GameSessionRef session)
 				if (obj)
 				{
 					info->set_objectid(obj->GetObjectId());
-					info->set_type(obj->GetMapObjectType());
+					info->set_mapobjecttype(obj->GetMapObjectType());
+
+					switch (obj->GetMapObjectType())
+					{
+					case MAP_OBJECT_TYPE_ITEM:
+					{
+						auto item = dynamic_pointer_cast<Item>(obj);
+						if (item)
+							info->set_detailedtype(item->GetItemType());
+					}
+						break;
+					}
 				}
 				else
 				{
 					info->set_objectid(0);
-					info->set_type(MAP_OBJECT_TYPE_NONE);
+					info->set_mapobjecttype(MAP_OBJECT_TYPE_NONE);
 				}
 			}
 		}
@@ -187,13 +209,6 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 	int32 tilePosX = pkt.tileposx();
 	int32 tilePosY = pkt.tileposy();
 
-
-	// 일단 검증
-	if (GetMapObjectAt({tilePosX, tilePosY}))
-	{
-		return;
-	}
-
 	auto ownerObj = _objects[ownerId];
 
 	if (!ownerObj)
@@ -203,9 +218,17 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 	if (!owner)
 		return;
 
-	auto bomb = static_pointer_cast<WaterBomb>(SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tilePosX, tilePosY }));
+	// 설치 가능 타이밍인가?
+	if (!owner->CanSpawnBomb()) return;
+
+	// 설치할 수 있는 위치인가?
+	if (GetMapObjectAt({tilePosX, tilePosY})) return;
+
+
+	auto bomb = static_pointer_cast<WaterBomb>(SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, 0, { tilePosX, tilePosY }));
 	bomb->SetOwner(owner);
 
+	owner->AddBombCount();
 
 	for (auto& p : _players)
 	{
@@ -337,6 +360,8 @@ void GameRoom::Explode(WaterBomb& bomb)
 {
 	bomb.SetExploded(true);
 
+	bomb.GetOwner()->SubBombCount();
+
 	Vec2Int bombPos = bomb.GetTilePos();
 
 	Protocol::S_Explode pkt;
@@ -429,7 +454,11 @@ void GameRoom::Explode(WaterBomb& bomb)
 		/*================
 		   Destroy Items
 		=================*/
-		// TODO
+		if (mapObject->GetMapObjectType() == MAP_OBJECT_TYPE_ITEM)
+		{
+			pkt.add_destroyeditemids(mapObject->GetObjectId());
+			mapObject->Destroy();
+		}
 
 
 		/*===============================
@@ -484,7 +513,8 @@ void GameRoom::LoadTilemap(wstring path)
 			int32 value = -1;
 			::fread(&value, sizeof(value), 1, file);
 
-			SpawnMapObject((MAP_OBJECT_TYPE)value, { x, y });
+
+			SpawnMapObject((MAP_OBJECT_TYPE)value, 0, { x, y });
 		}
 	}
 
@@ -501,23 +531,52 @@ PlayerRef GameRoom::SpawnPlayer()
 	return player;
 }
 
-MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
+MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE mapObjectType, int32 detailedType, Vec2Int tilePos)
 {
 	MapObjectRef obj = nullptr;
 
-	switch (type)
+	switch (mapObjectType)
 	{
 	case MAP_OBJECT_TYPE_BREAKABLE_BLOCK:
-		obj = make_shared<BreakableBlock>();
-		break;
+	{
+		auto breakableBlock = make_shared<BreakableBlock>();
+		_breakableBlocks.push_back(breakableBlock);
+		obj = breakableBlock;
+	}
+	break;
 	case MAP_OBJECT_TYPE_SOLID_BLOCK:
 		obj = make_shared<SolidBlock>();
 		break;
 	case MAP_OBJECT_TYPE_WATER_BOMB:
+	{
 		auto bomb = make_shared<WaterBomb>();
 		_bombs.push_back(bomb);
 		obj = bomb;
-		break;
+	}
+	break;
+	case MAP_OBJECT_TYPE_ITEM:
+	{
+		ItemRef item = nullptr;
+
+		switch (detailedType)
+		{
+		case ITEM_TYPE_BUBBLE:
+			item = make_shared<BubbleItem>();
+			break;
+		case ITEM_TYPE_FLUID:
+			item = make_shared<FluidItem>();
+			break;
+		case ITEM_TYPE_ROLLER:
+			item = make_shared<RollerItem>();
+			break;
+		case ITEM_TYPE_NEEDLE:
+			item = make_shared<NeedleItem>();
+			break;
+		}
+
+		_items.push_back(item);
+		obj = item;
+	}
 	}
 
 	if (obj)
@@ -528,9 +587,10 @@ MapObjectRef GameRoom::SpawnMapObject(MAP_OBJECT_TYPE type, Vec2Int tilePos)
 		_mapObjects[tilePos.y][tilePos.x] = obj;
 	}
 
-
 	return obj;
 }
+
+
 
 MapObjectRef GameRoom::GetMapObjectAt(Vec2Int tilePos)
 {

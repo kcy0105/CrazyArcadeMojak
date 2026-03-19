@@ -7,6 +7,7 @@
 #include "MapObject.h"
 #include "ObjectManager.h"
 #include "WaterBomb.h"
+#include "Item.h"
 
 void ClientPacketHandler::Handle_S_EnterGame(SessionRef session, Protocol::S_EnterGame& pkt)
 {
@@ -96,9 +97,9 @@ void ClientPacketHandler::Handle_S_Tilemap(SessionRef session, Protocol::S_Tilem
 
 			const Protocol::TileInfo& info = pkt.infos(i);
 
-			if (info.type() != MAP_OBJECT_TYPE_NONE)
+			if (info.mapobjecttype() != MAP_OBJECT_TYPE_NONE)
 			{
-				auto obj = GET_SINGLE(ObjectManager)->SpawnMapObject((MAP_OBJECT_TYPE)info.type(), { x, y });
+				auto obj = GET_SINGLE(ObjectManager)->SpawnMapObject((MAP_OBJECT_TYPE)info.mapobjecttype(), info.detailedtype(), { x, y });
 				obj->SetObjectId(info.objectid());
 			}	
 		}
@@ -114,16 +115,16 @@ void ClientPacketHandler::Handle_S_WaterBomb(SessionRef session, Protocol::S_Wat
 
 	MyPlayer* myPlayer = GET_SINGLE(ObjectManager)->GetMyPlayer();
 
-	if (ownerid == myPlayer->GetObjectId())
-	{
-		auto bomb = myPlayer->pendingBombs.front();
-		myPlayer->pendingBombs.pop();
-		bomb->SetObjectId(objectid);
-		return;
-	}
+	//if (ownerid == myPlayer->GetObjectId())
+	//{
+	//	auto bomb = myPlayer->pendingBombs.front();
+	//	myPlayer->pendingBombs.pop();
+	//	bomb->SetObjectId(objectid);
+	//	return;
+	//}
 
 
-	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, { tileposx, tileposy }));
+	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, 0, { tileposx, tileposy }));
 	Player* player = static_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(ownerid));
 	bomb->SetOwner(player);
 	bomb->SetObjectId(objectid);
@@ -191,4 +192,26 @@ void ClientPacketHandler::Handle_S_Dead(SessionRef session, Protocol::S_Dead& pk
 		return;
 
 	player->SetMainState(PLAYER_STATE_DEAD);
+}
+
+void ClientPacketHandler::Handle_S_RemoveItem(SessionRef session, Protocol::S_RemoveItem& pkt)
+{
+	auto object = GET_SINGLE(ObjectManager)->GetSyncObject(pkt.objectid());
+
+	if (!object)
+		return;
+
+	auto item = dynamic_cast<Item*>(object);
+	if (!item)
+		return;
+
+	Object::DestroyObject(item);
+}
+
+void ClientPacketHandler::Handle_S_PlayerNormalSpeed(SessionRef session, Protocol::S_PlayerNormalSpeed& pkt)
+{
+	if (GET_SINGLE(ObjectManager)->GetMyPlayerId() == pkt.objectid())
+	{
+		GET_SINGLE(ObjectManager)->GetMyPlayer()->SetNormalSpeed(pkt.normalspeed());
+	}
 }

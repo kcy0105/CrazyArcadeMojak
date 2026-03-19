@@ -7,6 +7,7 @@ using ObjectRef = std::shared_ptr<class Object>;
 using PlayerRef = std::shared_ptr<class Player>;
 using MapObjectRef = std::shared_ptr<class MapObject>;
 using WaterBombRef = std::shared_ptr<class WaterBomb>;
+using ItemRef = std::shared_ptr<class Item>;
 
 struct Vector
 {
