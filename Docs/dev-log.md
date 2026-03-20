@@ -1,7 +1,80 @@
-# 2026-03-11
+# 2026.03.05
+## 1. 이동 동기화 시 클라 측의 위치 반영하도록 수정
+### 이유
+기존에 서버 권위를 위해, 키 입력 시 서버의 플레이어도 Update에 따라 움직이고, 그 위치를 클라이언트의 플레이어 위치에 자연스럽게 반영하려고 여러 시도를 해봤으나, 클라와 서버의 프레임이 다르기 때문인지 자연스러운 처리를 하는데 실패함(키 입력의 지연 반응 체감 큼). 결국 키 입력 시 클라의 플레이어 위치도 바로 바뀌도록 하고, 키를 누를 때와 뗄 때 패킷을 보내 서버에서 검증 후 클라의 위치를 반영하는 방식으로 수정하여 자연스러운 이동 동기화를 구현함.
+### 상세
+다음과 같이 서버에서 클라 측의 위치와 서버 측의 위치를 비교하여 오차 이내면 클라 측의 위치를 따르고, 그게 아니라면 서버 측의 위치를 따르게 하였음. 또한 오차를 벗어났을 때 클라 측에도 정보를 보내 클라 측 위치도 서버 측 위치로 수정하도록 함.
+
+서버 측 이동 패킷 핸들러 함수 中
+```
+if ((serverPos - clientPos).Length() < MAX_POSITION_ERROR)
+{
+	player->SetPos({ pkt.posx(), pkt.posy() });
+}
+else
+{
+	needsync = true;
+}
+
+{
+	Protocol::S_Move pkt;
+	pkt.set_objectid(player->GetObjectId());
+	pkt.set_state(player->GetState());
+	pkt.set_dir(player->GetDir());
+	pkt.set_posx(player->GetPos().x);
+	pkt.set_posy(player->GetPos().y);
+	pkt.set_needsync(needsync);
+
+	Broadcast(pkt);
+}
+```
+
+## 2. 클라 블럭 충돌 처리 구현 (진행중)
+### 상세
+엔진단에서 구현해놓은 OnColliderBeginOverlap()을 사용하여 블럭의 collider에 플레이어 collider가 들어온만큼 다시 밀어주도록 코드를 작성하였는데 잘 작동하지 않음. 게임 루프 상 순서 이슈로 보임.
+
+## 느낀 점
+게임 서버의 TPS가 클라이언트의 FPS만큼 높지 않는 이상, 이렇게 키 입력이 빈번한 게임에서는 클라에 권위를 어느 정도 두는 건 불가피하지 않을 까란 생각이 든다.
+<br><br>
+
+# 2026.03.06
+## 1. 클라 블럭 충돌 처리 구현
+### 상세
+OnColliderBeginOverlap() 대신 OnColliderStayOverlap()을 추가 구현하여 해당 함수 안에서 플레이어를 밀어주도록 작성하였더니 잘 작동함.
+## 2. 서버 블럭 충돌 처리 구현
+### 상세
+플레이어가 블럭을 고려하여 다음에 갈 곳의 위치를 판별하는 방식으로 작성함.
+### 문제
+다음에 갈 곳의 위치를 CanGo() 함수에 넘겨 충돌하지 않아 갈 수 있는 위치이면 해당 위치로 변경하도록 작성하였는데, 서버의 TICK이 크다 보니 블럭이랑 밀착하지 않아도 충분히 가까우면 CanGo()가 false를 반환하는 문제가 발생함.
+### 해결
+다음 위치를 CanGo()로 갈 수 있는 곳인지 판별하는 것이 아니라, TryMove()에 넘겨 플레이어와 블럭이 겹친다면 밀착시키도록 함.
+## 3. 맵 오브젝트 클래스 설계
+### 상세
+맵에 배치되는 오브젝트의 최상위 클래스를 MapObject라 두고, 산하에 BreakableBlock, SolidBlock, WaterBomb 클래스를 둠.
+## 4. 클라 측 물풍선 생성 구현 및 패킷 전송
+### 상세
+MapObject를 상속받는 WaterBomb 클래스를 만들어 Flipbook을 적용시키고, 키 입력 시 해당 위치에 아무 MapObject가 없으면 WaterBomb 오브젝트를 생성하도록 함. 플레이어의 id와 물폭탄 생성 위치를 서버로 보냄.
+```
+message C_WaterBomb
+{
+	uint64 ownerid = 1;
+	int32 tileposx = 2;
+	int32 tileposy = 3;
+}
+```
+## 5. TileMap 리소스 역할 재정의
+### 이유
+TileMap은 int value를 가지는 이차원 벡터를 가지고 있는 리소스이고, 이를 클라의 Scene과 서버의 Room에서 들고 있고 맵 오브젝트들을 TileMap으로 관리했었는데, MapObject의 이차원 벡터를 두고 이를 관리하는 게 훨씬 용이할 듯하여, TileMap은 정보 저장 및 전달 용으로만 활용하기로 함.
+### 상세
+```
+vector<vector<MapObjectRef>> _mapObjects;
+//Tilemap _tilemap;
+```
+
+# 2026.03.11
 ## 1. 클라, 서버 블럭 충돌 처리 방식 통일
 ### 이유
-플레이어가 블럭에 가로막히는 것을 구현하기 위해, 기존에 클라 측은 엔진단에 구현해놓은 OnColliderStayOverlap()을 이용하여 플레이어가 블럭의 collider에 들어간만큼 다시 빼주도록 하였고, 서버 측은 이동할 좌표를 검사하여 갈 수 있는 곳까지만 가게끔 처리하였음.
+플레이어가 블럭에 가로막히는 것을 구현하기 위해, 기존에 클라 측은 엔진단에 구현해놓은 OnColliderStayOverlap()을 이용하여 플레이어의 collider가 블럭의 collider에 들어간만큼 다시 빼주도록 하였고, 서버 측은 이동할 좌표를 검사하여 갈 수 있는 곳까지만 가게끔 처리하였음.
 
 대부분의 경우 오차 없이 잘 작동하였으나, 귀퉁이에 걸쳐서 충돌할 경우 클라는 충돌을 했다고 하고, 서버는 안했다고 하여 클라에서 보기엔 막히다가 키보드를 뗄 경우 순간이동하는 현상이 발생하였음.
 
@@ -85,10 +158,12 @@ if (_lastBomb->GetPassable())
 }
 ```
 
-## 3. 클라에서 이미 설치된 물폭탄에 서버 측 id 부여
-### 이유
-키 입력에 클라가 일단 반응하는 것을 원칙으로 삼았기 때문에, 클라 측에선 일단 id 없이 물폭탄 오브젝트를 생성하고 서버에 패킷을 전송함. 서버에서 id가 부여된 물폭탄을 생성하고, 다시 브로드캐스트하면 클라는 설치된 물폭탄을 찾아 id를 부여하도록 함.
+## 3. 서버에서 물폭탄 생성 및 브로드캐스트
 ### 상세
+클라에서 물폭탄 생성 패킷이 오면 다시 한번 해당 위치에 맵 오브젝트가 없는지 검증하고 생성 후 브로드캐스트.
+### 문제
+키 입력에 클라가 일단 반응하는 것을 원칙으로 삼았기 때문에, 클라 측에선 일단 id 없이 물폭탄 오브젝트를 생성하고 서버에 패킷을 전송함. 패킷이 오면 id를 부여 받아야 하는데, id 없이 생성한 오브젝트를 어떻게 탐색할 지 고민.
+### 해결
 MyPlayer에서 pendingBombs라는 WaterBomb queue를 들고 있게 하고, 물폭탄을 일단 생성할 때 pendingBombs에 push했다가, 서버에서 패킷이 왔을 때 pop하여 id를 부여함.
 
 ClientPacketHandler::Handle_S_WaterBomb() 中
@@ -105,7 +180,7 @@ if (ownerid == myPlayer->GetObjectId())
 ## 느낀 점
 지금은 게임이 간단하여 일일이 클라(MyPlayer)와 서버의 동작을 일일이 맞추고 있지만, 나중에 게임 물리가 복잡해지면 클라와 서버 단의 물리적인 처리를 하는 엔진단이 공용으로 있어야 할 것 같다.
 <br><br>
-# 2026-03-12 
+# 2026.03.12 
 ## 1. 클라 : Player에서 예측 이동 제거
 ### 이유
 기존에 키 입력을 누르거나 뗄 때 이동 패킷을 전송하였고, 서버에서 이를 브로드캐스트하였음. Player는 Move state이면 클라 측의 캐릭터를 이동하고, 서버에서 패킷이 왔을 때 오차가 심하면 보정하였음. 문득 이와 같은 처리는 내 자신의 플레이어에 당장의 입력이 바로 반영되도록 하기 위한 것이었음을 상기하고, Player에는 이러한 처리가 필요 없음을 깨달음.
@@ -251,7 +326,7 @@ virtual bool BlocksPlayer(const Player* player) const override
 ## 느낀 점
 입력 시 일단 동작하도록 하는 방식을 사용해서 그런지, 클라의 MyPlayer와 서버의 Player 동작이 거의 흡사하다. 클라의 나머지 오브젝트는 껍데기에 불과하다.
 <br><br>
-# 2026-03-14
+# 2026.03.14
 
 ## 1. proto 파일 컴파일 후 생성된 파일을 서버와 클라로 복사하는 작업을 별도 프로젝트로 분리
 ### 이유
@@ -369,7 +444,7 @@ struct PacketIdType<Protocol::S_Move>
 };
 ```
 <br><br>
-# 2026-03-15
+# 2026.03.15
 ## 1. 클라이언트 측 ObjectManager 구현
 ### 이유
 기존에 서버 측에서 object id가 넘어오면, Scene에서 모든 오브젝트를 순회하며 id에  해당하는 오브젝트를 찾았는데, 오브젝트와 패킷이 많아질 수록 비용이 커질 거라 예상되어 탐색 복잡도를 줄이기 위해 (id, object)의 unordered_map을 가지는 ObjectManager를 추가하였음.
@@ -558,8 +633,126 @@ void GameRoom::CleanupExpired()
 ### 상세
 애니메이션을 세팅하고, TRAPPED_IDLE, TRAPPED_MOVE 상태를 추가하여 클라, 서버 측의 갇힘 상태를 구현함.
 ### 문제
-상태 처리가 복잡해져 코드가 꼬임. 특히 애니메이션이나 이동.
+상태 처리가 복잡해져 코드가 지저분해지고 꼬임. 특히 이동 부분.
 ### 해결
 메인 상태를 NORMAL, TRAPPED, DEAD로 두고, 이동 상태를 IDLE, MOVE로 두어 상태를 분리함. 상당 부분 고쳐야 하여 진행 중.
 ## 느낀 점
 코딩을 할 때 MyPlayer -> 서버 -> 클라 순서로 생각을 하면 흐름이 잘 잡힌다.
+
+# 2026.03.18
+## 1. 플레이어 상태 분리
+위 기술한대로 메인 상태를 NORMAL, TRAPPED, DEAD로 두고, 이동 상태를 IDLE, MOVE로 두어 상태를 분리함. 이동 패킷엔 이동 상태를 전달함.
+
+다음과 같이 NORMAL, TRAPPED 내부에서 IDLE, MOVE 상태로 나뉘어 관리함.
+```
+void MyPlayer::OnUpdateNormal()
+{
+	HandleBombInput();
+
+	switch (_moveState)
+	{
+	case MOVE_STATE_IDLE:
+		HandleMoveInput_Idle();
+		break;
+	case MOVE_STATE_MOVE:
+		HandleMoveInput_Move();
+		Move();
+		CheckOverlapBombs();
+		break;
+	}
+}
+
+void MyPlayer::OnUpdateTrapped()
+{
+	switch (_moveState)
+	{
+	case MOVE_STATE_IDLE:
+		HandleMoveInput_Idle();
+		break;
+	case MOVE_STATE_MOVE:
+		HandleMoveInput_Move();
+		Move();
+		break;
+	}
+}
+```
+## 2. 클라 Player에서 이동 로직 삭제
+### 이유
+클라 Player는 껍데기일 뿐인데, state에 따라서 이동하고 멈추는 로직이 존재하는 것이 이상하다고 판단. 또한 그 때문에 서버 위치로 도달 후에야 state를 바꿔주는 불편한 동작이 있었음.
+## 상세
+DEAD 상태를 제외하곤 그저 서버 위치를 따라가도록 함.
+```
+void Player::OnUpdateNormal()
+{
+	SyncFromServer();
+}
+
+void Player::OnUpdateTrapped()
+{
+	SyncFromServer();
+}
+
+void Player::OnUpdateDead()
+{
+}
+```
+## 3. 플레이어 죽음 구현
+### 상세
+1. 서버 측에서 플레이어가 물풍선에 갇히고 일정 시간이 지나면 DEAD 상태로 두고, 죽은 플레이어의 id를 포함한 패킷을 브로드캐스트함.
+2. 서버 측에서 NORMAL 상태의 플레이어가 TRAPPED 상태의 플레이어와 충돌 시 TRAPPED 상태의 플레이어를 DEAD 상태로 두고 죽음 패킷을 브로드캐스트함.
+
+## 느낀 점
+상태를 계층적으로 분리하는 것은 처음 해봤는데, 코드가 꽤 깔끔해지는 것 같다.
+모든 걸 클라에서 '일단' 처리할 필요는 없는 것 같다. 플레이어 죽임 같은 경우 일단 죽였는데 서버에서 패킷이 오니 막상 엉뚱한 놈을 죽였으면 처리가 부자연스러워진다.
+
+# 2026.03.19
+## 1. 물폭탄 '일단' 생성 방식 폐기
+### 이유
+기존에 클라 측에서 키를 입력하면 WaterBomb 오브젝트를 일단 생성하고, 서버로부터 패킷이 오면 그때 id를 부여하는 '일단 보여주기' 방식을 사용했음. 그러나 물방울 아이템을 구현하려다보니 현재 물방울 개수가 서버 뿐만 아니라 클라에도 들고 있어야 하는데, 이가 비효율적이라고 생각됨. '일단 보여주기' 방식을 사용하려면 클라, 서버 모두 같은 작업이 (번거롭게도) 필요한 것으로 보여, 이러한 방식을 최소화하고자 함.
+### 상세
+클라 측에서 키 입력 시 패킷을 보내고, 다시 브로드캐스트됐을 때 WaterBomb 오브젝트를 생성함.
+## 2. MapObject 생성 시 타입을 이중으로 전달하도록 변경
+### 이유
+여러 종류의 아이템을 생성하기 위해. 또한 다른 타입의 MapObject도 향후 내부적으로 여러 타입을 가질 수 있음.
+### 상세
+Tilemap도 mapobjecttype, detailedtype의 이중 타입을 가지도록 함.
+```
+void ClientPacketHandler::Handle_S_Tilemap(SessionRef session, Protocol::S_Tilemap& pkt)
+{
+	int32 mapSizeX = pkt.mapsizex();
+	int32 mapSizeY = pkt.mapsizey();
+
+	GET_SINGLE(ObjectManager)->InitMap(mapSizeX, mapSizeY);
+
+	for (int y = 0; y < mapSizeY; y++)
+	{
+		for (int x = 0; x < mapSizeX; x++)
+		{
+			int i = y * mapSizeX + x;
+
+			const Protocol::TileInfo& info = pkt.infos(i);
+
+			if (info.mapobjecttype() != MAP_OBJECT_TYPE_NONE)
+			{
+				auto obj = GET_SINGLE(ObjectManager)->SpawnMapObject((MAP_OBJECT_TYPE)info.mapobjecttype(), info.detailedtype(), { x, y });
+				obj->SetObjectId(info.objectid());
+			}	
+		}
+	}
+}
+```
+## 3. 아이템 3종 구현
+### 상세
+- 아이템 클래스 설계  
+	MapObject -> Item -> BubbleItem, FluidItem, RollerItem, NeedleItem
+- 물풍선(Bubble) 아이템 구현  
+	서버 측에서 Player에 현재 설치된 물폭탄 수와 bubble 아이템 획득 수를 관리하여 스페이스바 입력 패킷이 오면 해당 정보들로 현재 놓을 수 있는지 검사한 후 물폭탄을 설치하도록 함.
+- 액체(Fluid) 아이템 구현  
+	서버 측에서 물폭탄이 터질 때 owner->fluidCount를 확인하여 범위를 계산하도록 함.
+- 롤러(Roller) 아이템 구현  
+	서버 측에서 rollerCount를 이용해 NORMAL 상태일 때 속도를 계산하도록 하고, 클라의 예측 이동을 위해 해당 속도를 전송하도록 함.
+- 폭발에 닿은 아이템 파괴 구현
+
+## 느낀 점
+클라 측에서 입력 시 서버를 거치지 않고 일단 동작시키는 방법은 네트워크 지연 시 유저가 덜 불편하다는 장점이 있겠지만, 그렇지 않았을 때 서버 측만 로직을 구현하면 되는 반면, 그렇게 했을 때 클라 측도 같은 로직을 구현해야 하는 번거로움이 있는 것 같다. 일단 이동을 제외한 나머지는 일단 동작 방식을 사용하지 않으려고 한다.
+<br><br>
