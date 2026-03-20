@@ -177,7 +177,19 @@ void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explo
 		}
 	}
 
-	// TODO : 아이템 부수기
+
+	/*================
+	   Destroy Items
+	=================*/
+	for (int i = 0; i < pkt.destroyeditemids_size(); i++)
+	{
+		uint64 id = pkt.destroyeditemids(i);
+		auto item = dynamic_cast<Item*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
+		if (item)
+		{
+			Object::DestroyObject(item);
+		}
+	}
 }
 
 void ClientPacketHandler::Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt)
