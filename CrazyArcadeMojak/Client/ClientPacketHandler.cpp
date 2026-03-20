@@ -115,15 +115,6 @@ void ClientPacketHandler::Handle_S_WaterBomb(SessionRef session, Protocol::S_Wat
 
 	MyPlayer* myPlayer = GET_SINGLE(ObjectManager)->GetMyPlayer();
 
-	//if (ownerid == myPlayer->GetObjectId())
-	//{
-	//	auto bomb = myPlayer->pendingBombs.front();
-	//	myPlayer->pendingBombs.pop();
-	//	bomb->SetObjectId(objectid);
-	//	return;
-	//}
-
-
 	auto bomb = static_cast<WaterBomb*>(GET_SINGLE(ObjectManager)->SpawnMapObject(MAP_OBJECT_TYPE_WATER_BOMB, 0, { tileposx, tileposy }));
 	Player* player = static_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(ownerid));
 	bomb->SetOwner(player);
@@ -164,20 +155,6 @@ void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explo
 	}
 
 
-	/*===============
-	   Trap Players
-	=================*/
-	for (int i = 0; i < pkt.trappedplayerids_size(); i++)
-	{
-		uint64 id = pkt.trappedplayerids(i);
-		auto player = dynamic_cast<Player*>(GET_SINGLE(ObjectManager)->GetSyncObject(id));
-		if (player)
-		{
-			player->SetMainState(PLAYER_STATE_TRAPPED);
-		}
-	}
-
-
 	/*================
 	   Destroy Items
 	=================*/
@@ -190,20 +167,6 @@ void ClientPacketHandler::Handle_S_Explode(SessionRef session, Protocol::S_Explo
 			Object::DestroyObject(item);
 		}
 	}
-}
-
-void ClientPacketHandler::Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt)
-{
-	auto object = GET_SINGLE(ObjectManager)->GetSyncObject(pkt.objectid());
-	
-	if (!object)
-		return;
-
-	auto player = dynamic_cast<Player*>(object);
-	if (!player)
-		return;
-
-	player->SetMainState(PLAYER_STATE_DEAD);
 }
 
 void ClientPacketHandler::Handle_S_RemoveItem(SessionRef session, Protocol::S_RemoveItem& pkt)
@@ -226,4 +189,18 @@ void ClientPacketHandler::Handle_S_PlayerNormalSpeed(SessionRef session, Protoco
 	{
 		GET_SINGLE(ObjectManager)->GetMyPlayer()->SetNormalSpeed(pkt.normalspeed());
 	}
+}
+
+void ClientPacketHandler::Handle_S_MainState(SessionRef session, Protocol::S_MainState& pkt)
+{
+	auto object = GET_SINGLE(ObjectManager)->GetSyncObject(pkt.playerid());
+
+	if (!object)
+		return;
+
+	auto player = dynamic_cast<Player*>(object);
+	if (!player)
+		return;
+
+	player->SetMainState((PLAYER_STATE)pkt.mainstate());
 }

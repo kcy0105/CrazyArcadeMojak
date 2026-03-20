@@ -20,3 +20,11 @@ void ServerPacketHandler::Handle_C_WaterBomb(SessionRef session, Protocol::C_Wat
 	if (room)
 		room->Handle_C_WaterBomb(pkt);
 }
+
+void ServerPacketHandler::Handle_C_Skill(SessionRef session, Protocol::C_Skill& pkt)
+{
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	GameRoomRef room = gameSession->gameRoom.lock();
+	if (room)
+		room->Handle_C_Skill(pkt);
+}

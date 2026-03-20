@@ -12,6 +12,6 @@ REGISTER_PACKET(S_Move, Protocol::S_Move, ClientPacketHandler::Handle_S_Move);
 REGISTER_PACKET(S_Tilemap, Protocol::S_Tilemap, ClientPacketHandler::Handle_S_Tilemap);
 REGISTER_PACKET(S_WaterBomb, Protocol::S_WaterBomb, ClientPacketHandler::Handle_S_WaterBomb);
 REGISTER_PACKET(S_Explode, Protocol::S_Explode, ClientPacketHandler::Handle_S_Explode);
-REGISTER_PACKET(S_Dead, Protocol::S_Dead, ClientPacketHandler::Handle_S_Dead);
 REGISTER_PACKET(S_RemoveItem, Protocol::S_RemoveItem, ClientPacketHandler::Handle_S_RemoveItem);
 REGISTER_PACKET(S_PlayerNormalSpeed, Protocol::S_PlayerNormalSpeed, ClientPacketHandler::Handle_S_PlayerNormalSpeed);
+REGISTER_PACKET(S_MainState, Protocol::S_MainState, ClientPacketHandler::Handle_S_MainState);

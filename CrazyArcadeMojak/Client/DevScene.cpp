@@ -45,7 +45,7 @@ void DevScene::OnInit()
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerEscape", L"PlayerEscape.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerEscape", texture, { 88, 144 }, { 44, 80 }, 0, 4, 0, 0.3f, false);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerEscape", texture, { 66, 73 }, { 33, 45 }, 0, 4, 0, 0.5f, false);
 	}
 
 

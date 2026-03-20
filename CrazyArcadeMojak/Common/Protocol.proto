@@ -74,13 +74,7 @@ message S_Explode
 	int32 right = 5;
 
 	repeated DestroyedBlockInfo destroyedblockinfos = 6;
-	repeated uint64 trappedplayerids = 7;
 	repeated uint64 destroyeditemids = 8;
-}
-
-message S_Dead
-{
-	uint64 objectid = 1;
 }
 
 message S_RemoveItem
@@ -92,4 +86,15 @@ message S_PlayerNormalSpeed
 {
 	uint64 objectid = 1;
 	float normalspeed = 2;
+}
+
+message C_Skill
+{
+	uint64 playerid = 1;
+}
+
+message S_MainState
+{
+	uint64 playerid = 1;
+	int32 mainstate = 2;
 }

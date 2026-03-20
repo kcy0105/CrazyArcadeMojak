@@ -22,10 +22,10 @@ public:
 
     static void Handle_S_Explode(SessionRef session, Protocol::S_Explode& pkt);
 
-    static void Handle_S_Dead(SessionRef session, Protocol::S_Dead& pkt);
-
     static void Handle_S_RemoveItem(SessionRef session, Protocol::S_RemoveItem& pkt);
 
     static void Handle_S_PlayerNormalSpeed(SessionRef session, Protocol::S_PlayerNormalSpeed& pkt);
+
+    static void Handle_S_MainState(SessionRef session, Protocol::S_MainState& pkt);
 
 };

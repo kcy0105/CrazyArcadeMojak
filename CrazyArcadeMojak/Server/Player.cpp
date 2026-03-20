@@ -4,7 +4,7 @@
 #include "WaterBomb.h"
 #include "Item.h"
 
-void Player::SetMainState(PLAYER_STATE mainState)
+void Player::SetMainState(PLAYER_STATE mainState, bool broadcast)
 {
 	if (_mainState == mainState)
 		return;
@@ -18,6 +18,18 @@ void Player::SetMainState(PLAYER_STATE mainState)
 	case PLAYER_STATE_TRAPPED:
 		_trapTimer = 0.f;
 		break;
+	case PLAYER_STATE_ESCAPE:
+		_escapeTimer = 0.f;
+		break;
+	}
+
+	if (broadcast)
+	{
+		Protocol::S_MainState pkt;
+		pkt.set_playerid(GetObjectId());
+		pkt.set_mainstate(mainState);
+
+		room->Broadcast(pkt);
 	}
 }
 
@@ -42,6 +54,9 @@ void Player::Update()
 		break;
 	case PLAYER_STATE_DEAD:
 		UpdateDead();
+		break;
+	case PLAYER_STATE_ESCAPE:
+		UpdateEscape();
 		break;
 	}
 }
@@ -77,16 +92,23 @@ void Player::UpdateTrapped()
 
 	if (_trapTimer >= DEAD_TIME)
 	{
-		SetMainState(PLAYER_STATE_DEAD);
-		Protocol::S_Dead pkt;
-		pkt.set_objectid(GetObjectId());
-		room->Broadcast(pkt);
+		SetMainState(PLAYER_STATE_DEAD, true);
 	}
 }
 
 void Player::UpdateDead()
 {
 	
+}
+
+void Player::UpdateEscape()
+{
+	_escapeTimer += TICK;
+
+	if (_escapeTimer >= 1.f)
+	{
+		SetMainState(PLAYER_STATE_NORMAL, true);
+	}
 }
 
 void Player::Move()
@@ -162,10 +184,7 @@ void Player::CheckKillOtherPlayer()
 
 		if (::IntersectRect(&r, &r1, &r2))
 		{
-			otherPlayer->SetMainState(PLAYER_STATE_DEAD);
-			Protocol::S_Dead pkt;
-			pkt.set_objectid(otherPlayer->GetObjectId());
-			room->Broadcast(pkt);
+			otherPlayer->SetMainState(PLAYER_STATE_DEAD, true);
 		}
 	}
 }

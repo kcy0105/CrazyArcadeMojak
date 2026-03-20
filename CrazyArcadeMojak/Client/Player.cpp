@@ -41,6 +41,9 @@ void Player::OnUpdate()
 	case PLAYER_STATE_DEAD:
 		OnUpdateDead();
 		break;
+	case PLAYER_STATE_ESCAPE:
+		OnUpdateEscape();
+		break;
 	}
 }
 
@@ -78,6 +81,9 @@ void Player::UpdateAnimation_Main()
 	case PLAYER_STATE_DEAD:
 		_fb->SetFlipbook(GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_PlayerDead"));
 		break;
+	case PLAYER_STATE_ESCAPE:
+		_fb->SetFlipbook((GET_SINGLE(ResourceManager)->GetFlipbook(L"FB_PlayerEscape")));
+		break;
 	}
 
 }
@@ -110,6 +116,10 @@ void Player::OnUpdateTrapped()
 }
 
 void Player::OnUpdateDead()
+{
+}
+
+void Player::OnUpdateEscape()
 {
 }
 

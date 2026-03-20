@@ -14,6 +14,7 @@ public:
 	void UpdateNormal();
 	void UpdateTrapped();
 	void UpdateDead();
+	void UpdateEscape();
 
 	void Move();
 	void CheckOverlapBombs();
@@ -24,7 +25,7 @@ public:
 	GameSessionRef session;
 
 public:
-	void SetMainState(PLAYER_STATE mainState);
+	void SetMainState(PLAYER_STATE mainState, bool broadcast);
 	void SetMoveState(MOVE_STATE moveState);
 	void SetDir(DIR dir) { _dir = dir; }
 
@@ -70,6 +71,7 @@ public:
 	bool CanSpawnBomb() const { return _bombCount < _bubbleCount; }
 
 	void SetHasNeedle(bool hasNeedle) { _hasNeedle = hasNeedle; }
+	bool GetHasNeedle() const { return _hasNeedle; }
 
 private:
 	PLAYER_STATE _mainState = {};
@@ -87,5 +89,6 @@ private:
 	vector<weak_ptr<WaterBomb>> _overlapBombs;
 
 	float _trapTimer = 0.f;
+	float _escapeTimer = 0.f;
 };
 

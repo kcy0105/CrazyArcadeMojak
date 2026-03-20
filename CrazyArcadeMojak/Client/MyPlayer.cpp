@@ -22,6 +22,7 @@ void MyPlayer::OnUpdate()
 void MyPlayer::OnUpdateNormal()
 {
 	HandleBombInput();
+	HandleSkillInput();
 
 	switch (_moveState)
 	{
@@ -38,6 +39,8 @@ void MyPlayer::OnUpdateNormal()
 
 void MyPlayer::OnUpdateTrapped()
 {
+	HandleSkillInput();
+
 	switch (_moveState)
 	{
 	case MOVE_STATE_IDLE:
@@ -51,6 +54,10 @@ void MyPlayer::OnUpdateTrapped()
 }
 
 void MyPlayer::OnUpdateDead()
+{
+}
+
+void MyPlayer::OnUpdateEscape()
 {
 }
 
@@ -110,20 +117,21 @@ void MyPlayer::HandleBombInput()
 {
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
-		//if (SpawnWaterBomb())
-		//{
-		//	Protocol::C_WaterBomb pkt;
-		//	pkt.set_ownerid(GetObjectId());
-		//	pkt.set_tileposx(GetTilePos().x);
-		//	pkt.set_tileposy(GetTilePos().y);
-
-		//	GET_SINGLE(NetworkManager)->SendPacket(pkt);
-		//}
-
 		Protocol::C_WaterBomb pkt;
 		pkt.set_ownerid(GetObjectId());
 		pkt.set_tileposx(GetTilePos().x);
 		pkt.set_tileposy(GetTilePos().y);
+
+		GET_SINGLE(NetworkManager)->SendPacket(pkt);
+	}
+}
+
+void MyPlayer::HandleSkillInput()
+{
+	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::Ctrl))
+	{
+		Protocol::C_Skill pkt;
+		pkt.set_playerid(GetObjectId());
 
 		GET_SINGLE(NetworkManager)->SendPacket(pkt);
 	}

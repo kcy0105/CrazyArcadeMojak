@@ -11,10 +11,12 @@ private:
 	virtual void OnUpdateNormal() override;
 	virtual void OnUpdateTrapped() override;
 	virtual void OnUpdateDead() override;
+	virtual void OnUpdateEscape() override;
 
 	void HandleMoveInput_Idle();
 	void HandleMoveInput_Move();
 	void HandleBombInput();
+	void HandleSkillInput();
 
 	void Move();
 	void CheckOverlapBombs();

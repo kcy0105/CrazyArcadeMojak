@@ -38,6 +38,7 @@ public:
 public:
 	void Handle_C_Move(Protocol::C_Move& pkt);
 	void Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt);
+	void Handle_C_Skill(Protocol::C_Skill& pkt);
 
 
 	/*=====================

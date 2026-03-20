@@ -50,7 +50,7 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	=====================*/
 	player->SetPos({ 100, 100 });
 	player->SetDir(DIR_DOWN);
-	player->SetMainState(PLAYER_STATE_NORMAL);
+	player->SetMainState(PLAYER_STATE_NORMAL, false);
 
 
 	/*================
@@ -187,6 +187,7 @@ void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
 	}
 	else
 	{
+		cout << "Need Sync" << endl;
 		needsync = true;
 	}
 
@@ -254,6 +255,25 @@ void GameRoom::Handle_C_WaterBomb(Protocol::C_WaterBomb& pkt)
 		pkt.set_tileposy(tilePosY);
 
 		Broadcast(pkt);
+	}
+}
+
+void GameRoom::Handle_C_Skill(Protocol::C_Skill& pkt)
+{
+	ObjectRef obj = _objects[pkt.playerid()];
+	if (!obj) return;
+
+	auto player = dynamic_pointer_cast<Player>(obj);
+	if (!player) return;
+
+	if (player->GetHasNeedle())
+	{
+		if (player->GetMainState() == PLAYER_STATE_TRAPPED)
+		{
+			player->SetHasNeedle(false);
+
+			player->SetMainState(PLAYER_STATE_ESCAPE, true);
+		}
 	}
 }
 
@@ -439,9 +459,7 @@ void GameRoom::Explode(WaterBomb& bomb)
 
 			if (::PtInRect(&explodeRect, {(LONG)player->GetPos().x, (LONG)player->GetPos().y}))
 			{
-				pkt.add_trappedplayerids(player->GetObjectId());
-
-				player->SetMainState(PLAYER_STATE_TRAPPED);
+				player->SetMainState(PLAYER_STATE_TRAPPED, true);
 			}
 		}
 

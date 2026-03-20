@@ -24,6 +24,7 @@ protected:
 	virtual void OnUpdateNormal();
 	virtual void OnUpdateTrapped();
 	virtual void OnUpdateDead();
+	virtual void OnUpdateEscape();
 
 	void SyncFromServer();
 
