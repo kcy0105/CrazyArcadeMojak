@@ -37,7 +37,7 @@ void DevScene::OnInit()
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerBubble", L"PlayerBubble.bmp", RGB(255, 0, 255));
-		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerBubble", texture, { 88, 144 }, { 44, 80 }, 0, 6, 0, 0.5f, true);
+		GET_SINGLE(ResourceManager)->CreateFlipbook(L"FB_PlayerBubble", texture, { 88, 144 }, { 44, 80 }, 0, 6, 0, 0.7f, true);
 	}
 	{
 		Texture* texture = GET_SINGLE(ResourceManager)->LoadTexture(L"PlayerDead", L"PlayerDead.bmp", RGB(255, 0, 255));
