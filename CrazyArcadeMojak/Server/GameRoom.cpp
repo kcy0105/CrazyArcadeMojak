@@ -435,11 +435,9 @@ void GameRoom::Explode(WaterBomb& bomb)
 
 			Vec2 explodeWorldPos = Utils::TileToWorld(explodePos);
 
-			RECT r1 = { explodeWorldPos.x - TILE_SIZE / 2, explodeWorldPos.y - TILE_SIZE / 2, explodeWorldPos.x + TILE_SIZE / 2, explodeWorldPos.y + TILE_SIZE / 2 };
-			RECT r2 = player->GetRect();
-			RECT r = {};
+			RECT explodeRect = { explodeWorldPos.x - TILE_SIZE / 2, explodeWorldPos.y - TILE_SIZE / 2, explodeWorldPos.x + TILE_SIZE / 2, explodeWorldPos.y + TILE_SIZE / 2 };
 
-			if (::IntersectRect(&r, &r1, &r2))
+			if (::PtInRect(&explodeRect, {(LONG)player->GetPos().x, (LONG)player->GetPos().y}))
 			{
 				pkt.add_trappedplayerids(player->GetObjectId());
 
