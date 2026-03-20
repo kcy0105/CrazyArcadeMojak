@@ -762,6 +762,31 @@ void ClientPacketHandler::Handle_S_Tilemap(SessionRef session, Protocol::S_Tilem
 	서버 측에서 rollerCount를 이용해 NORMAL 상태일 때 속도를 계산하도록 하고, 클라의 예측 이동을 위해 해당 속도를 전송하도록 함.
 - 폭발에 닿은 아이템 파괴 구현
 
+아이템 충돌은 서버에서만 처리하도록 하였다.
+
 ## 느낀 점
 클라 측에서 입력 시 서버를 거치지 않고 일단 동작시키는 방법은 네트워크 지연 시 유저가 덜 불편하다는 장점이 있겠지만, 그렇지 않았을 때 서버 측만 로직을 구현하면 되는 반면, 그렇게 했을 때 클라 측도 같은 로직을 구현해야 하는 번거로움이 있는 것 같다. 일단 이동을 제외한 나머지는 일단 동작 방식을 사용하지 않으려고 한다.
 <br><br>
+
+# 2026.03.20
+## 1. 플레이어 MainState 변경용 패킷 설계 및 사용
+### 이유
+서버 측에서 플레이어의 SetMainState()를 호출할 때, 초기화하는 부분 빼고 모두 다른 방법으로 broadcast하고 있었음. 편의를 위해 MainState 변경 용 패킷을 만듦.
+### 상세
+SetMainState()에 broadcast 여부를 인자로 두어 필요 시 broadcast하도록 함.
+
+Player(Server) SetMainState() 中
+```
+if (broadcast)
+{
+	Protocol::S_MainState pkt;
+	pkt.set_playerid(GetObjectId());
+	pkt.set_mainstate(mainState);
+
+	room->Broadcast(pkt);
+}
+```
+
+## 2. 바늘 아이템 구현
+### 상세
+플레이어 MainState에 ESCAPE를 추가하여, TRAPPED 상태에서 바늘 아이템 사용 시 ESCAPE 상태로 바뀌고, 일정 시간 이후 NORMAL 상태로 변경. 이는 서버 측에서 수행하고, 클라엔 통보만.
