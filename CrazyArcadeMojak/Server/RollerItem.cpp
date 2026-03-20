@@ -11,5 +11,5 @@ void RollerItem::OnGet(Player& player)
 	pkt.set_objectid(player.GetObjectId());
 	pkt.set_normalspeed(player.GetNormalSpeed());
 
-	player.room->Broadcast(pkt);
+	player.session->SendPacket(pkt);
 }
